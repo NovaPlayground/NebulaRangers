@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float speed;
+    [SerializeField] private float rollSpeed; 
     
     private PlayerController playerController;
     private Rigidbody rb;
@@ -23,10 +24,25 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float input = playerController.GetMovement();
-        Vector3 movementDirection = new Vector3(0f, 0f, input);
-        movementDirection.Normalize();
+        HandleMovement();
+    }
 
+
+    private void HandleMovement()
+    {
+        float rollLeft = playerController.GetRollLeftMovement();
+        float rollRight = playerController.GetRollRightMovement();       
+
+        float roll = rollRight - rollLeft;
+        Quaternion rollRotation = Quaternion.AngleAxis(roll * rollSpeed * Time.fixedDeltaTime, Vector3.forward);
+
+
+        //Quaternion combinedRotation = pitchRotation * yawRotation * rollRotation;
+        rb.MoveRotation(rb.rotation * rollRotation);
+
+         //SPACESHIP MOVEMENT FORWARD 
+        Vector3 movementDirection = transform.forward;
         rb.MovePosition(rb.position + movementDirection * speed * Time.fixedDeltaTime);
+
     }
 }

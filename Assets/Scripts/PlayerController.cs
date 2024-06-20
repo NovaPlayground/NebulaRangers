@@ -7,28 +7,51 @@ public class PlayerController : MonoBehaviour
 {
     public InputActionAsset InputActions;
 
-    private InputAction moveAction;
+    //[SerializeField] private float speed;
+    [SerializeField] private float rotationSpeed;
+
+    private InputAction rollLeft;
+    private InputAction rollRight;
+
+    private float yaw;
+    private float pitch;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        //Get Mouse Input
+        float mouseX = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime;
+
+        //Update yaw and pitch angles
+        yaw += mouseX;
+        pitch -= mouseY; // inverted axis
+        pitch = Mathf.Clamp(pitch, -90f, 90f);
+
+        //Apply rotation to the camera
+        transform.eulerAngles = new Vector3(pitch, yaw, 0f);
     }
 
     private void OnEnable()
     {
         InputActionMap playerActionMap = InputActions.FindActionMap("Player");
-        moveAction = playerActionMap.FindAction("Move");
+        
+        rollLeft = playerActionMap.FindAction("RollLeft");
+        rollRight = playerActionMap.FindAction("RollRight");
 
-        moveAction.performed += OnMove;
 
-        moveAction.Enable();
+        rollLeft.performed += OnMove;
+        rollRight.performed += OnMove;
+
+        rollLeft.Enable();
+        rollRight.Enable();
+  
     }
 
     private void OnMove(InputAction.CallbackContext context)
@@ -38,15 +61,30 @@ public class PlayerController : MonoBehaviour
         Debug.Log(input);
     }
 
-    public float GetMovement()
+    
+
+    public float GetRollLeftMovement()
     {
-        return moveAction.ReadValue<float>();
+        return rollLeft.ReadValue<float>();
+
     }
+
+    public float GetRollRightMovement()
+    {
+        return rollRight.ReadValue<float>();
+
+    }
+
+    
 
     private void OnDisable()
     {
-        moveAction.Disable();
 
-        moveAction.performed -= OnMove;
+        rollLeft.Disable();
+        rollRight.Disable();
+
+        rollLeft.performed -= OnMove;
+        rollRight.performed -= OnMove;
+  
     }
 }
