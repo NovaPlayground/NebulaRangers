@@ -7,6 +7,7 @@ public class PlayerControllerTop : MonoBehaviour
 {
     private Controls inputActions;
     private InputAction moveAction;
+    private InputAction normalShootAction;
 
     // Start is called before the first frame update
     void Start()
@@ -31,10 +32,14 @@ public class PlayerControllerTop : MonoBehaviour
 
         inputActions.Enable();
 
-        moveAction = inputActions.FindAction("Move");
+        moveAction = inputActions.FindAction("Movement");
         moveAction.performed += OnMove;
 
+        normalShootAction = inputActions.FindAction("NormalShoot");
+        normalShootAction.performed += OnShoot;
+
         moveAction.Enable();
+        normalShootAction.Enable();
     }
 
     private void OnDisable()
@@ -42,24 +47,36 @@ public class PlayerControllerTop : MonoBehaviour
         inputActions.Disable();
 
         moveAction.performed -= OnMove;
-
         moveAction.Disable();
+
+        normalShootAction.performed -= OnShoot;
+        normalShootAction.Disable();
     }
 
     private void OnMove(InputAction.CallbackContext context)
     {
-        float input = context.ReadValue<float>();
+        Vector2 input = context.ReadValue<Vector2>();
     }
 
-    public float GetMovement()
+    private void OnShoot(InputAction.CallbackContext context) 
     {
-        return moveAction.ReadValue<float>();
+        bool input = context.ReadValueAsButton();
+    }
+
+    public float GetShoot()
+    {
+        return normalShootAction.ReadValue<float>();
+    }
+
+    public Vector2 GetMovement()
+    {
+        return moveAction.ReadValue<Vector2>();
     }
 
     public Vector2 GetMousePosition2D()
     {
         Vector2 mousePos = inputActions.PlayerTop.MousePosition.ReadValue<Vector2>();
-        Debug.Log(mousePos);
+        
         return mousePos;
     }
 

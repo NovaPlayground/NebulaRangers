@@ -5,20 +5,22 @@ using UnityEngine;
 public class PlayerTop : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] private Vector3 cameraOffset;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float speed;
+    [SerializeField] private NormalBullet normalBullet;
+    [SerializeField] private float shootDelay;
+    [SerializeField] private GameObject[] muzzles;
 
     private PlayerControllerTop playerController;
     private Rigidbody rb;
+    private float shootCooldown;
 
     void Start()
     {
         playerController = GetComponent<PlayerControllerTop>();
         rb = GetComponent<Rigidbody>();
-
-        mainCamera.transform.position = transform.position + cameraOffset;
+        shootCooldown = 0.0f;
     }
 
     // Update is called once per frame
@@ -31,6 +33,7 @@ public class PlayerTop : MonoBehaviour
     {
         LookAtMouse();
         Move();
+        Shoot();
     }
 
     private void LookAtMouse()
@@ -55,11 +58,40 @@ public class PlayerTop : MonoBehaviour
 
     private void Move()
     {
-        float input = playerController.GetMovement();
+        Vector2 input = playerController.GetMovement();
 
-        Vector3 movementDirection = new Vector3(0f, 0f, input);
+        Vector3 movementDirection = new Vector3(input.x, 0f, input.y);
         movementDirection.Normalize();
 
-        rb.MovePosition(rb.position + input * transform.forward * speed * Time.fixedDeltaTime);
+
+        Vector3 movement = movementDirection.x * transform.right + movementDirection.z * transform.forward;
+
+        rb.MovePosition(rb.position + movement *  speed * Time.fixedDeltaTime);
+    }
+
+    private void Shoot()
+    {
+        
+
+        if (playerController.GetShoot() > 0)
+        {
+            if (shootCooldown >= shootDelay)
+            {
+                for (int i = 0; i < muzzles.Length; i++)
+                {
+                    Instantiate(normalBullet, muzzles[i].transform.position, transform.rotation);
+                }
+
+                shootCooldown = 0;
+            }
+            else
+            {
+                shootCooldown += Time.fixedDeltaTime;
+            }
+        }
+        else
+        {
+            shootCooldown = shootDelay;
+        }
     }
 }
