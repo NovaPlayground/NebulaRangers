@@ -24,7 +24,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     ""name"": ""Controls"",
     ""maps"": [
         {
-            ""name"": ""Player"",
+            ""name"": ""PlayerThird"",
             ""id"": ""075ec289-1fc7-417d-af9b-af4759989350"",
             ""actions"": [
                 {
@@ -192,9 +192,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         }
     ]
 }");
-        // Player
-        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        // PlayerThird
+        m_PlayerThird = asset.FindActionMap("PlayerThird", throwIfNotFound: true);
+        m_PlayerThird_Move = m_PlayerThird.FindAction("Move", throwIfNotFound: true);
         // PlayerTop
         m_PlayerTop = asset.FindActionMap("PlayerTop", throwIfNotFound: true);
         m_PlayerTop_MousePosition = m_PlayerTop.FindAction("MousePosition", throwIfNotFound: true);
@@ -259,51 +259,51 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Player
-    private readonly InputActionMap m_Player;
-    private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_Move;
-    public struct PlayerActions
+    // PlayerThird
+    private readonly InputActionMap m_PlayerThird;
+    private List<IPlayerThirdActions> m_PlayerThirdActionsCallbackInterfaces = new List<IPlayerThirdActions>();
+    private readonly InputAction m_PlayerThird_Move;
+    public struct PlayerThirdActions
     {
         private @Controls m_Wrapper;
-        public PlayerActions(@Controls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputActionMap Get() { return m_Wrapper.m_Player; }
+        public PlayerThirdActions(@Controls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_PlayerThird_Move;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerThird; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
-        public void AddCallbacks(IPlayerActions instance)
+        public static implicit operator InputActionMap(PlayerThirdActions set) { return set.Get(); }
+        public void AddCallbacks(IPlayerThirdActions instance)
         {
-            if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_PlayerThirdActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PlayerThirdActionsCallbackInterfaces.Add(instance);
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
         }
 
-        private void UnregisterCallbacks(IPlayerActions instance)
+        private void UnregisterCallbacks(IPlayerThirdActions instance)
         {
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
         }
 
-        public void RemoveCallbacks(IPlayerActions instance)
+        public void RemoveCallbacks(IPlayerThirdActions instance)
         {
-            if (m_Wrapper.m_PlayerActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_PlayerThirdActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IPlayerActions instance)
+        public void SetCallbacks(IPlayerThirdActions instance)
         {
-            foreach (var item in m_Wrapper.m_PlayerActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_PlayerThirdActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PlayerActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_PlayerThirdActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public PlayerActions @Player => new PlayerActions(this);
+    public PlayerThirdActions @PlayerThird => new PlayerThirdActions(this);
 
     // PlayerTop
     private readonly InputActionMap m_PlayerTop;
@@ -383,7 +383,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_PlayerTopSchemeIndex];
         }
     }
-    public interface IPlayerActions
+    public interface IPlayerThirdActions
     {
         void OnMove(InputAction.CallbackContext context);
     }
