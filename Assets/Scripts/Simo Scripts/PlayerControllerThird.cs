@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerControllerThird : MonoBehaviour
 {
     // KEYBOARD
     
@@ -37,8 +37,6 @@ public class PlayerController : MonoBehaviour
     private Vector2 mouseDistance;
 
     private float rollInput;
-
-
 
 
 
