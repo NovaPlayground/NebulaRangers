@@ -274,9 +274,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 8693371266218765955}
-  offset: {x: 0, y: 30, z: 0}
+  offset: {x: 0, y: 40, z: 0}
   rotation: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
-  maxCameraDistance: 5
+  maxCameraDistance: 18
+  cameraDistance: 15
 --- !u!114 &282076092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1062,9 +1063,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5978635679677897977, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
         type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5978635679677897977, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
+        type: 3}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 282076090}
+    - target: {fileID: 5978635679677897977, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
+        type: 3}
+      propertyPath: rotationSpeed
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6981025468875699019, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
         type: 3}
       propertyPath: m_Mesh
