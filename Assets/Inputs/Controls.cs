@@ -35,6 +35,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Value"",
+                    ""id"": ""f04484bb-3a29-4437-8430-cb8c9f5a58b2"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -46,6 +55,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d974e923-0fc1-4085-b9aa-faac6ac9fb36"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -195,6 +215,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         // PlayerThird
         m_PlayerThird = asset.FindActionMap("PlayerThird", throwIfNotFound: true);
         m_PlayerThird_Move = m_PlayerThird.FindAction("Move", throwIfNotFound: true);
+        m_PlayerThird_Newaction = m_PlayerThird.FindAction("New action", throwIfNotFound: true);
         // PlayerTop
         m_PlayerTop = asset.FindActionMap("PlayerTop", throwIfNotFound: true);
         m_PlayerTop_MousePosition = m_PlayerTop.FindAction("MousePosition", throwIfNotFound: true);
@@ -263,11 +284,13 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerThird;
     private List<IPlayerThirdActions> m_PlayerThirdActionsCallbackInterfaces = new List<IPlayerThirdActions>();
     private readonly InputAction m_PlayerThird_Move;
+    private readonly InputAction m_PlayerThird_Newaction;
     public struct PlayerThirdActions
     {
         private @Controls m_Wrapper;
         public PlayerThirdActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_PlayerThird_Move;
+        public InputAction @Newaction => m_Wrapper.m_PlayerThird_Newaction;
         public InputActionMap Get() { return m_Wrapper.m_PlayerThird; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -280,6 +303,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Newaction.started += instance.OnNewaction;
+            @Newaction.performed += instance.OnNewaction;
+            @Newaction.canceled += instance.OnNewaction;
         }
 
         private void UnregisterCallbacks(IPlayerThirdActions instance)
@@ -287,6 +313,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Newaction.started -= instance.OnNewaction;
+            @Newaction.performed -= instance.OnNewaction;
+            @Newaction.canceled -= instance.OnNewaction;
         }
 
         public void RemoveCallbacks(IPlayerThirdActions instance)
@@ -386,6 +415,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     public interface IPlayerThirdActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnNewaction(InputAction.CallbackContext context);
     }
     public interface IPlayerTopActions
     {

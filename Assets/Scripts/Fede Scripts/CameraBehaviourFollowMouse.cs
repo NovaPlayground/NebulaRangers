@@ -8,6 +8,7 @@ public class CameraBehaviourFollowMouse : MonoBehaviour
     [SerializeField] private Vector3 offset;
     [SerializeField] private Quaternion rotation;
     [SerializeField] private float maxCameraDistance;
+    [SerializeField] private float cameraDistance;
 
     private PlayerControllerTop playerController;
     private Camera mainCamera;
@@ -18,6 +19,7 @@ public class CameraBehaviourFollowMouse : MonoBehaviour
     {
         transform.position = target.transform.position + offset;
         transform.rotation = rotation;
+        targetPoint = transform.position + offset;
 
         mainCamera = GetComponent<Camera>();
         playerController = GetComponent<PlayerControllerTop>();
@@ -35,11 +37,20 @@ public class CameraBehaviourFollowMouse : MonoBehaviour
         Vector2 mouseScreenPos = playerController.GetMousePosition2D();
         Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(new Vector3(mouseScreenPos.x, mouseScreenPos.y, mainCamera.transform.position.y));
 
-        Vector3 newPos = Vector3.Lerp(transform.position, mouseWorldPos + offset, Time.fixedDeltaTime * 0.5f);
+        Vector3 directionToMouse = mouseWorldPos - new Vector3(transform.position.x, 0.0f, transform.position.z);
+        directionToMouse.Normalize();
 
-        if (Vector3.Distance(mouseWorldPos + offset, transform.position) > 1)
+        float distance = Vector3.Distance(new Vector3(mouseWorldPos.x, 0.0f, mouseWorldPos.z), new Vector3(target.transform.position.x, 0.0f, target.transform.position.z));
+
+        if (distance > maxCameraDistance)
         {
-            transform.position = newPos;
+            targetPoint = target.transform.position + directionToMouse * cameraDistance + offset;
         }
+        else
+        {
+            targetPoint = target.transform.position + offset;
+        }
+
+        transform.position = Vector3.Lerp(transform.position, targetPoint, Time.fixedDeltaTime);
     }
 }

@@ -41,7 +41,7 @@ public class PlayerTop : MonoBehaviour
         Vector2 mouseScreenPos = playerController.GetMousePosition2D();
         Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(new Vector3(mouseScreenPos.x, mouseScreenPos.y, mainCamera.transform.position.y));
 
-        if (IsNearThan(mouseWorldPos, transform.position, 2.0f)) return;
+        if (IsNearThan(mouseWorldPos, transform.position, 0.5f)) return;
 
         Vector3 directionToMouse = mouseWorldPos - transform.position;
         directionToMouse.y = 0;
@@ -71,8 +71,6 @@ public class PlayerTop : MonoBehaviour
 
     private void Shoot()
     {
-        
-
         if (playerController.GetShoot() > 0)
         {
             if (shootCooldown >= shootDelay)
