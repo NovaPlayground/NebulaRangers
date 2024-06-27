@@ -2,18 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NormalBullet : MonoBehaviour
+public class DebugNormalBullet : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] private float lifeSpan;
     [SerializeField] private float speed;
-    //[SerializeField] public int damage;
+    [SerializeField] private float damage;
 
     private Rigidbody rb;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        damage = 1.0f;
     }
 
     // Update is called once per frame
@@ -34,19 +35,19 @@ public class NormalBullet : MonoBehaviour
     }
 
     // DA FIXAREEE
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    PlayerThird player = collision.gameObject.GetComponent<PlayerThird>();
+    private void OnCollisionEnter(Collision collision)
+    {
+        PlayerThird player = collision.gameObject.GetComponent<PlayerThird>();
 
-    //    if (player != null)
-    //    {
-    //        // damage to player
-    //        player.TakeDamage(1); // i set 1 but we could use after a variable damage if want increase the damage
-    //    }
+        if (player != null)
+        {
+            // damage to player
+            player.TakeDamage(damage); // i set 1 but we could use after a variable damage if want increase the damage
+        }
 
-    //    Destroy(collision.gameObject);
-    //    Destroy(gameObject);
-    //}
+        Destroy(collision.gameObject);
+        Destroy(gameObject);
+    }
 
     
 }

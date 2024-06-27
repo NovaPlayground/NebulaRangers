@@ -5,80 +5,114 @@ using UnityEngine.InputSystem;
 
 public class PlayerControllerThird : MonoBehaviour
 {
-    // KEYBOARD
-    
-    [SerializeField] private float forwardSpeed;
-    [SerializeField] private float strafeSpeed;
-    [SerializeField] private float hoverSpeed;
+    private Controls inputActions;
+    private InputAction moveAction;
+    private InputAction moveUpDownAction;
+    private InputAction lookAction;
+    private InputAction rollAction;
+    private InputAction shootAction;
 
-    // time how fast the ship going from 0 to 1, that means ( 1/2)
-    [SerializeField] private float forwardAcceleration;
-    [SerializeField] private float strafeAcceleration;
-    [SerializeField] private float hoverAcceleration;
-
-    private float activeForwardSpeed;
-    private float activeStrafeSpeed;
-    private float activeHoverSpeed;
-
-
-    // MOUSE 
-
-    [SerializeField] private float lookRateSpeed;
-    [SerializeField] private float rollSpeed;
-    [SerializeField] private float rollAcceleration;
-
-    // save the mouse position. where the mouse is on the screen
-    private Vector2 lookInput;
-
-    // how far is the mouse from the center'screen ( need to know how far to move and rotate )
-    private Vector2 screenCenter;
-
-    // howw far the mouse is at a particular time
-    private Vector2 mouseDistance;
-
-    private float rollInput;
-
-
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        screenCenter.x = Screen.width * 0.5f;
-        screenCenter.y = Screen.height * 0.5f;
+        inputActions = new Controls();
 
-        // Keep the mouse inside of the screen game
-        Cursor.lockState = CursorLockMode.Confined;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    private void OnEnable()
     {
-        // Where the mouse is
-        lookInput.x = Input.mousePosition.x;
-        lookInput.y = Input.mousePosition.y;
+        inputActions.Enable();
 
-        // Distance from the center 
-        mouseDistance.x = (lookInput.x - screenCenter.x) / screenCenter.y; // use screenCenter.y to don't go out of the screen
-        mouseDistance.y = (lookInput.y - screenCenter.y) / screenCenter.y;
+        moveAction = inputActions.FindAction("Move");
+        moveAction.performed += OnMove;
 
-        mouseDistance = Vector2.ClampMagnitude(mouseDistance, 1f); // Range, not matter how much we move our mouse, if the value would be more than on, i'll never be able to move beyond it
+        moveUpDownAction = inputActions.FindAction("MoveUpDown");
+        moveUpDownAction.performed += OnMoveUpDown;
 
-        // Rotate the ship around along the forward axis ( orientate the ship ) 
-        rollInput = Mathf.Lerp(rollInput, Input.GetAxisRaw("Roll"), rollAcceleration * Time.deltaTime);
+        lookAction = inputActions.FindAction("Look");
+        lookAction.performed += OnLook;
 
 
-        // Moving Ship
-        transform.Rotate(-mouseDistance.y * lookRateSpeed * Time.deltaTime, mouseDistance.x * lookRateSpeed * Time.deltaTime, rollInput * rollSpeed * Time.deltaTime, Space.Self);
+        rollAction = inputActions.FindAction("Roll");
+        rollAction.performed += OnRoll;
 
-        activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, Input.GetAxisRaw("Vertical") * forwardSpeed, forwardAcceleration * Time.deltaTime);
-        activeStrafeSpeed = Mathf.Lerp(activeStrafeSpeed, Input.GetAxisRaw("Horizontal") * strafeSpeed, strafeAcceleration * Time.deltaTime);
-        activeHoverSpeed = Mathf.Lerp(activeHoverSpeed, Input.GetAxisRaw("Hover") * hoverSpeed, hoverAcceleration * Time.deltaTime);
+        shootAction = inputActions.FindAction("Shoot");
+        shootAction.performed += OnShoot;
 
-        transform.position += transform.forward * activeForwardSpeed * Time.deltaTime;
-        transform.position += (transform.right * activeStrafeSpeed * Time.deltaTime) + (transform.up * activeHoverSpeed * Time.deltaTime);
-       
+
+        moveAction.Enable();
+        lookAction.Enable();
+        rollAction.Enable();
+        shootAction.Enable();
+        moveUpDownAction.Enable();
     }
 
-    
-    
+    private void OnDisable()
+    {
+        inputActions.Disable();
+
+        moveAction.performed -= OnMove;
+        lookAction.performed -= OnLook;
+        rollAction.performed -= OnRoll;
+        shootAction.performed -= OnShoot;
+        moveUpDownAction.performed -= OnMoveUpDown;
+
+
+        moveAction.Disable();
+        lookAction.Disable();
+        rollAction.Disable();
+        shootAction.Disable();
+        moveUpDownAction.Disable();
+    }
+
+    public Vector2 GetMovement()
+    {
+        return moveAction.ReadValue<Vector2>();
+    }
+
+    public float GetMovementUpDown()
+    {
+        return moveUpDownAction.ReadValue<float>();
+    }
+
+    public float GetRoll()
+    {
+        return rollAction.ReadValue<float>();
+    }
+
+    public Vector2 GetMouseLook()
+    {
+        Vector2 mousePos = inputActions.PlayerThird.Look.ReadValue<Vector2>();
+        return mousePos;
+    }
+
+    private void OnLook(InputAction.CallbackContext context)
+    {
+        Vector2 lookInput = context.ReadValue<Vector2>();
+    }
+
+    private void OnRoll(InputAction.CallbackContext context)
+    {
+        float rollInput = context.ReadValue<float>();
+    }
+
+    private void OnMove(InputAction.CallbackContext context)
+    {
+        Vector2 moveInput = context.ReadValue<Vector2>();
+    }
+
+    private void OnMoveUpDown(InputAction.CallbackContext context)
+    {
+        float moveUpDownInput = context.ReadValue<float>();
+    }
+
+    private void OnShoot(InputAction.CallbackContext context)
+    {
+        bool shootInput = context.ReadValueAsButton();
+    }
+
+    public float GetShoot()
+    {
+        return shootAction.ReadValue<float>();
+    }
+
 }
