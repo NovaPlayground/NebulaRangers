@@ -29,18 +29,54 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""8644beb2-436d-4094-ae54-b6575516248f"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""fac7ee99-3039-438e-9327-bfafdf21b67b"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Roll"",
+                    ""type"": ""Value"",
+                    ""id"": ""e2ee2a7d-86cd-4fcf-aa8d-c0c9dbe08777"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Hover"",
+                    ""type"": ""Value"",
+                    ""id"": ""238508c9-4335-49ce-9397-ce55d3de7870"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Shoot"",
                     ""type"": ""Button"",
-                    ""id"": ""5bebd4fe-e1a1-4f4d-8b73-585e79a11642"",
+                    ""id"": ""83c1797b-a72c-457b-8587-437bc87726f0"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""MoveUpDown"",
                     ""type"": ""Value"",
-                    ""id"": ""f04484bb-3a29-4437-8430-cb8c9f5a58b2"",
-                    ""expectedControlType"": ""Axis"",
+                    ""id"": ""b7282fd6-d4b9-4ac8-9ee6-7faeeaefa643"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -48,26 +84,158 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": """",
-                    ""id"": ""7257669c-dbbe-4107-aafe-75901c7f7356"",
+                    ""name"": ""WASD"",
+                    ""id"": ""eb0c44d9-93c4-481c-8a88-5685a2ba1dd6"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""16b37e57-49b8-4be9-8c62-f28e39be0750"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
                     ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""48d83af9-bab9-4859-98dc-ccca9775c164"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""aadb32e0-84b0-426f-9810-efff6f74da6b"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""8c71cb64-7601-41eb-a1b3-cb203cfa1ad9"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4b18e5c-4fda-407c-80c7-fb588ad2c238"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""EQ"",
+                    ""id"": ""5e962a87-4e07-470c-bdd9-e96ac9517d95"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""9bac2bf8-0a31-45ef-96ed-119c8960af7e"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""4d5fd1a3-0468-4f33-b6a0-ed0fae3651c2"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b44d5cf9-a20e-4694-bc97-1fbb045f9be1"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hover"",
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d974e923-0fc1-4085-b9aa-faac6ac9fb36"",
-                    ""path"": """",
+                    ""id"": ""774bdad2-2398-4575-ab55-98541b0bbd8e"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""LeftCtrlSpace"",
+                    ""id"": ""78737060-4c76-41e5-98cf-1104623981d0"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveUpDown"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""8468db10-01c9-4231-997f-a5d3c590c5ac"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveUpDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""aca01a91-89f1-4313-aafc-f580beade620"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveUpDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -215,7 +383,11 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         // PlayerThird
         m_PlayerThird = asset.FindActionMap("PlayerThird", throwIfNotFound: true);
         m_PlayerThird_Move = m_PlayerThird.FindAction("Move", throwIfNotFound: true);
-        m_PlayerThird_Newaction = m_PlayerThird.FindAction("New action", throwIfNotFound: true);
+        m_PlayerThird_Look = m_PlayerThird.FindAction("Look", throwIfNotFound: true);
+        m_PlayerThird_Roll = m_PlayerThird.FindAction("Roll", throwIfNotFound: true);
+        m_PlayerThird_Hover = m_PlayerThird.FindAction("Hover", throwIfNotFound: true);
+        m_PlayerThird_Shoot = m_PlayerThird.FindAction("Shoot", throwIfNotFound: true);
+        m_PlayerThird_MoveUpDown = m_PlayerThird.FindAction("MoveUpDown", throwIfNotFound: true);
         // PlayerTop
         m_PlayerTop = asset.FindActionMap("PlayerTop", throwIfNotFound: true);
         m_PlayerTop_MousePosition = m_PlayerTop.FindAction("MousePosition", throwIfNotFound: true);
@@ -284,13 +456,21 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerThird;
     private List<IPlayerThirdActions> m_PlayerThirdActionsCallbackInterfaces = new List<IPlayerThirdActions>();
     private readonly InputAction m_PlayerThird_Move;
-    private readonly InputAction m_PlayerThird_Newaction;
+    private readonly InputAction m_PlayerThird_Look;
+    private readonly InputAction m_PlayerThird_Roll;
+    private readonly InputAction m_PlayerThird_Hover;
+    private readonly InputAction m_PlayerThird_Shoot;
+    private readonly InputAction m_PlayerThird_MoveUpDown;
     public struct PlayerThirdActions
     {
         private @Controls m_Wrapper;
         public PlayerThirdActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_PlayerThird_Move;
-        public InputAction @Newaction => m_Wrapper.m_PlayerThird_Newaction;
+        public InputAction @Look => m_Wrapper.m_PlayerThird_Look;
+        public InputAction @Roll => m_Wrapper.m_PlayerThird_Roll;
+        public InputAction @Hover => m_Wrapper.m_PlayerThird_Hover;
+        public InputAction @Shoot => m_Wrapper.m_PlayerThird_Shoot;
+        public InputAction @MoveUpDown => m_Wrapper.m_PlayerThird_MoveUpDown;
         public InputActionMap Get() { return m_Wrapper.m_PlayerThird; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -303,9 +483,21 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
+            @Roll.started += instance.OnRoll;
+            @Roll.performed += instance.OnRoll;
+            @Roll.canceled += instance.OnRoll;
+            @Hover.started += instance.OnHover;
+            @Hover.performed += instance.OnHover;
+            @Hover.canceled += instance.OnHover;
+            @Shoot.started += instance.OnShoot;
+            @Shoot.performed += instance.OnShoot;
+            @Shoot.canceled += instance.OnShoot;
+            @MoveUpDown.started += instance.OnMoveUpDown;
+            @MoveUpDown.performed += instance.OnMoveUpDown;
+            @MoveUpDown.canceled += instance.OnMoveUpDown;
         }
 
         private void UnregisterCallbacks(IPlayerThirdActions instance)
@@ -313,9 +505,21 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
+            @Roll.started -= instance.OnRoll;
+            @Roll.performed -= instance.OnRoll;
+            @Roll.canceled -= instance.OnRoll;
+            @Hover.started -= instance.OnHover;
+            @Hover.performed -= instance.OnHover;
+            @Hover.canceled -= instance.OnHover;
+            @Shoot.started -= instance.OnShoot;
+            @Shoot.performed -= instance.OnShoot;
+            @Shoot.canceled -= instance.OnShoot;
+            @MoveUpDown.started -= instance.OnMoveUpDown;
+            @MoveUpDown.performed -= instance.OnMoveUpDown;
+            @MoveUpDown.canceled -= instance.OnMoveUpDown;
         }
 
         public void RemoveCallbacks(IPlayerThirdActions instance)
@@ -415,7 +619,11 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     public interface IPlayerThirdActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
+        void OnRoll(InputAction.CallbackContext context);
+        void OnHover(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
+        void OnMoveUpDown(InputAction.CallbackContext context);
     }
     public interface IPlayerTopActions
     {
