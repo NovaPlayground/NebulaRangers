@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 1073083093746811701}
   - component: {fileID: 5052831518870230108}
   - component: {fileID: 7323170511780658476}
-  - component: {fileID: -5131232506043628645}
   m_Layer: 0
   m_Name: DebugNormalBullet 1
   m_TagString: Untagged
@@ -150,15 +149,3 @@ MonoBehaviour:
   lifeSpan: 5
   speed: 8
   damage: 0
---- !u!114 &-5131232506043628645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7707866408461032758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d33ba07c091256745979e8860362545b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

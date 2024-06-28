@@ -172,7 +172,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""1D Axis"",
+                    ""name"": ""EQ"",
                     ""id"": ""0bdcd6f7-c12f-4ac1-ab9c-6cae0ad03424"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
@@ -205,7 +205,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""1D Axis"",
+                    ""name"": ""LeftCtrlSpace"",
                     ""id"": ""0c2545d1-452b-467e-bf71-2923bbcd6246"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
