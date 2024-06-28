@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class NormalBullet : MonoBehaviour
 {
-    // Start is called before the first frame update
     [SerializeField] private float lifeSpan;
     [SerializeField] private float speed;
     //[SerializeField] public int damage;
@@ -33,20 +32,16 @@ public class NormalBullet : MonoBehaviour
         }
     }
 
-    // DA FIXAREEE
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    PlayerThird player = collision.gameObject.GetComponent<PlayerThird>();
+    private void OnCollisionEnter(Collision collision)
+    {
+        PlayerThird player = collision.gameObject.GetComponent<PlayerThird>();
 
-    //    if (player != null)
-    //    {
-    //        // damage to player
-    //        player.TakeDamage(1); // i set 1 but we could use after a variable damage if want increase the damage
-    //    }
+        if (player != null)
+        {
+            player.TakeDamage(1);
+        }
 
-    //    Destroy(collision.gameObject);
-    //    Destroy(gameObject);
-    //}
-
-    
+        Destroy(collision.gameObject);
+        Destroy(gameObject);
+    }
 }
