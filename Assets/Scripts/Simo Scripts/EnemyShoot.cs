@@ -9,7 +9,7 @@ public class EnemyShoot : MonoBehaviour, IDamageable
     [SerializeField] private float detectionRadius = 5f;
     [SerializeField] private float speedRotation = 5f;
     [SerializeField] private Transform player;
-
+    
     [SerializeField] private DebugNormalBullet debugNormalBullet;
     [SerializeField] private float shootDelay = 1f;
     [SerializeField] private GameObject[] muzzles;
@@ -17,23 +17,27 @@ public class EnemyShoot : MonoBehaviour, IDamageable
     private bool isPlayerInRange = false;
     private float shootCooldown = 0f;
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
-        
+      
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player != null && Vector3.Distance(transform.position, player.position) <= detectionRadius)
+        //PlayerDetection();
+
+        if (player != null)
         {
             Debug.Log("Player entered in the radius");
 
-            if (!isPlayerInRange)
-            {
-                isPlayerInRange = true;
-            }
+            //if (!isPlayerInRange)
+            //{
+            //    isPlayerInRange = true;
+            //}
 
             RotateTowardsPlayer();
             Debug.Log(" rotate towards to player");
@@ -49,8 +53,42 @@ public class EnemyShoot : MonoBehaviour, IDamageable
         }
     }
 
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player")) 
+        {
+            player = other.gameObject.transform;
+        }
+        
+    }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            player = null;
+        }
+        
+    }
+
+
+
+    private void PlayerDetection() 
+    {
+        Collider[] overlapColliders = Physics.OverlapSphere(transform.position, detectionRadius);
+
+        foreach (Collider collider in overlapColliders)
+        {
+            if (collider.CompareTag("Player"))
+            {
+                player = collider.gameObject.transform;
+            }
+            else 
+            {
+                player = null;
+            }
+        }
+    }
 
 
     private void RotateTowardsPlayer()
