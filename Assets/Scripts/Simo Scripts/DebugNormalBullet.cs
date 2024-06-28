@@ -17,11 +17,6 @@ public class DebugNormalBullet : MonoBehaviour
         damage = 1.0f;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }
 
     private void FixedUpdate()
     {
@@ -34,20 +29,7 @@ public class DebugNormalBullet : MonoBehaviour
         }
     }
 
-    // DA FIXAREEE
-    private void OnCollisionEnter(Collision collision)
-    {
-        PlayerThird player = collision.gameObject.GetComponent<PlayerThird>();
-
-        if (player != null)
-        {
-            // damage to player
-            player.TakeDamage(damage); // i set 1 but we could use after a variable damage if want increase the damage
-        }
-
-        Destroy(collision.gameObject);
-        Destroy(gameObject);
-    }
+    
 
     
 }

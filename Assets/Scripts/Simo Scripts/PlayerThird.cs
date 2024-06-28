@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Windows;
 
-public class PlayerThird : MonoBehaviour
+public class PlayerThird : MonoBehaviour, IDamageable
 {
     // CAMERA
     [SerializeField] private Camera mainCamera;
@@ -190,7 +190,7 @@ public class PlayerThird : MonoBehaviour
     {
         health -= damage;
 
-        if (health <= 0) 
+        if (health <= 0f) 
         {
             Destroy(gameObject);
             Debug.Log("Player has died.");

@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyShoot : MonoBehaviour
+public class EnemyShoot : MonoBehaviour, IDamageable
 {
-    [SerializeField] private int damage = 1;
-    [SerializeField] private float detectionRadius = 5;
+    [SerializeField] private float damage = 1f;
+    [SerializeField] private float health = 1f;
+    [SerializeField] private float detectionRadius = 5f;
     [SerializeField] private float speedRotation = 5f;
     [SerializeField] private Transform player;
 
@@ -48,6 +49,8 @@ public class EnemyShoot : MonoBehaviour
         }
     }
 
+    
+
 
 
     private void RotateTowardsPlayer()
@@ -63,7 +66,20 @@ public class EnemyShoot : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
     }
 
-    
+    public void TakeDamage(float damage) 
+    {
+        health -= damage; 
+
+        if(health <= 0f) 
+        {
+            Die();
+        }
+    }
+
+    public void Die() 
+    {
+        Destroy(gameObject);
+    }
 
 
     public void Shoot()
