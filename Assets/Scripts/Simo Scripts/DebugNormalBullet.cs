@@ -14,7 +14,7 @@ public class DebugNormalBullet : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        damage = 1.0f;
+        damage = 50.0f;
     }
 
 
@@ -35,7 +35,7 @@ public class DebugNormalBullet : MonoBehaviour
 
         if (damageable != null)
         {
-            damageable.TakeDamage(1.0f);
+            damageable.TakeDamage(damage);
         }
     }
 

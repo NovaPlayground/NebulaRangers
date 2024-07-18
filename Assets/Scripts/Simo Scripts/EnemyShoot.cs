@@ -4,20 +4,12 @@ using UnityEngine;
 
 public class EnemyShoot : MonoBehaviour, IDamageable
 {
-    [SerializeField] private float damage = 1f;
-    [SerializeField] private float health = 1f;
-    [SerializeField] private float detectionRadius = 5f;
-    [SerializeField] private float speedRotation = 5f;
-    [SerializeField] private Transform player;
-    
-    [SerializeField] private DebugNormalBullet debugNormalBullet;
-    [SerializeField] private float shootDelay = 1f;
-    [SerializeField] private GameObject[] muzzles;
+    //[SerializeField] private float damage = 50f;
+    [SerializeField] private float health = 100f; // Enemy's current health
+    [SerializeField] private float maxHealth = 100f; // Enemy's max health
 
-    private bool isPlayerInRange = false;
-    private float shootCooldown = 0f;
-
-    
+    private Rigidbody rb;
+    //private bool isHit = false;
 
     // Start is called before the first frame update
     void Start()
@@ -28,84 +20,31 @@ public class EnemyShoot : MonoBehaviour, IDamageable
     // Update is called once per frame
     void Update()
     {
-        //PlayerDetection();
-
-        if (player != null)
-        {
-            Debug.Log("Player entered in the radius");
-
-            //if (!isPlayerInRange)
-            //{
-            //    isPlayerInRange = true;
-            //}
-
-            RotateTowardsPlayer();
-            Debug.Log(" rotate towards to player");
-
-            shootCooldown -= Time.deltaTime;
-
-            if (shootCooldown <= 0f) 
-            {
-                Shoot();
-                Debug.Log("Player firing.");
-                shootCooldown = shootDelay; // Reset cooldown
-            }
-        }
+       
     }
 
-    private void OnTriggerEnter(Collider other)
+  
+
+    public Rigidbody GetRigidbody() 
     {
-        if (other.CompareTag("Player")) 
-        {
-            player = other.gameObject.transform;
-        }
-        
+        rb = GetComponent<Rigidbody>();
+
+        return rb;
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            player = null;
-        }
-        
-    }
+    public float GetHealth() {  return health; }
+    public float GetMaxHealth() { return maxHealth; }
+    //public bool IsHit() { return isHit;  }
+    //public void ResetHit() { isHit = false; }
+    
 
 
 
-    private void PlayerDetection() 
-    {
-        Collider[] overlapColliders = Physics.OverlapSphere(transform.position, detectionRadius);
 
-        foreach (Collider collider in overlapColliders)
-        {
-            if (collider.CompareTag("Player"))
-            {
-                player = collider.gameObject.transform;
-            }
-            else 
-            {
-                player = null;
-            }
-        }
-    }
-
-
-    private void RotateTowardsPlayer()
-    {
-        // Direction to player 
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-
-        // calculate the target rotation
-        Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-
-        // rotate
-        float rotationSpeed = speedRotation * Time.deltaTime;
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
-    }
 
     public void TakeDamage(float damage) 
     {
+        //isHit = true;
         health -= damage; 
 
         if(health <= 0f) 
@@ -119,13 +58,4 @@ public class EnemyShoot : MonoBehaviour, IDamageable
         Destroy(gameObject);
     }
 
-
-    public void Shoot()
-    {
-        foreach (var muzzle in muzzles) 
-        {
-            // instantiate a bullet
-            Instantiate(debugNormalBullet, muzzle.transform.position, muzzle.transform.rotation);
-        }
-    }
 }
