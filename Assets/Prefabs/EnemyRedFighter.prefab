@@ -106052,7 +106052,7 @@ Transform:
   m_GameObject: {fileID: 2819342434214496792}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -106166,6 +106166,8 @@ GameObject:
   - component: {fileID: 2918931260799790978}
   - component: {fileID: 1638371536524811542}
   - component: {fileID: 6706870328277868056}
+  - component: {fileID: 9048616977774853655}
+  - component: {fileID: 1629176373546738225}
   m_Layer: 0
   m_Name: EnemyRedFighter
   m_TagString: Untagged
@@ -106182,7 +106184,7 @@ Transform:
   m_GameObject: {fileID: 7258786985626712652}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -38.5, y: 0, z: 0}
+  m_LocalPosition: {x: -167.6, y: 0, z: 0.3841542}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -106229,16 +106231,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb162ce6029ddc428fef45dc455b90c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrolSpeed: 3
-  runToPlayerSpeed: 0
+  patrolSpeed: 1
+  runToPlayerSpeed: 2
   rotationSpeed: 5
-  changeDirectionCooldown: 5
   acceleration: 2
-  detectionRadius: 0
+  followDistance: 35
+  evadeSpeed: 5
+  changeDirectionCooldown: 5
+  changeShootDirectionCooldown: 2
+  evadeCheckInterval: 2
   player: {fileID: 0}
   debugNormalBullet: {fileID: 7323170511780658476, guid: bb70438e8d333f84dba3a6e94fa660b8,
     type: 3}
-  shootDelay: 0
+  shootDelay: 1
   muzzles:
   - {fileID: 9086332655038910924}
 --- !u!135 &6706870328277868056
@@ -106261,6 +106266,44 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 80
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9048616977774853655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7258786985626712652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd3a4c19f34906048a25d52b3f347aae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  maxHealth: 100
+  coin: {fileID: 5185709952898321388, guid: 26e22279e9c3f334f960535fb4b13bfb, type: 3}
+  healthPickup: {fileID: 1409975535462194438, guid: a3bc9cd111e04c44fa672b0e2eda2775,
+    type: 3}
+--- !u!65 &1629176373546738225
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7258786985626712652}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 9, y: 3, z: 8}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9086332655038910924
 GameObject:
@@ -106287,7 +106330,7 @@ Transform:
   m_GameObject: {fileID: 9086332655038910924}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 4.45}
+  m_LocalPosition: {x: 0, y: 0, z: 6.45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

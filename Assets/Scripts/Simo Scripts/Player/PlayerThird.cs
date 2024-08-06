@@ -27,7 +27,8 @@ public class PlayerThird : MonoBehaviour, IDamageable
     [SerializeField] private GameObject[] muzzles;
 
     //HEALTH
-    [SerializeField] private float health = 1.0f;
+    [SerializeField] private float health = 100f;
+    private float maxHealth = 100f; 
 
     // MOVEMENT 
     private float activeForwardSpeed;
@@ -43,10 +44,13 @@ public class PlayerThird : MonoBehaviour, IDamageable
     // SHOOT
     private float shootCooldown;
 
+    // COIN 
+    private int coinCount = 0;
+
 
 
     // BARRIER 
-    
+
 
     private void Start()
     {
@@ -63,7 +67,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
         Shoot();
     }
 
-
+    // MOVEMENT
 
     private void Rotate()
     {
@@ -96,8 +100,6 @@ public class PlayerThird : MonoBehaviour, IDamageable
 
     }
 
-
-
     private Quaternion Roll() 
     {
         
@@ -115,7 +117,6 @@ public class PlayerThird : MonoBehaviour, IDamageable
         return newRotation;
 
     }
-
 
     private void Move()
     {
@@ -149,7 +150,6 @@ public class PlayerThird : MonoBehaviour, IDamageable
 
     }
 
-
     private void MoveUpDown() 
     {
         float input = playerController.GetMovementUpDown();
@@ -160,6 +160,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
     }
 
 
+    // SHOOT 
     private void Shoot()
     {
 
@@ -186,6 +187,8 @@ public class PlayerThird : MonoBehaviour, IDamageable
     }
 
 
+    // DAMAGE
+
     public void TakeDamage(float damage) 
     {
         health -= damage;
@@ -197,7 +200,45 @@ public class PlayerThird : MonoBehaviour, IDamageable
         }
     }
 
-    
+    // PICKALE OBJ
+    private void AddCoin(int amount) 
+    {
+        coinCount += amount;
+
+        Debug.Log("Coins collected: " + coinCount);
+    }
+
+    private void AddHealth(float amount) 
+    {
+        health += amount;
+        
+        if (health > maxHealth)
+        {
+            health = maxHealth; 
+        }
+
+        Debug.Log("Picked up health! Added " + amount + " health. Current health: " + health);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        IPickable pickable = other.GetComponent<IPickable>();
+            
+        if (pickable is Coin coin)
+        {
+            // add the coin value to player score
+            AddCoin(coin.Value);
+            
+            pickable.PickUp(gameObject);
+        }
+        else if (pickable is Health Health)
+        {
+            // add the health value to player 
+            AddHealth(Health.Value);
+        }
+    }
+
+
 
 }
 
