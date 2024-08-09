@@ -1,12 +1,16 @@
-using System.Collections.ObjectModel;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Windows;
 
 public class PlayerThird : MonoBehaviour, IDamageable
 {
     // CAMERA
     [SerializeField] private Camera mainCamera;
+
+    // RIGIDBODY 
+    private Rigidbody rbThird;
+
+    // CONTROLLER
+    private PlayerControllerThird playerController;
 
     // MOVEMENT 
     [SerializeField] private float lookRateSpeed = 90f;
@@ -21,35 +25,43 @@ public class PlayerThird : MonoBehaviour, IDamageable
     [SerializeField] private float strafeAcceleration = 5f;
     [SerializeField] private float hoverAcceleration = 5f;
 
-    // SHOOT 
-    [SerializeField] private DebugNormalBullet debugNormalBullet;
-    [SerializeField] private float shootDelay;
-    [SerializeField] private GameObject[] muzzles;
-
-    //HEALTH
-    [SerializeField] private float health = 100f;
-    private float maxHealth = 100f; 
-
-    // MOVEMENT 
     private float activeForwardSpeed;
     private float activeStrafeSpeed;
     private float activeHoverSpeed;
 
     private float rotationAngle = 0.0f;
 
-    private PlayerControllerThird playerController;
-    private Rigidbody rbThird;
+    // SHOOT 
+    // MACHINEGUN
+    [SerializeField] private DebugNormalBullet debugNormalBullet;
+    [SerializeField] private float shootDelay;
+    [SerializeField] private GameObject[] muzzles;
 
-
-    // SHOOT
     private float shootCooldown;
 
-    // COIN 
+    // MISSILE 
+    [SerializeField] private Missile missilePrefab;
+    [SerializeField] private Transform missileSpawnPoint;
+    //[SerializeField] private float lockOnRange = 50f; //Snap radius
+    [SerializeField] private float missileCooldown = 5f;
+
+    private float missileCooldownTimer = 0f; // Missile cooldown timer
+    private Transform lockedTarget;
+
+    // CONE VISION
+    [SerializeField] private float visionConeAngleHorizontal = 45f; 
+    [SerializeField] private float visionConeAngleVertical = 30f; 
+    [SerializeField] private float visionConeDistance = 50f; 
+
+    //HEALTH
+    [SerializeField] private float health = 100f;
+
+    private float maxHealth = 100f;
+
+
+    // COIN -->it will become the key to take
     private int coinCount = 0;
 
-
-
-    // BARRIER 
 
 
     private void Start()
@@ -65,6 +77,13 @@ public class PlayerThird : MonoBehaviour, IDamageable
         Move();
         MoveUpDown();
         Shoot();
+        ShootMissile();
+        TargetWithinCone();
+    }
+
+    private void Update()
+    {
+
     }
 
     // MOVEMENT
@@ -168,21 +187,168 @@ public class PlayerThird : MonoBehaviour, IDamageable
         {
             if (shootCooldown >= shootDelay)
             {
-                for (int i = 0; i < muzzles.Length; i++)
+                foreach (var muzzle in muzzles)
                 {
-                    Instantiate(debugNormalBullet, muzzles[i].transform.position, transform.rotation);
+                    Instantiate(debugNormalBullet, muzzle.transform.position, transform.rotation);
                 }
 
                 shootCooldown = 0;
             }
             else
             {
-                shootCooldown += Time.fixedDeltaTime;
+                shootCooldown += Time.deltaTime;
             }
         }
         else
         {
             shootCooldown = shootDelay;
+        }
+    }
+
+    // MISSILE 
+
+    // RIMANE DA DEBUGGARE I RAYCAST, PERCHè LA CONDIZIONE IF NON VIENE MAI SODDISFATTA MA ENTRA SOLO NELL'ELSE
+    private void TargetWithinCone()
+    {
+        // check if target is outside the player's cone vision
+        // if not, the target is not locked anymore
+
+        if (lockedTarget != null)
+        {
+            // calcuate the direction toward target
+            Vector3 directionTarget = (lockedTarget.position - transform.position).normalized;
+
+            // calcuate the distance to target
+            float distanceToTarget = Vector3.Distance(transform.position, lockedTarget.position);
+
+            // Calcolate angle horizontal & vertical between the player's direction and the direction towards the target
+
+            //float angleHorizontal = Vector3.Angle(transform.forward, directionTarget);
+            //float angleVertical = Vector3.Angle(Vector3.ProjectOnPlane(directionTarget, transform.up), transform.forward);
+
+            float angleHorizontal = Mathf.Atan2(directionTarget.z, directionTarget.x) * Mathf.Rad2Deg;
+            float forwardAngleHorizontal = Mathf.Atan2(transform.forward.z, transform.forward.x) * Mathf.Rad2Deg;
+            float deltaAngleHorizontal = Mathf.DeltaAngle(forwardAngleHorizontal, angleHorizontal);
+
+            float angleVertical = Mathf.Atan2(directionTarget.y, new Vector2(directionTarget.x, directionTarget.z).magnitude) * Mathf.Rad2Deg;
+            float forwardAngleVertical = Mathf.Atan2(transform.forward.y, new Vector2(transform.forward.x, transform.forward.z).magnitude) * Mathf.Rad2Deg;
+            float deltaAngleVertical = Mathf.DeltaAngle(forwardAngleVertical, angleVertical);
+
+            // Check if the target is within the cone of vision
+            //bool isWithinVisionCone = angleHorizontal <= visionConeAngleHorizontal * 0.5f && angleVertical <= visionConeAngleVertical * 0.5f;
+            bool isWithinVisionCone = Mathf.Abs(deltaAngleHorizontal) <= visionConeAngleHorizontal * 0.5f &&
+                                  Mathf.Abs(deltaAngleVertical) <= visionConeAngleVertical * 0.5f;
+
+            // Check if the target is within the maximum viewing distance
+            bool isWithinDistance = distanceToTarget <= visionConeDistance;
+   
+
+            Color rayColor;
+
+            if (isWithinVisionCone && isWithinDistance)
+            {
+                rayColor = Color.red; // Target inside the cone of vision and distance -> Raycast red
+                Debug.Log("Target still within vision cone and distance: " + lockedTarget.name);
+            }
+            else
+            {
+                // The target goes out of the cone of vision or is too far away, resets the lock
+                rayColor = Color.green; // Target outside the cone of vision or too far away -> Raycast green
+                lockedTarget = null;
+                Debug.Log("Target lost or out of range.");
+                FindNewTarget();
+            }
+
+            Debug.DrawRay(transform.position, directionTarget * distanceToTarget, rayColor, 0.1f);
+        }
+        else
+        {
+            // find a new target if there isn't no target lock
+            FindNewTarget();
+        }
+
+    }
+
+    private void FindNewTarget()
+    {
+        // Find all enemies within the search radius
+        Collider[] colliders = Physics.OverlapSphere(transform.position, visionConeDistance);
+        Transform closestTarget = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Collider collider in colliders)
+        {
+            if (collider.CompareTag("Enemy"))
+            {
+                // direction to target
+                Vector3 directionToTarget = (collider.transform.position - transform.position).normalized;
+
+                // Calculate the horizontal and vertical angle between the forward of the spacecraft and the direction towards the target
+                float angleHorizontal = Vector3.Angle(transform.forward, directionToTarget);
+                float angleVertical = Vector3.Angle(Vector3.ProjectOnPlane(directionToTarget, transform.right), transform.forward);
+
+                // Check if the target is within the cone of vision
+                bool isWithinVisionCone = angleHorizontal <= visionConeAngleHorizontal * 0.5f && angleVertical <= visionConeAngleVertical * 0.5f;
+
+                if (isWithinVisionCone)
+                {
+                    // Find the closest target that is within the cone of vision
+                    float distanceToTarget = Vector3.Distance(transform.position, collider.transform.position);
+                    if (distanceToTarget < closestDistance)
+                    {
+                        closestDistance = distanceToTarget;
+                        closestTarget = collider.transform;
+                    }
+                }
+            }
+        }
+
+        // Set target if found
+        if (closestTarget != null)
+        {
+            lockedTarget = closestTarget;
+            Debug.Log("New target acquired: " + lockedTarget.name);
+        }
+        else
+        {
+            Debug.Log("No target within vision cone.");
+        }
+    }   
+
+    private void SpawnMissile() 
+    {
+        if (missilePrefab == null)
+        {
+            Debug.LogError("missilePrefab is not assigned!");
+            return;
+        }
+
+        Missile missile = Instantiate(missilePrefab, missileSpawnPoint.position, missileSpawnPoint.rotation);
+        //Missile missileScript = missile.GetComponent<Missile>();
+        missile.SetTarget(lockedTarget);
+    }
+
+    private void ShootMissile()
+    {
+        if (playerController.GetShootMissile() && missileCooldownTimer <= 0f )
+        {
+            if (lockedTarget != null) 
+            {
+                SpawnMissile();
+                missileCooldownTimer = missileCooldown; // Reset timer
+
+            }
+            else
+            {
+                Debug.Log("no target find.");
+            }
+
+
+        }
+        else
+        {
+            missileCooldownTimer -= Time.deltaTime; 
+            missileCooldownTimer = Mathf.Max(missileCooldownTimer, 0f); // the timer does not go below zero
         }
     }
 

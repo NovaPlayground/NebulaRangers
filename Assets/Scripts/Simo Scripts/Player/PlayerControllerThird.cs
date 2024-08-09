@@ -11,6 +11,7 @@ public class PlayerControllerThird : MonoBehaviour
     private InputAction lookAction;
     private InputAction rollAction;
     private InputAction shootAction;
+    private InputAction shootMissileAction;
 
     private void Awake()
     {
@@ -38,11 +39,15 @@ public class PlayerControllerThird : MonoBehaviour
         shootAction = inputActions.FindAction("Shoot");
         shootAction.performed += OnShoot;
 
+        shootMissileAction = inputActions.FindAction("ShootMissile");
+        shootMissileAction.performed += OnShootMissile;
+
 
         moveAction.Enable();
         lookAction.Enable();
         rollAction.Enable();
         shootAction.Enable();
+        shootMissileAction.Enable();
         moveUpDownAction.Enable();
     }
 
@@ -54,6 +59,7 @@ public class PlayerControllerThird : MonoBehaviour
         lookAction.performed -= OnLook;
         rollAction.performed -= OnRoll;
         shootAction.performed -= OnShoot;
+        shootMissileAction.performed -= OnShootMissile;
         moveUpDownAction.performed -= OnMoveUpDown;
 
 
@@ -61,6 +67,7 @@ public class PlayerControllerThird : MonoBehaviour
         lookAction.Disable();
         rollAction.Disable();
         shootAction.Disable();
+        shootMissileAction.Disable();
         moveUpDownAction.Disable();
     }
 
@@ -110,9 +117,31 @@ public class PlayerControllerThird : MonoBehaviour
         bool shootInput = context.ReadValueAsButton();
     }
 
+    private void OnShootMissile(InputAction.CallbackContext context)
+    {
+        bool shootInput = context.ReadValueAsButton();
+    }
+
     public float GetShoot()
     {
         return shootAction.ReadValue<float>();
+
     }
+
+    public bool GetShootMissile()
+    {
+        return shootMissileAction.ReadValue<float>() > 0.5f;
+
+    }
+
+    //public bool GetShoot()
+    //{
+    //    return shootAction.ReadValue<bool>();
+    //}
+
+    //public bool GetShootMissile()
+    //{
+    //    return shootMissileAction.ReadValue<bool>();
+    //}
 
 }
