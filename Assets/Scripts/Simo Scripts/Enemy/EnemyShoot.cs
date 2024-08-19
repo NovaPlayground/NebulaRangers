@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyShoot : MonoBehaviour, IDamageable
-{
-    //[SerializeField] private float damage = 50f;
+{   
     [SerializeField] private float health = 100f; // Enemy's current health
     [SerializeField] private float maxHealth = 100f; // Enemy's max health
 
-    [SerializeField] private GameObject coin;
+    
     [SerializeField] private GameObject healthPickup;
     private Rigidbody rb;
     //private bool isHit = false;
@@ -57,11 +56,6 @@ public class EnemyShoot : MonoBehaviour, IDamageable
 
     public void Die() 
     {
-        if (coin != null) 
-        {
-            Instantiate(coin, transform.position, Quaternion.identity);
-            Debug.Log("Coin spawned");
-        }
 
         if (healthPickup != null)
         {

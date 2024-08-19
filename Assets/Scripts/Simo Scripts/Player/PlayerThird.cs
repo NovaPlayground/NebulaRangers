@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,6 +9,10 @@ public class PlayerThird : MonoBehaviour, IDamageable
 
     // RIGIDBODY 
     private Rigidbody rbThird;
+
+    // BOX COLLIDER
+
+    private BoxCollider playerCollider;
 
     // CONTROLLER
     private PlayerControllerThird playerController;
@@ -58,9 +63,13 @@ public class PlayerThird : MonoBehaviour, IDamageable
 
     private float maxHealth = 100f;
 
+    // BARRIER 
+    [SerializeField] private Shield shield;
+    [SerializeField] private float barrierMaxHealth = 50f;
+    
 
-    // COIN -->it will become the key to take
-    private int coinCount = 0;
+    // KEY
+    private int keyCount = 0;
 
 
 
@@ -69,6 +78,13 @@ public class PlayerThird : MonoBehaviour, IDamageable
         rbThird = GetComponent<Rigidbody>();
         playerController = GetComponent<PlayerControllerThird>();
         shootCooldown = 0.0f;
+
+        if(shield != null) 
+        {
+            shield.Initialize(barrierMaxHealth);
+            shield.Activate();
+            playerCollider.enabled = false; // When the shield is activated,  player's boxCollider is disable
+        }
     }
 
     private void FixedUpdate()
@@ -86,8 +102,8 @@ public class PlayerThird : MonoBehaviour, IDamageable
 
     }
 
-    // MOVEMENT
 
+    // MOVEMENT LOGIC
     private void Rotate()
     {
         
@@ -179,7 +195,9 @@ public class PlayerThird : MonoBehaviour, IDamageable
     }
 
 
-    // SHOOT 
+
+    // SHOOT LOGIC  
+    // MACHINEGUN
     private void Shoot()
     {
 
@@ -206,7 +224,6 @@ public class PlayerThird : MonoBehaviour, IDamageable
     }
 
     // MISSILE 
-
     // RIMANE DA DEBUGGARE I RAYCAST, PERCHè LA CONDIZIONE IF NON VIENE MAI SODDISFATTA MA ENTRA SOLO NELL'ELSE
     private void TargetWithinCone()
     {
@@ -353,10 +370,25 @@ public class PlayerThird : MonoBehaviour, IDamageable
     }
 
 
-    // DAMAGE
 
+    // DAMAGE LOGIC
     public void TakeDamage(float damage) 
     {
+        // SHIELD LOGIC
+        if(shield != null && shield.IsShieldActive()) 
+        {
+            if (shield.AbsorbDamage(damage)) 
+            {
+                return;
+            }
+            // If the shield is no longer active, enable the player's collider
+            if (!shield.IsShieldActive())
+            {
+                playerCollider.enabled = true;
+            }
+        }
+
+        // If the barrier is not active or not enough to absorb damage, reduce player health
         health -= damage;
 
         if (health <= 0f) 
@@ -366,12 +398,14 @@ public class PlayerThird : MonoBehaviour, IDamageable
         }
     }
 
-    // PICKALE OBJ
-    private void AddCoin(int amount) 
-    {
-        coinCount += amount;
 
-        Debug.Log("Coins collected: " + coinCount);
+
+    // PICKALE OBJ
+    private void AddKey(int amount) 
+    {
+        keyCount += amount;
+
+        Debug.Log("Coins collected: " + keyCount);
     }
 
     private void AddHealth(float amount) 
@@ -390,10 +424,10 @@ public class PlayerThird : MonoBehaviour, IDamageable
     {
         IPickable pickable = other.GetComponent<IPickable>();
             
-        if (pickable is Coin coin)
+        if (pickable is Key key)
         {
             // add the coin value to player score
-            AddCoin(coin.Value);
+            AddKey(key.Value);
             
             pickable.PickUp(gameObject);
         }
@@ -405,6 +439,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
     }
 
 
+    // BUFF LOGIC
 
 }
 

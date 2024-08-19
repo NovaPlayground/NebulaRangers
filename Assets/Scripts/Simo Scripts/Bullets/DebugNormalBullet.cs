@@ -36,6 +36,7 @@ public class DebugNormalBullet : MonoBehaviour
         if (damageable != null)
         {
             damageable.TakeDamage(damage);
+            Destroy(gameObject);  // Destroy the bullet after hitting the target
         }
     }
 
