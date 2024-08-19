@@ -41,6 +41,7 @@ public class EnemyAIController : MonoBehaviour
 
     // PLAYER 
     [SerializeField] private Transform player;
+    [SerializeField] private Collider shieldCollider; // Collider dello shield del player
 
     // SHOOT 
     [SerializeField] private DebugNormalBullet debugNormalBullet;
@@ -392,9 +393,11 @@ public class EnemyAIController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other == shieldCollider)
         {
-            player = other.gameObject.transform;
+            //player = other.gameObject.transform;
+            // Ensure that we are referencing the player's transform even if the shield enters first
+            player = other.gameObject.transform.root; // Get the player's root object, which is the player itself
             currentState = State.RunToPlayer;
         }
 
@@ -405,13 +408,14 @@ public class EnemyAIController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other == shieldCollider)
         {
             player = null;
             currentState = State.Patrol;
+            isHit = false;
         }
 
-        isHit = false;
+        //isHit = false;
     }
 
 }

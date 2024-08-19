@@ -313,8 +313,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shield: {fileID: 215049947}
-  maxHealth: 100
-  currentHealth: 100
+  shieldHealth: 100
+--- !u!135 &215049953 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 6283053916533685202, guid: 18cd7779d726fef48a24f71d5230a751,
+    type: 3}
+  m_PrefabInstance: {fileID: 8318919182228650100}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &355914891
 GameObject:
   m_ObjectHideFlags: 0
@@ -898,6 +903,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1638371536524811542, guid: 1b0e3c4b4febf7243bd0453375e7d928,
+        type: 3}
+      propertyPath: shieldCollider
+      value: 
+      objectReference: {fileID: 215049953}
     - target: {fileID: 3386788368193666861, guid: 1b0e3c4b4febf7243bd0453375e7d928,
         type: 3}
       propertyPath: m_LocalPosition.x
