@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coin : MonoBehaviour,IPickable
+public class Key : MonoBehaviour,IPickable
 {
-    [SerializeField]private float rotationSpeed = 12f;
+    [SerializeField] private float rotationSpeed = 12f;
 
-    private int coinValue = 1;
+    private int keyValue = 1;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -23,25 +23,20 @@ public class Coin : MonoBehaviour,IPickable
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
-        {           
+        {
             PickUp(other.gameObject);
         }
     }
 
     public void PickUp(GameObject picker)
     {
-        //Destroy Coin
+        //Destroy Key
         Destroy(gameObject);
     }
 
 
     public int Value
     {
-        get { return coinValue; }
+        get { return keyValue; }
     }
-
-   
 }
-    
-
-
