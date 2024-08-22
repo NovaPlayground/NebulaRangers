@@ -2,6 +2,10 @@ using System.Threading;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
+using static UnityEngine.Rendering.DebugUI;
+using System.Linq;
+
 
 public class PlayerThird : MonoBehaviour, IDamageable
 {
@@ -41,7 +45,11 @@ public class PlayerThird : MonoBehaviour, IDamageable
     // MACHINEGUN
     [SerializeField] private DebugNormalBullet debugNormalBullet;
     [SerializeField] private float shootDelay;
-    [SerializeField] private GameObject[] muzzles;
+    [SerializeField] private GameObject defaultMuzzlePrefab; // Default muzzle
+    [SerializeField] private GameObject doubleBarrelMuzzlePrefab; // Muzzle double barrel
+    [SerializeField] private Vector3 muzzleOffset = new Vector3(1.0f, 0.5f, 1.0f); //  muzzles Offset
+    [SerializeField] private Vector3 doubleBarrelOffset = new Vector3(0, 0, 0); // double barrel Offset  
+    private GameObject[] muzzles;
 
     private float shootCooldown;
 
@@ -55,9 +63,9 @@ public class PlayerThird : MonoBehaviour, IDamageable
     private Transform lockedTarget;
 
     // CONE VISION
-    [SerializeField] private float visionConeAngleHorizontal = 45f; 
-    [SerializeField] private float visionConeAngleVertical = 30f; 
-    [SerializeField] private float visionConeDistance = 50f; 
+    [SerializeField] private float visionConeAngleHorizontal = 45f;
+    [SerializeField] private float visionConeAngleVertical = 30f;
+    [SerializeField] private float visionConeDistance = 50f;
 
     //HEALTH
     [SerializeField] private float health = 100f;
@@ -71,14 +79,18 @@ public class PlayerThird : MonoBehaviour, IDamageable
     [SerializeField] private float immuneTimeAfterShield = 0.5f; // Time during which the player is immune to damage after shield is destroyed
     private float reenableColliderTimer = 0f; // Tracks the remaining time to re-enable the collider
     private float immuneTimer = 0f; // Timer to handle immune state
-    private bool isColliderDisabled = false; 
-    private bool isImmune = false; 
+    private bool isColliderDisabled = false;
+    private bool isImmune = false;
 
     // KEY
     private int keyCount = 0;
 
+    // EVENTS BUFF
+    public UnityEvent OnKeyLevel1;
+    public UnityEvent OnKeyLevel2;
+    public UnityEvent OnKeyLevel3;
+    public UnityEvent OnKeyLevel4;
 
-    
 
 
     private void Start()
@@ -88,12 +100,19 @@ public class PlayerThird : MonoBehaviour, IDamageable
         playerCollider = GetComponent<BoxCollider>();
         shootCooldown = 0.0f;
 
-        // SHIELD INIT
-        if(shield != null) 
+        // MUZZEL
+        if (defaultMuzzlePrefab != null)
         {
-            shield.Initialize(barrierMaxHealth);
-            ActivateShield();
+            muzzles = new GameObject[] { Instantiate(defaultMuzzlePrefab, transform.position + muzzleOffset, Quaternion.identity, transform) };
         }
+
+        // SHIELD
+        shield.Initialize(100f);
+
+        // APPLY BUFF
+        SetupBuffs();
+        ApplyBuffs();
+      
     }
 
     private void FixedUpdate()
@@ -108,14 +127,14 @@ public class PlayerThird : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        
+
     }
 
 
     // MOVEMENT LOGIC
     private void Rotate()
     {
-        
+
         Vector2 mousePos = playerController.GetMouseLook();
 
         // Calculate the normalized distance of the mouse from the center of the screen
@@ -139,14 +158,14 @@ public class PlayerThird : MonoBehaviour, IDamageable
         float newRollInput = playerController.GetRoll();
         Quaternion rollRotation = Quaternion.Euler(0f, 0f, newRollInput * rollSpeed * Time.fixedDeltaTime);
 
-       
+
         transform.rotation *= rollRotation;
 
     }
 
-    private Quaternion Roll() 
+    private Quaternion Roll()
     {
-        
+
         float rollInput = playerController.GetRoll();
 
         // Calculate the amount of roll rotation based on input and speed
@@ -194,7 +213,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
 
     }
 
-    private void MoveUpDown() 
+    private void MoveUpDown()
     {
         float input = playerController.GetMovementUpDown();
 
@@ -215,8 +234,8 @@ public class PlayerThird : MonoBehaviour, IDamageable
             if (shootCooldown >= shootDelay)
             {
                 foreach (var muzzle in muzzles)
-                {
-                    Instantiate(debugNormalBullet, muzzle.transform.position, transform.rotation);
+                {                  
+                    Instantiate(debugNormalBullet, muzzle.transform.position, transform.rotation); 
                 }
 
                 shootCooldown = 0;
@@ -232,8 +251,45 @@ public class PlayerThird : MonoBehaviour, IDamageable
         }
     }
 
+
     // MISSILE 
     // RIMANE DA DEBUGGARE I RAYCAST, PERCHè LA CONDIZIONE IF NON VIENE MAI SODDISFATTA MA ENTRA SOLO NELL'ELSE
+
+    private void UpdateMuzzles()
+    {
+        if (defaultMuzzlePrefab != null && muzzles.Length > 0)
+        {
+            // Rimuove i muzzles predefiniti
+            foreach (var muzzle in muzzles)
+            {
+                if (muzzle != null)
+                {
+                    Destroy(muzzle);
+                }
+            }
+        }
+
+        if (doubleBarrelMuzzlePrefab != null)
+        {
+           
+            GameObject doubleBarrelMuzzle = Instantiate(doubleBarrelMuzzlePrefab, transform.position + muzzleOffset + doubleBarrelOffset, Quaternion.identity, transform); 
+
+            //Suppose doubleBarrelMuzzle Prefab has two firing points
+            Transform[] muzzlePoints = doubleBarrelMuzzlePrefab.GetComponentsInChildren<Transform>();
+
+            // only have the relevant firing points
+            if (muzzlePoints.Length >= 2)
+            {
+                muzzles = new GameObject[2];
+                muzzles[0] = Instantiate(doubleBarrelMuzzlePrefab, muzzlePoints[1].position, Quaternion.identity, transform);
+                muzzles[1] = Instantiate(doubleBarrelMuzzlePrefab, muzzlePoints[2].position, Quaternion.identity, transform);
+            }
+
+
+
+        }
+        
+    }
     private void TargetWithinCone()
     {
         // check if target is outside the player's cone vision
@@ -267,7 +323,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
 
             // Check if the target is within the maximum viewing distance
             bool isWithinDistance = distanceToTarget <= visionConeDistance;
-   
+
 
             Color rayColor;
 
@@ -333,19 +389,19 @@ public class PlayerThird : MonoBehaviour, IDamageable
         if (closestTarget != null)
         {
             lockedTarget = closestTarget;
-            Debug.Log("New target acquired: " + lockedTarget.name);
+            //Debug.Log("New target acquired: " + lockedTarget.name);
         }
         else
         {
-            Debug.Log("No target within vision cone.");
+            //Debug.Log("No target within vision cone.");
         }
-    }   
+    }
 
-    private void SpawnMissile() 
+    private void SpawnMissile()
     {
         if (missilePrefab == null)
         {
-            Debug.LogError("missilePrefab is not assigned!");
+            //Debug.LogError("missilePrefab is not assigned!");
             return;
         }
 
@@ -356,9 +412,9 @@ public class PlayerThird : MonoBehaviour, IDamageable
 
     private void ShootMissile()
     {
-        if (playerController.GetShootMissile() && missileCooldownTimer <= 0f )
+        if (playerController.GetShootMissile() && missileCooldownTimer <= 0f)
         {
-            if (lockedTarget != null) 
+            if (lockedTarget != null)
             {
                 SpawnMissile();
                 missileCooldownTimer = missileCooldown; // Reset timer
@@ -373,7 +429,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
         }
         else
         {
-            missileCooldownTimer -= Time.deltaTime; 
+            missileCooldownTimer -= Time.deltaTime;
             missileCooldownTimer = Mathf.Max(missileCooldownTimer, 0f); // the timer does not go below zero
         }
     }
@@ -381,7 +437,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
 
 
     // DAMAGE LOGIC
-    public void TakeDamage(float damage) 
+    public void TakeDamage(float damage)
     {
         // SHIELD LOGIC
 
@@ -401,9 +457,9 @@ public class PlayerThird : MonoBehaviour, IDamageable
                 if (!isColliderDisabled) // Check if collider is already disabled
                 {
                     DisablePlayerCollider();
-                    reenableColliderTimer = reenableColliderTime; 
-                    isImmune = true; 
-                    immuneTimer = immuneTimeAfterShield; 
+                    reenableColliderTimer = reenableColliderTime;
+                    isImmune = true;
+                    immuneTimer = immuneTimeAfterShield;
                 }
             }
         }
@@ -422,7 +478,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
         // Update the timer to re-enable the collider if needed
         UpdateTimers();
 
-    }   
+    }
 
     // SHIELD
     public void ActivateShield()
@@ -430,7 +486,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
         if (shield != null)
         {
             shield.Activate();
-            DisablePlayerCollider(); // Disattiva il collider del giocatore quando lo scudo è attivo
+            DisablePlayerCollider(); // Disables the player's collider when the shield is active
             Debug.Log("Shield activated. Player's collider disabled.");
         }
     }
@@ -450,7 +506,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
         if (playerCollider != null)
         {
             playerCollider.enabled = true;
-            isColliderDisabled = false; 
+            isColliderDisabled = false;
         }
     }
 
@@ -459,7 +515,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
         if (playerCollider != null)
         {
             playerCollider.enabled = false;
-            isColliderDisabled = true; 
+            isColliderDisabled = true;
         }
     }
 
@@ -489,23 +545,23 @@ public class PlayerThird : MonoBehaviour, IDamageable
     }
 
 
-
-
     // PICKALE OBJ
-    private void AddKey(int amount) 
+    private void AddKey()
     {
-        keyCount += amount;
+        keyCount++;
+        PlayerPrefs.SetInt("KeyCount", keyCount);
+        ApplyBuffs();
 
-        Debug.Log("Coins collected: " + keyCount);
+        Debug.Log("key collected: " + keyCount);
     }
 
-    private void AddHealth(float amount) 
+    private void AddHealth(float amount)
     {
         health += amount;
-        
+
         if (health > maxHealth)
         {
-            health = maxHealth; 
+            health = maxHealth;
         }
 
         Debug.Log("Picked up health! Added " + amount + " health. Current health: " + health);
@@ -514,12 +570,11 @@ public class PlayerThird : MonoBehaviour, IDamageable
     private void OnTriggerEnter(Collider other)
     {
         IPickable pickable = other.GetComponent<IPickable>();
-            
+
         if (pickable is Key key)
         {
-            // add the coin value to player score
-            AddKey(key.Value);
-            
+            // add the key to player 
+            AddKey();
             pickable.PickUp(gameObject);
         }
         else if (pickable is Health Health)
@@ -529,6 +584,67 @@ public class PlayerThird : MonoBehaviour, IDamageable
         }
     }
 
+
+
+    // LEVEL BUFF LOGIC
+
+    public void SetupBuffs()
+    {
+        OnKeyLevel1.AddListener(() => {
+            health += 25f;
+            PlayerPrefs.SetFloat("PlayerHealth", health);
+            Debug.Log("Level 1 Buff Applied: +25 Health"); //Save the increase health
+        });
+
+        OnKeyLevel2.AddListener(() => {
+
+            //shield.Activate();
+            ActivateShield();
+            PlayerPrefs.SetInt("ShieldActive", 1); // Save the shield state
+            Debug.Log("Level 2 Buff Applied: Shield activated");
+        });
+
+        OnKeyLevel3.AddListener(() => {
+            UpdateMuzzles();
+            PlayerPrefs.SetInt("MuzzlesUpdated", 1); // Salva the update to double barrel
+            Debug.Log("Level 3 Buff Applied: Double Barrel Activate");
+        });
+
+        OnKeyLevel4.AddListener(() => {
+            debugNormalBullet.SetDamage(30f);
+            PlayerPrefs.SetFloat("BulletDamage", 30f); // Save the damage value
+            Debug.Log("Level 4 buff applied: damage increase");
+        });
+    }
+
+    private void ApplyBuffs()
+    {
+        switch (keyCount)
+        {
+
+            case 1:
+
+                OnKeyLevel1?.Invoke();
+                break;
+
+            case 2:
+
+                OnKeyLevel2?.Invoke();
+                break;
+
+            case 3:
+
+                OnKeyLevel3?.Invoke();
+                break;
+
+            case 4:
+
+                OnKeyLevel4?.Invoke();
+                break;
+
+
+        }
+    }
 }
 
 

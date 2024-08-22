@@ -37404,7 +37404,7 @@ Transform:
   m_GameObject: {fileID: 1102604260101451559}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 4}
+  m_LocalPosition: {x: 0, y: 0, z: 0.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -37559,7 +37559,7 @@ Transform:
   m_GameObject: {fileID: 4230496432982240923}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 5.6}
+  m_LocalPosition: {x: 0, y: 0, z: 3.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -37925,8 +37925,10 @@ MonoBehaviour:
   debugNormalBullet: {fileID: 7323170511780658476, guid: bb70438e8d333f84dba3a6e94fa660b8,
     type: 3}
   shootDelay: 1.5
-  muzzles:
-  - {fileID: 1102604260101451559}
+  defaultMuzzlePrefab: {fileID: 7035360175345629555}
+  doubleBarrelMuzzlePrefab: {fileID: 1096344429345337858}
+  muzzleOffset: {x: 0, y: 0, z: 3.7}
+  doubleBarrelOffset: {x: 0, y: 0, z: 3.7}
   missilePrefab: {fileID: 736580092059875413, guid: dc7866c34308a3545a2e161133015bc7,
     type: 3}
   missileSpawnPoint: {fileID: 361846190}
@@ -37936,7 +37938,21 @@ MonoBehaviour:
   visionConeDistance: 50.1
   health: 100
   shield: {fileID: 215049952}
-  barrierMaxHealth: 100
+  barrierMaxHealth: 50
+  reenableColliderTime: 1.5
+  immuneTimeAfterShield: 0.5
+  OnKeyLevel1:
+    m_PersistentCalls:
+      m_Calls: []
+  OnKeyLevel2:
+    m_PersistentCalls:
+      m_Calls: []
+  OnKeyLevel3:
+    m_PersistentCalls:
+      m_Calls: []
+  OnKeyLevel4:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

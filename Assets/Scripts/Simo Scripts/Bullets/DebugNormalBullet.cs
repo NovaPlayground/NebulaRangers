@@ -14,7 +14,7 @@ public class DebugNormalBullet : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        damage = 50.0f; // --> to debug keep it at 50, then update damage to 25.f
+        damage = 25f; 
     }
 
 
@@ -38,6 +38,11 @@ public class DebugNormalBullet : MonoBehaviour
             damageable.TakeDamage(damage);
             Destroy(gameObject);  // Destroy the bullet after hitting the target
         }
+    }
+
+    public void SetDamage(float newDamage) 
+    {
+        damage = newDamage;
     }
 
 
