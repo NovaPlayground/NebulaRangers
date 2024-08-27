@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,7 @@ public class PlayerControllerTop : MonoBehaviour
     private Controls inputActions;
     private InputAction moveAction;
     private InputAction normalShootAction;
+    private InputAction flipAction;
 
     // Start is called before the first frame update
     void Start()
@@ -38,8 +40,12 @@ public class PlayerControllerTop : MonoBehaviour
         normalShootAction = inputActions.FindAction("NormalShoot");
         normalShootAction.performed += OnShoot;
 
+        flipAction = inputActions.FindAction("Flip");
+        flipAction.performed += OnFlip;
+
         moveAction.Enable();
         normalShootAction.Enable();
+        flipAction.Enable();
     }
 
     private void OnDisable()
@@ -51,6 +57,9 @@ public class PlayerControllerTop : MonoBehaviour
 
         normalShootAction.performed -= OnShoot;
         normalShootAction.Disable();
+
+        flipAction.performed -= OnFlip;
+        flipAction.Disable();
     }
 
     private void OnMove(InputAction.CallbackContext context)
@@ -63,9 +72,19 @@ public class PlayerControllerTop : MonoBehaviour
         bool input = context.ReadValueAsButton();
     }
 
+    private void OnFlip(InputAction.CallbackContext context)
+    {
+        bool input = context.ReadValueAsButton();
+    }
+
     public float GetShoot()
     {
         return normalShootAction.ReadValue<float>();
+    }
+
+    public float GetFlip()
+    {
+        return flipAction.ReadValue<float>();
     }
 
     public Vector2 GetMovement()

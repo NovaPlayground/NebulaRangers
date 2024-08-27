@@ -1063,7 +1063,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5978635679677897977, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
         type: 3}
+      propertyPath: ship
+      value: 
+      objectReference: {fileID: 817735749656136738}
+    - target: {fileID: 5978635679677897977, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
+        type: 3}
       propertyPath: speed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5978635679677897977, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 5978635679677897977, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
+        type: 3}
+      propertyPath: baseSpeed
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5978635679677897977, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
@@ -1086,6 +1101,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e, type: 3}
+--- !u!1 &817735749656136738 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1627001431486400913, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
+    type: 3}
+  m_PrefabInstance: {fileID: 817735749656136737}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8693371266218765955 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3374560738770095349, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,

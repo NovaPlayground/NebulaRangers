@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerTop : MonoBehaviour
@@ -7,20 +9,24 @@ public class PlayerTop : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private Camera mainCamera;
     [SerializeField] private float rotationSpeed;
-    [SerializeField] private float speed;
-    [SerializeField] private NormalBullet normalBullet;
-    [SerializeField] private float shootDelay;
     [SerializeField] private GameObject[] muzzles;
+    [SerializeField] private GameObject ship;
+
+    [SerializeField] private float speed;
+    [SerializeField] private float maxSpeed;
+    [SerializeField] private float baseSpeed;
 
     private PlayerControllerTop playerController;
     private Rigidbody rb;
-    private float shootCooldown;
+
+    private float currentRotation = 0.0f;
 
     void Start()
     {
         playerController = GetComponent<PlayerControllerTop>();
         rb = GetComponent<Rigidbody>();
-        shootCooldown = 0.0f;
+
+        speed = baseSpeed;
     }
 
     // Update is called once per frame
@@ -32,8 +38,9 @@ public class PlayerTop : MonoBehaviour
     private void FixedUpdate()
     {
         LookAtMouse();
+        Boost(); 
         Move();
-        Shoot();
+        Flip();
     }
 
     private void LookAtMouse()
@@ -66,30 +73,33 @@ public class PlayerTop : MonoBehaviour
 
         Vector3 movement = movementDirection.x * transform.right + movementDirection.z * transform.forward;
 
-        rb.MovePosition(rb.position + movement *  speed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
     }
 
-    private void Shoot()
+    private void Boost()
     {
         if (playerController.GetShoot() > 0)
         {
-            if (shootCooldown >= shootDelay)
+            if (true)
             {
-                for (int i = 0; i < muzzles.Length; i++)
-                {
-                    Instantiate(normalBullet, muzzles[i].transform.position, transform.rotation);
-                }
-
-                shootCooldown = 0;
-            }
-            else
-            {
-                shootCooldown += Time.fixedDeltaTime;
+                speed = Mathf.Lerp(speed, maxSpeed, Time.fixedDeltaTime);
             }
         }
         else
         {
-            shootCooldown = shootDelay;
+            speed = Mathf.Lerp(speed, baseSpeed, Time.fixedDeltaTime);
         }
+    }
+
+    private void Flip()
+    {
+        if (playerController.GetFlip() > 0)
+        {
+            ship.transform.Rotate(0, 0, 100.0f * Time.fixedDeltaTime);
+        }
+        //else 
+        //{
+        //    ship.transform.Rotate(0, 0, -100.0f * Time.fixedDeltaTime);
+        //}
     }
 }
