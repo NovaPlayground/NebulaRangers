@@ -17,6 +17,7 @@ public class PlayerUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //healthBar.fillAmount = player.GetHealth();
+        Debug.Log(player.GetNormlaizedHealth());
+        healthBar.fillAmount = player.GetNormlaizedHealth();
     }
 }

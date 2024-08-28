@@ -645,6 +645,11 @@ public class PlayerThird : MonoBehaviour, IDamageable
 
         }
     }
+
+    public float GetNormlaizedHealth()
+    {
+        return health / maxHealth;
+    }
 }
 
 
