@@ -40,9 +40,6 @@ public class EnemyShoot : MonoBehaviour, IDamageable
     
 
 
-
-
-
     public void TakeDamage(float damage) 
     {
         //isHit = true;

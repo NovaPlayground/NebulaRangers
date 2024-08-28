@@ -119,3 +119,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 12
+  keyIndex: 1
+  moveAmplitude: 0.5
+  moveFrequency: 1

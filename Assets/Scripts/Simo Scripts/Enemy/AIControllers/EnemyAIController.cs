@@ -23,8 +23,8 @@ public class EnemyAIController : MonoBehaviour
     [SerializeField] private float runToPlayerSpeed = 10f;
     [SerializeField] private float rotationSpeed = 2f;
     [SerializeField] private float acceleration = 5f; //determines the rate at which the spaceship changes its current speed towards the desired speed.
-    [SerializeField] private float followDistance = 10f;
     [SerializeField] private float evadeSpeed = 15f; // Speed when evading the player
+    private float followDistance;
 
     private Vector3 targetDirection;
     private Vector3 randomDirection;
@@ -39,12 +39,14 @@ public class EnemyAIController : MonoBehaviour
     private float movementShootDirectionCooldown;
     private float changeMovementDirCooldown; // cooldown to move
 
+
     // PLAYER 
     [SerializeField] private Transform player;
-    [SerializeField] private Collider shieldCollider; // Collider dello shield del player
+    [SerializeField] private Collider shieldCollider; // Player shield collider
+    private bool hasPlayerEnteredColliderOnce = false; // check if the player has entered the collider at least once
 
     // SHOOT 
-    [SerializeField] private DebugNormalBullet debugNormalBullet;
+    [SerializeField] private MachinegunBullet machinegunBullet;
     [SerializeField] private float shootDelay = 1f;
     [SerializeField] private GameObject[] muzzles;
     private float shootCooldown = 0f;
@@ -53,11 +55,16 @@ public class EnemyAIController : MonoBehaviour
     // STATE 
     private State currentState = State.Patrol;
     private bool isHit = false;
+    private bool isFirstTimePlayerEnters = true;
 
     // ENEMY 
+    [SerializeField] private SphereCollider enemyCollider; // Enemy's SphereCollider 
     private EnemyShoot enemy;
     private Rigidbody enemyRigidbody;
-    
+
+
+
+
 
 
     public EnemyAIController(EnemyShoot enemy)
@@ -75,6 +82,10 @@ public class EnemyAIController : MonoBehaviour
 
         enemyRigidbody = GetComponent<Rigidbody>();
 
+        if (enemyCollider != null)
+        {
+            followDistance = enemyCollider.radius;
+        }
 
         changeMovementDirCooldown = changeDirectionCooldown;
         movementShootDirectionCooldown = changeShootDirectionCooldown;
@@ -237,8 +248,7 @@ public class EnemyAIController : MonoBehaviour
             currentState = State.Patrol;
             isHit = false;
             return;
-        }
-
+        }      
 
         movementShootDirectionCooldown -= Time.deltaTime;
 
@@ -285,17 +295,16 @@ public class EnemyAIController : MonoBehaviour
 
         foreach (var muzzle in muzzles)
         {
-           Instantiate(debugNormalBullet, muzzle.transform.position, muzzle.transform.rotation);
+           Instantiate(machinegunBullet, muzzle.transform.position, muzzle.transform.rotation);
         }
     }
 
-    private void EvadePlayer() 
+    private void EvadePlayer()
     {
-
-
         if (player == null)
         {
             currentState = State.Patrol;
+            hasPlayerEnteredColliderOnce = false; // Resets when the enemy loses reference to the player
             isHit = false;
             return;
         }
@@ -317,105 +326,69 @@ public class EnemyAIController : MonoBehaviour
 
         //check health // logic to decide if run or fight
         evadeCheckCooldown -= Time.deltaTime;
-
-        //if (evadeCheckCooldown <= 0f)
-        //{
-        //    evadeCheckCooldown = evadeCheckInterval;
-
-        //    // Additional conditions to decide whether to continue evading or switch to attacking
-        //    if (player != null && Vector3.Distance(transform.position, player.position) < followDistance && enemy.GetHealth() <= enemy.GetMaxHealth() * 0.5f)
-        //    {
-        //        // If player is within range and enemy health is still below 50%, continue evading
-        //        currentState = State.EvadePlayer;
-        //    }
-        //    else if (Vector3.Distance(transform.position, player.position) >= followDistance * 2f)
-        //    {
-        //        // If player is far enough, return to Patrol state
-        //        currentState = State.Patrol;
-        //        isHit = false; // Reset isHit after deciding to return to patrol
-        //    }
-        //    else if (currentState != State.EvadePlayer)
-        //    {
-        //        // Only switch to attacking if not already in EvadePlayer state
-        //        currentState = State.RunToPlayer;
-        //        isHit = false; // Reset isHit after deciding to attack
-        //    }
-        //    //else
-        //    //{
-        //    //    // Switch to attacking
-        //    //    currentState = State.RunToPlayer;
-        //    //    isHit = false;
-        //    //}
-        //}
+       
         if (evadeCheckCooldown <= 0f)
         {
             evadeCheckCooldown = evadeCheckInterval;
 
+
             // Check if player is within distance and enemy health is still low
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-            if (distanceToPlayer < followDistance * 0.5f && enemy.GetHealth() <= enemy.GetMaxHealth() * 0.5f)
+            float randomChoice = Random.value;
+            Debug.Log($" random number : { randomChoice }");
+
+            if (distanceToPlayer > followDistance * 2f) 
             {
-                // Continue evading if player is close and health is low
-                currentState = State.EvadePlayer;
+                currentState = State.Patrol;
+                hasPlayerEnteredColliderOnce = false; //Reset when player is too far away
+                return;
+            }
+            else if (distanceToPlayer > followDistance * 0.5 && hasPlayerEnteredColliderOnce && randomChoice > 0.5f) 
+            {
+                currentState = State.RunToPlayer;
             }
             else
             {
-                // Randomly decide to continue evading or switch to attacking
-                float randomValue = Random.value;
-                if (randomValue > 0.5f)
-                {
-                    currentState = State.EvadePlayer;
-                }
-                else
-                {
-                    currentState = State.RunToPlayer;
-                    isHit = false; // Reset isHit after deciding to attack
-                }
+                currentState = State.EvadePlayer;
             }
-        }
 
-        //Check if the enemy is far enough away from the player to not immediately return
-        float distanceToKeepEvadePlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToKeepEvadePlayer < followDistance * 0.5f ) // if the player is close, keep evading
-        {
-            currentState = State.EvadePlayer;
         }
-        // QUESTO SI BLOCCA PERCHè PERDE LA TRASFORM DEL PLAYER
-        //else if (distanceToPlayer > followDistance * 2f) // if the player is far, return in patrol state
-        //{
-        //    currentState = State.Patrol;
-        //    isHit = false;
-        //}
 
     }
 
-
-
+ 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") || other == shieldCollider)
-        {
-            //player = other.gameObject.transform;
+        {          
             // Ensure that we are referencing the player's transform even if the shield enters first
             player = other.gameObject.transform.root; // Get the player's root object, which is the player itself
             currentState = State.RunToPlayer;
+
+            float randomChoice = Random.value;
+
+            if (enemy.GetHealth() <= enemy.GetMaxHealth() * 0.5f)  //  MAYBE IT NEEDS TO BE FIXED  // crea un timer che allo scadere del tempo se il nemico è riuscito a scappare rigenera la vita del 100%. se il nemico scende sotto il 25% deve andare in runtoplayer 
+            {
+                currentState = State.EvadePlayer;  
+                hasPlayerEnteredColliderOnce = true; 
+            }
+
         }
-
-
-       
 
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player") || other == shieldCollider)
-        {
-            player = null;
+        {          
             currentState = State.Patrol;
             isHit = false;
+                    
         }
 
-        //isHit = false;
+        
+
+        
     }
 
 }

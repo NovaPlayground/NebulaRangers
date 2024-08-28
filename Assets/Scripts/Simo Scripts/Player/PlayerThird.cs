@@ -43,7 +43,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
 
     // SHOOT 
     // MACHINEGUN
-    [SerializeField] private DebugNormalBullet debugNormalBullet;
+    [SerializeField] private MachinegunBullet machinegunBullet;
     [SerializeField] private float shootDelay;
     [SerializeField] private GameObject defaultMuzzlePrefab; // Default muzzle
     [SerializeField] private GameObject doubleBarrelMuzzlePrefab; // Muzzle double barrel
@@ -112,7 +112,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
         // APPLY BUFF
         SetupBuffs();
         ApplyBuffs();
-      
+        
     }
 
     private void FixedUpdate()
@@ -235,7 +235,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
             {
                 foreach (var muzzle in muzzles)
                 {                  
-                    Instantiate(debugNormalBullet, muzzle.transform.position, transform.rotation); 
+                    Instantiate(machinegunBullet, muzzle.transform.position, transform.rotation); 
                 }
 
                 shootCooldown = 0;
@@ -611,7 +611,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
         });
 
         OnKeyLevel4.AddListener(() => {
-            debugNormalBullet.SetDamage(30f);
+            machinegunBullet.SetDamage(30f);
             PlayerPrefs.SetFloat("BulletDamage", 30f); // Save the damage value
             Debug.Log("Level 4 buff applied: damage increase");
         });
