@@ -618,13 +618,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &724262620
+--- !u!43 &820467391
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-37036(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)
+  m_Name: pb_Mesh-37036(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -1063,7 +1063,7 @@ PrefabInstance:
     - target: {fileID: 1816835506260926471, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -7.97
       objectReference: {fileID: 0}
     - target: {fileID: 1816835506260926471, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
         type: 3}
@@ -1104,63 +1104,27 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 724262620}
+      objectReference: {fileID: 820467391}
     - target: {fileID: 3374560738770095349, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
         type: 3}
       propertyPath: m_Name
       value: PlayerTop
-      objectReference: {fileID: 0}
-    - target: {fileID: 3374560738770095349, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5978635679677897977, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
-        type: 3}
-      propertyPath: ship
-      value: 
-      objectReference: {fileID: 817735749656136738}
-    - target: {fileID: 5978635679677897977, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
-        type: 3}
-      propertyPath: speed
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5978635679677897977, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
-        type: 3}
-      propertyPath: maxSpeed
-      value: 24
-      objectReference: {fileID: 0}
-    - target: {fileID: 5978635679677897977, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
-        type: 3}
-      propertyPath: baseSpeed
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5978635679677897977, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
         type: 3}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 282076090}
-    - target: {fileID: 5978635679677897977, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
-        type: 3}
-      propertyPath: rotationSpeed
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 6981025468875699019, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 724262620}
+      objectReference: {fileID: 820467391}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e, type: 3}
---- !u!1 &817735749656136738 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1627001431486400913, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
-    type: 3}
-  m_PrefabInstance: {fileID: 817735749656136737}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1190215458347703982
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1174,6 +1138,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Portal
       objectReference: {fileID: 0}
+    - target: {fileID: 5011841345101999787, guid: e2d749a3c70bdda4dbca7a50eb8d12fd,
+        type: 3}
+      propertyPath: sceneToLoad
+      value: SimoScene
+      objectReference: {fileID: 0}
     - target: {fileID: 7206257344428699103, guid: e2d749a3c70bdda4dbca7a50eb8d12fd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1182,7 +1151,7 @@ PrefabInstance:
     - target: {fileID: 7206257344428699103, guid: e2d749a3c70bdda4dbca7a50eb8d12fd,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.67398167
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7206257344428699103, guid: e2d749a3c70bdda4dbca7a50eb8d12fd,
         type: 3}

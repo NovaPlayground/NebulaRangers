@@ -18,7 +18,6 @@ public class PlayerTop : MonoBehaviour
 
     private PlayerControllerTop playerController;
     private Rigidbody rb;
-
     private float currentRotation = 0.0f;
 
     void Start()
@@ -97,9 +96,5 @@ public class PlayerTop : MonoBehaviour
         {
             ship.transform.Rotate(0, 0, 100.0f * Time.fixedDeltaTime);
         }
-        //else 
-        //{
-        //    ship.transform.Rotate(0, 0, -100.0f * Time.fixedDeltaTime);
-        //}
     }
 }
