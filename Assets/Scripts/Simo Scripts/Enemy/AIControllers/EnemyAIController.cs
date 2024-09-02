@@ -1,11 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
-using static UnityEngine.UI.GridLayoutGroup;
 
 public class EnemyAIController : MonoBehaviour
 {
@@ -59,11 +53,21 @@ public class EnemyAIController : MonoBehaviour
 
     // ENEMY 
     [SerializeField] private SphereCollider enemyCollider; // Enemy's SphereCollider 
+    [SerializeField] private float healthRegenTime = 5f; // to restore enemy health after a fight if he can evade
+    [SerializeField] private Transform planet;
+    private float healthRegenTimer = 0f;
     private EnemyShoot enemy;
     private Rigidbody enemyRigidbody;
 
 
-
+    // TIMER TO RESET PLAYER (DISTANCES)
+    [SerializeField] private float maxDistanceFromPlanet = 900f;
+    [SerializeField] private float maxDistanceTimer = 8f;
+    [SerializeField] private float minDistanceFromPlanet = 170f; // Distanza minima dal pianeta
+    [SerializeField] private float minDistanceTimer = 8f;
+    private float maDistanceTimer = 0f; // Timer max distance
+    private float miDistanceTimer = 0f; // Timer min distance
+    private bool isDistanceTimerActive = false;
 
 
 
@@ -78,6 +82,12 @@ public class EnemyAIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        // Ref to planet
+        if (planet == null)
+        {
+            planet = GameObject.FindWithTag("Planet").transform;        
+        }
         enemy = GetComponent<EnemyShoot>();
 
         enemyRigidbody = GetComponent<Rigidbody>();
@@ -90,19 +100,22 @@ public class EnemyAIController : MonoBehaviour
         changeMovementDirCooldown = changeDirectionCooldown;
         movementShootDirectionCooldown = changeShootDirectionCooldown;
         evadeCheckCooldown = evadeCheckInterval;
+
         ChangeDirection();
     }
 
     // UPDATES 
     void Update()
     {
+        // VERIFICA IL COMPORTAMENTO
+        //// Check health and update isHit
+        //if (enemy.GetHealth() <= enemy.GetMaxHealth() * 0.5f && !isHit)
+        //{
+        //    isHit = true;
+        //    currentState = State.EvadePlayer;
+        //}
 
-        // Check health and update isHit
-        if (enemy.GetHealth() <= enemy.GetMaxHealth() * 0.5f && !isHit)
-        {
-            isHit = true;
-            currentState = State.EvadePlayer;
-        }
+       
 
         switch (currentState)
         {
@@ -135,7 +148,52 @@ public class EnemyAIController : MonoBehaviour
         }
 
         Patrol();
+
+        // RESTORE HEALTH
+
+        healthRegenTimer += Time.deltaTime;
+
+        if (healthRegenTimer >= 5f)
+        {
+            Debug.Log("restore health");
+            enemy.SetHealth(enemy.GetMaxHealth());
+            healthRegenTimer = 0f;
+        }
+
+        //    // check if enemy go outside of the  map 
+        //float distanceToPlanet = Vector3.Distance(transform.position, planet.position);
+
+        //if (distanceToPlanet > maxDistanceFromPlanet) // || distanceToPlanet < minDistanceFromPlanet
+        //{
+        //    if (!isDistanceTimerActive)
+        //    {
+        //        isDistanceTimerActive = true;
+        //        maDistanceTimer = maxDistanceTimer;
+        //        //miDistanceTimer = minDistanceTimer;
+        //    }
+
+        //    maDistanceTimer -= Time.deltaTime;
+        //    //miDistanceTimer -= Time.deltaTime;
+
+        //    if (maDistanceTimer <= 0f)
+        //    {
+        //        Debug.Log("enemy destroy, out of map");
+        //        Destroy(gameObject);
+        //    }
+
+        //    //if (miDistanceTimer > 0f)
+        //    //{
+        //    //    Debug.Log("enemy destroy, too close to the planet");
+        //    //    Destroy(gameObject);
+        //    //}
+        //}
+        //else
+        //{
+        //    isDistanceTimerActive = false;
+        //}
     }
+
+
 
     private void ShootUpdate()
     {
@@ -201,11 +259,10 @@ public class EnemyAIController : MonoBehaviour
     }
 
 
-
     // STATES 
     private void ChangeDirection()
     {
-        // Genera una direzione casuale in uno spazio sferico unitario e normalizza il vettore
+        // Generates a random direction in a unit spherical space and normalizes the vector
         do
         {
             //randomDirection = Random.insideUnitSphere.normalized;
@@ -234,12 +291,13 @@ public class EnemyAIController : MonoBehaviour
 
         //currentVelocity is used to calculate the target position, allowing the spacecraft to gradually accelerate and decelerate, creating a more natural motion.
         currentVelocity = Vector3.Lerp(currentVelocity, desiredVelocity, acceleration * Time.fixedDeltaTime);
-       
+
         Vector3 targetPosition = enemyRigidbody.position + currentVelocity * patrolSpeed * Time.fixedDeltaTime;
 
         enemyRigidbody.MovePosition(targetPosition);
-       
+
     }
+
 
     private void RunToPlayer()
     {
@@ -339,11 +397,10 @@ public class EnemyAIController : MonoBehaviour
 
             if (distanceToPlayer > followDistance * 2f) 
             {
-                currentState = State.Patrol;
-                hasPlayerEnteredColliderOnce = false; //Reset when player is too far away
+                currentState = State.Patrol;               
                 return;
             }
-            else if (distanceToPlayer > followDistance * 0.5 && hasPlayerEnteredColliderOnce && randomChoice > 0.5f) 
+            else if (distanceToPlayer > followDistance * 0.5 && enemy.GetHealth() <= enemy.GetMaxHealth() * 0.25f) 
             {
                 currentState = State.RunToPlayer;
             }
@@ -365,12 +422,12 @@ public class EnemyAIController : MonoBehaviour
             player = other.gameObject.transform.root; // Get the player's root object, which is the player itself
             currentState = State.RunToPlayer;
 
-            float randomChoice = Random.value;
+            //float randomChoice = Random.value;
 
-            if (enemy.GetHealth() <= enemy.GetMaxHealth() * 0.5f)  //  MAYBE IT NEEDS TO BE FIXED  // crea un timer che allo scadere del tempo se il nemico è riuscito a scappare rigenera la vita del 100%. se il nemico scende sotto il 25% deve andare in runtoplayer 
+            if (enemy.GetHealth() <= enemy.GetMaxHealth() * 0.5f) 
             {
-                currentState = State.EvadePlayer;  
-                hasPlayerEnteredColliderOnce = true; 
+                currentState = State.EvadePlayer;
+                healthRegenTimer = 0f;  
             }
 
         }
@@ -383,7 +440,8 @@ public class EnemyAIController : MonoBehaviour
         {          
             currentState = State.Patrol;
             isHit = false;
-                    
+            healthRegenTimer = 0f; 
+
         }
 
         
