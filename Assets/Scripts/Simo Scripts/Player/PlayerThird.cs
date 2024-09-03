@@ -744,7 +744,10 @@ public class PlayerThird : MonoBehaviour, IDamageable
         // Reload the current scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
     }
-
+    public float GetNormalaizedHealth()
+    {
+        return health / maxHealth;
+    }
 }
 
 
