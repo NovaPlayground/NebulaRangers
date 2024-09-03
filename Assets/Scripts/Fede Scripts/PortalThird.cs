@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Portal : MonoBehaviour, IInteractable
+public class PortalThird : MonoBehaviour
 {
     [SerializeField] private string sceneToLoad;
-    
+
     private bool isPlayerInRange;
-    private PlayerControllerTop playerControllerTop;
+    private PlayerControllerThird playerControllerThird;
 
     void Update()
     {
-        if (isPlayerInRange && playerControllerTop.GetInteract() > 0)
+        if (isPlayerInRange && playerControllerThird.GetInteract() > 0)
         {
             Interact();
-        }    
+        }
     }
 
     public void Interact()
@@ -29,7 +29,7 @@ public class Portal : MonoBehaviour, IInteractable
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = true;
-            playerControllerTop = other.GetComponent<PlayerControllerTop>();
+            playerControllerThird = other.GetComponent<PlayerControllerThird>();
         }
     }
 
@@ -38,7 +38,7 @@ public class Portal : MonoBehaviour, IInteractable
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = false;
-            playerControllerTop = null;
+            playerControllerThird = null;
         }
     }
 }

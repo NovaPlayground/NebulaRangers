@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Portal
+  m_Name: M_PortalThird
   m_Shader: {fileID: -6465566751694194690, guid: 13a8111150cd3254bae61923b03be296,
     type: 3}
   m_Parent: {fileID: 0}
@@ -63,5 +63,5 @@ Material:
     - _Speed: 0.3
     - _TwirlStrength: 64.9
     m_Colors:
-    - _Color: {r: 11.984314, g: 4.2530403, b: 0, a: 0}
+    - _Color: {r: 11.984314, g: 0, b: 0.70337737, a: 0}
   m_BuildTextureStacks: []
