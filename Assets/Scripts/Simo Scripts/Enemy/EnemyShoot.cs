@@ -6,11 +6,11 @@ public class EnemyShoot : MonoBehaviour, IDamageable
 {   
     [SerializeField] private float health = 100f; // Enemy's current health
     [SerializeField] private float maxHealth = 100f; // Enemy's max health
+    [SerializeField] private GameObject healthPickup;
 
     
-    [SerializeField] private GameObject healthPickup;
     private Rigidbody rb;
-    //private bool isHit = false;
+    private SpawnManager spawnManager;
 
     // Start is called before the first frame update
     void Start()
@@ -35,9 +35,11 @@ public class EnemyShoot : MonoBehaviour, IDamageable
 
     public float GetHealth() {  return health; }
     public float GetMaxHealth() { return maxHealth; }
-    //public bool IsHit() { return isHit;  }
-    //public void ResetHit() { isHit = false; }
-    
+  
+    public void SetHealth(float newHealth) 
+    {
+        health = Mathf.Clamp(newHealth, 0, maxHealth);
+    }
 
 
     public void TakeDamage(float damage) 
@@ -60,9 +62,11 @@ public class EnemyShoot : MonoBehaviour, IDamageable
             Debug.Log("Health pickup spawned.");
         }
 
-        Destroy(gameObject);
+        spawnManager.OnEnemyDestroyed(gameObject);
 
-     
+        //Destroy(gameObject);
+        gameObject.SetActive(false);
+
     }
 
 }

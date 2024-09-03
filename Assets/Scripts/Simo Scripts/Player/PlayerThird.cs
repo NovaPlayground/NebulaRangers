@@ -1,10 +1,11 @@
-using System.Threading;
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
-using static UnityEngine.Rendering.DebugUI;
-using System.Linq;
+using System.Collections.Generic;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine.XR;
 
 
 public class PlayerThird : MonoBehaviour, IDamageable
@@ -91,6 +92,23 @@ public class PlayerThird : MonoBehaviour, IDamageable
     public UnityEvent OnKeyLevel3;
     public UnityEvent OnKeyLevel4;
 
+    // OUT OF BOUND 
+    [SerializeField] private float maxDistanceFromPlanet = 650f;
+    [SerializeField] private float timeOutsideBound = 7f;
+    private float timeOutsideBoundTimer = 0f;
+    private bool isWarningActive = false; // Status of the warning message
+
+    // PLANET
+    [SerializeField] private Transform planet;
+
+
+    // UI
+    [SerializeField] private TextMeshProUGUI warningMessage;  // Reference to the warning message in the UI
+
+    // AUDIO
+
+
+
 
 
     private void Start()
@@ -112,7 +130,15 @@ public class PlayerThird : MonoBehaviour, IDamageable
         // APPLY BUFF
         SetupBuffs();
         ApplyBuffs();
-        
+
+
+        // UI
+        if (warningMessage != null)
+        {
+            warningMessage.gameObject.SetActive(false); // set the Text not active
+        }
+
+
     }
 
     private void FixedUpdate()
@@ -123,11 +149,12 @@ public class PlayerThird : MonoBehaviour, IDamageable
         Shoot();
         ShootMissile();
         TargetWithinCone();
+        
     }
 
     private void Update()
     {
-
+        CheckDistanceFromPlanet();
     }
 
 
@@ -235,10 +262,12 @@ public class PlayerThird : MonoBehaviour, IDamageable
             {
                 foreach (var muzzle in muzzles)
                 {                  
-                    Instantiate(machinegunBullet, muzzle.transform.position, transform.rotation); 
+                    Instantiate(machinegunBullet, muzzle.transform.position, transform.rotation);                    
                 }
 
                 shootCooldown = 0;
+
+               
             }
             else
             {
@@ -249,6 +278,8 @@ public class PlayerThird : MonoBehaviour, IDamageable
         {
             shootCooldown = shootDelay;
         }
+
+        
     }
 
 
@@ -587,7 +618,6 @@ public class PlayerThird : MonoBehaviour, IDamageable
 
 
     // LEVEL BUFF LOGIC
-
     public void SetupBuffs()
     {
         OnKeyLevel1.AddListener(() => {
@@ -646,10 +676,75 @@ public class PlayerThird : MonoBehaviour, IDamageable
         }
     }
 
-    public float GetNormlaizedHealth()
+
+
+    // OUT OF BUOND CHECK
+    private void CheckDistanceFromPlanet() 
     {
-        return health / maxHealth;
+        float distanceFromPlanet = Vector3.Distance(transform.position, planet.transform.position);
+
+        if (distanceFromPlanet > maxDistanceFromPlanet)
+        {
+            if (!isWarningActive)
+            {
+                WarningMessage();
+            }
+
+            timeOutsideBoundTimer += Time.deltaTime;
+
+            if (timeOutsideBoundTimer >= timeOutsideBound)
+            {
+                // Destroy the player and reload the level               
+                ResetLevel();
+            }
+        }
+        else
+        {
+            if (isWarningActive) 
+            {
+                DeactivateWarning();
+               
+            }
+
+            timeOutsideBoundTimer = 0f;
+        }
     }
+
+    
+    private void WarningMessage() 
+    {
+        //Method to show the message "Return to the planet"
+        if (warningMessage != null)
+        {
+            warningMessage.gameObject.SetActive(true);
+            warningMessage.text = "GO BACK TO THE PLANET!!";
+        }
+
+        isWarningActive = true;
+        
+    }
+
+
+    private void DeactivateWarning()
+    {
+        if (warningMessage != null)
+        {
+            warningMessage.gameObject.SetActive(false);
+        }
+
+        isWarningActive = false;
+    }
+
+    
+    private void ResetLevel()
+    {
+        // Method to reset the level
+        Destroy(gameObject);
+
+        // Reload the current scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
+    }
+
 }
 
 
