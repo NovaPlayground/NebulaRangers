@@ -12,6 +12,7 @@ public class PlayerControllerThird : MonoBehaviour
     private InputAction rollAction;
     private InputAction shootAction;
     private InputAction shootMissileAction;
+    private InputAction interactAction;
 
     private void Awake()
     {
@@ -42,6 +43,8 @@ public class PlayerControllerThird : MonoBehaviour
         shootMissileAction = inputActions.FindAction("ShootMissile");
         shootMissileAction.performed += OnShootMissile;
 
+        interactAction = inputActions.FindAction("Interact");
+        interactAction.performed += OnInteract;
 
         moveAction.Enable();
         lookAction.Enable();
@@ -49,6 +52,7 @@ public class PlayerControllerThird : MonoBehaviour
         shootAction.Enable();
         shootMissileAction.Enable();
         moveUpDownAction.Enable();
+        interactAction.Enable();
     }
 
     private void OnDisable()
@@ -61,7 +65,7 @@ public class PlayerControllerThird : MonoBehaviour
         shootAction.performed -= OnShoot;
         shootMissileAction.performed -= OnShootMissile;
         moveUpDownAction.performed -= OnMoveUpDown;
-
+        interactAction.performed -= OnInteract;
 
         moveAction.Disable();
         lookAction.Disable();
@@ -69,6 +73,7 @@ public class PlayerControllerThird : MonoBehaviour
         shootAction.Disable();
         shootMissileAction.Disable();
         moveUpDownAction.Disable();
+        interactAction.Disable();
     }
 
     public Vector2 GetMovement()
@@ -92,6 +97,10 @@ public class PlayerControllerThird : MonoBehaviour
         return mousePos;
     }
 
+    public float GetInteract()
+    {
+        return interactAction.ReadValue<float>();
+    }
     private void OnLook(InputAction.CallbackContext context)
     {
         Vector2 lookInput = context.ReadValue<Vector2>();
@@ -120,6 +129,10 @@ public class PlayerControllerThird : MonoBehaviour
     private void OnShootMissile(InputAction.CallbackContext context)
     {
         bool shootInput = context.ReadValueAsButton();
+    }
+    private void OnInteract(InputAction.CallbackContext context)
+    {
+        bool input = context.ReadValueAsButton();
     }
 
     public float GetShoot()

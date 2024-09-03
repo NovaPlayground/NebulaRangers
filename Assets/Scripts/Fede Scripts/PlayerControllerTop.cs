@@ -10,6 +10,7 @@ public class PlayerControllerTop : MonoBehaviour
     private InputAction moveAction;
     private InputAction normalShootAction;
     private InputAction flipAction;
+    private InputAction interactAction;
 
     // Start is called before the first frame update
     void Start()
@@ -43,9 +44,13 @@ public class PlayerControllerTop : MonoBehaviour
         flipAction = inputActions.FindAction("Flip");
         flipAction.performed += OnFlip;
 
+        interactAction = inputActions.FindAction("Interact");
+        interactAction.performed += OnInteract;
+
         moveAction.Enable();
         normalShootAction.Enable();
         flipAction.Enable();
+        interactAction.Enable();
     }
 
     private void OnDisable()
@@ -60,6 +65,9 @@ public class PlayerControllerTop : MonoBehaviour
 
         flipAction.performed -= OnFlip;
         flipAction.Disable();
+
+        interactAction.performed -= OnInteract;
+        interactAction.Disable();
     }
 
     private void OnMove(InputAction.CallbackContext context)
@@ -77,6 +85,11 @@ public class PlayerControllerTop : MonoBehaviour
         bool input = context.ReadValueAsButton();
     }
 
+    private void OnInteract(InputAction.CallbackContext context)
+    {
+        bool input = context.ReadValueAsButton();
+    }
+
     public float GetShoot()
     {
         return normalShootAction.ReadValue<float>();
@@ -90,6 +103,11 @@ public class PlayerControllerTop : MonoBehaviour
     public Vector2 GetMovement()
     {
         return moveAction.ReadValue<Vector2>();
+    }
+
+    public float GetInteract()
+    {
+        return interactAction.ReadValue<float>();
     }
 
     public Vector2 GetMousePosition2D()
