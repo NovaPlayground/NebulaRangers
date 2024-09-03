@@ -7,7 +7,7 @@ public class PortalThird : MonoBehaviour
 {
     [SerializeField] private string sceneToLoad;
 
-    private bool isPlayerInRange;
+    [SerializeField]private bool isPlayerInRange;
     private PlayerControllerThird playerControllerThird;
 
     void Update()
@@ -41,4 +41,5 @@ public class PortalThird : MonoBehaviour
             playerControllerThird = null;
         }
     }
+
 }
