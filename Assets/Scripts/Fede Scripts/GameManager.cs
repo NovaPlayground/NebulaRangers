@@ -8,6 +8,8 @@ using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private Vector3 startingPosition;
+
     public static GameManager Instance;
     public PlayerData PlayerData;
 
@@ -61,5 +63,10 @@ public class GameManager : MonoBehaviour
     {
         PlayerData = new PlayerData(currentHealth);
         Debug.Log("PlayerData created health: " + currentHealth);
+    }
+
+    public void ResetScene()
+    {
+        player.transform.position= startingPosition;
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerTop : MonoBehaviour
+public class PlayerTop : MonoBehaviour, IDamagable
 {
     // Start is called before the first frame update
     [SerializeField] private Camera mainCamera;
@@ -96,5 +96,10 @@ public class PlayerTop : MonoBehaviour
         {
             ship.transform.Rotate(0, 0, 100.0f * Time.fixedDeltaTime);
         }
+    }
+
+    public void TakeDamage()
+    {
+        GameManager.Instance.ResetScene();
     }
 }
