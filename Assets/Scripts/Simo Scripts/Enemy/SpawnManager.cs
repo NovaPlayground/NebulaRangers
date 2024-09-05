@@ -8,19 +8,21 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject[] enemyPrefabs; 
     [SerializeField] private Transform[] spawnPoints;  
     [SerializeField] private float spawnInterval = 4f;
-    [SerializeField] private int maxEnemies = 5;
-    [SerializeField] private int poolSize = 10; // Dimensione dell'Object Pool
-
+    [SerializeField] private int maxEnemiesInScene = 5;
+    [SerializeField] private int totalEnemiesToSpawn = 10; 
+    [SerializeField] private int poolSize = 10; 
 
     private float timer;
+    private int spawnedEnemiesCount; // Counter for enemies already spawned
     private int currentEnemyCount; // Counter for the number of enemies currently active
-    private Queue<GameObject> enemyPool; // Object Pool per i nemici
+    private Queue<GameObject> enemyPool;  
 
     // Start is called before the first frame update
     void Start()
     {
         timer = spawnInterval;
         currentEnemyCount = 0;
+        spawnedEnemiesCount = 0;
 
         InitializePool();
     }
@@ -28,24 +30,18 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (currentEnemyCount < maxEnemies)
-        //{
-        //    timer += Time.deltaTime;
-
-        //    if (timer >= spawnInterval)
-        //    {
-        //        SpawnEnemy();
-        //        timer = 0;
-        //    }
-        //}
-
-        timer += Time.deltaTime;
-
-        if (timer >= spawnInterval && currentEnemyCount < maxEnemies)
+    
+        if (spawnedEnemiesCount < totalEnemiesToSpawn && currentEnemyCount < maxEnemiesInScene) 
         {
-            SpawnEnemy();
-            timer = 0f;
+            timer += Time.deltaTime;
+
+            if (timer >= spawnInterval)
+            {
+                SpawnEnemy();
+                timer = 0f;
+            }
         }
+        
     }
 
     private void InitializePool()
@@ -55,30 +51,17 @@ public class SpawnManager : MonoBehaviour
         for (int i = 0; i < poolSize; i++)
         {
             GameObject enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)]);
-            enemy.SetActive(false); // Disattiva l'oggetto finché non è necessario
+            enemy.SetActive(false); // Deactivate the object until it is needed
             enemyPool.Enqueue(enemy);
         }
     }
 
     private void SpawnEnemy()
     {
-        //foreach (Transform spawnPoint in spawnPoints)
-        //{
-        //    if (currentEnemyCount < maxEnemies) 
-        //    {
-        //        // Select a random enemy from the array
-        //        GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-
-        //        // Spawn enemy 
-        //        Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
-
-        //        currentEnemyCount++;
-        //    }
-        //}
-
-        if (enemyPool.Count > 0 && currentEnemyCount < maxEnemies)
+        
+        if (enemyPool.Count > 0 && currentEnemyCount < maxEnemiesInScene && spawnedEnemiesCount < totalEnemiesToSpawn)
         {
-            // Ricicla un nemico dall'Object Pool
+           
             GameObject enemy = enemyPool.Dequeue();
             Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
             enemy.transform.position = spawnPoint.position;
@@ -86,22 +69,17 @@ public class SpawnManager : MonoBehaviour
             enemy.SetActive(true);
 
             currentEnemyCount++;
+            spawnedEnemiesCount++;
         }
     }
 
-    //public void OnEnemyDestroyed()
-    //{
-    //    //be careful if you don't use this the counter won't update properly and you may reach a situation where no more enemies are spawning even though some have been eliminated.
-    //    currentEnemyCount--;
-    //}
+   
 
     public void OnEnemyDestroyed(GameObject enemy)
     {
-        // Quando un nemico viene distrutto, disattivalo e rimettilo nell'Object Pool
+        // Don't put the enemy back into the pool, just deactivate it
         enemy.SetActive(false);
-        enemyPool.Enqueue(enemy);
 
-        // Aggiorna il contatore dei nemici attivi
         currentEnemyCount--;
     }
 }
