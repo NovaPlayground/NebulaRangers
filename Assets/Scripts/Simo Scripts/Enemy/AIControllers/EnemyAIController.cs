@@ -56,8 +56,12 @@ public class EnemyAIController : MonoBehaviour
     [SerializeField] private float healthRegenTime = 5f; // to restore enemy health after a fight if he can evade
     [SerializeField] private Transform planet;
     private float healthRegenTimer = 0f;
-    private EnemyShoot enemy;
+    //private EnemyShoot enemy;
+    //private EnemyShield enemyShield;
     private Rigidbody enemyRigidbody;
+
+    // INTERFACE
+    private IEnemy enemy;
 
 
     // CHECK OUT OF BOUND
@@ -68,12 +72,38 @@ public class EnemyAIController : MonoBehaviour
     private SpawnManager spawnManager;
 
 
-    public EnemyAIController(EnemyShoot enemy)
+    //public EnemyAIController(EnemyShoot enemy)
+    //{
+    //    this.enemy = enemy;
+    //    enemyRigidbody = enemy.GetRigidbody();
+
+    //}
+
+    public EnemyAIController(IEnemy enemy)
     {
         this.enemy = enemy;
         enemyRigidbody = enemy.GetRigidbody();
-          
+
     }
+
+    //public EnemyAIController(MonoBehaviour enemy)
+    //{
+    //    if (enemy is EnemyShoot)
+    //    {
+    //        this.enemy = enemy as EnemyShoot;
+    //        enemyRigidbody = this.enemy.GetRigidbody();
+    //    }
+    //    else if (enemy is EnemyShield)
+    //    {
+    //        var enemyShield = enemy as EnemyShield;
+    //        enemyRigidbody = enemyShield.GetRigidbody();
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("Enemy type not supported.");
+    //    }
+
+    //}
 
 
     // Start is called before the first frame update
@@ -85,7 +115,8 @@ public class EnemyAIController : MonoBehaviour
         {
             planet = GameObject.FindWithTag("Planet").transform;        
         }
-        enemy = GetComponent<EnemyShoot>();
+        //enemy = GetComponent<EnemyShoot>();
+        enemy = GetComponent<IEnemy>();
 
         enemyRigidbody = GetComponent<Rigidbody>();
         

@@ -9,13 +9,14 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private Transform[] spawnPoints;  
     [SerializeField] private float spawnInterval = 4f;
     [SerializeField] private int maxEnemiesInScene = 5;
-    [SerializeField] private int totalEnemiesToSpawn = 10; 
-    [SerializeField] private int poolSize = 10; 
+    [SerializeField] private int totalEnemiesToSpawn = 10;
+    //[SerializeField] private int poolSize = 10; 
+    
 
     private float timer;
     private int spawnedEnemiesCount; // Counter for enemies already spawned
     private int currentEnemyCount; // Counter for the number of enemies currently active
-    private Queue<GameObject> enemyPool;  
+    //private Queue<GameObject> enemyPool;  
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +25,7 @@ public class SpawnManager : MonoBehaviour
         currentEnemyCount = 0;
         spawnedEnemiesCount = 0;
 
-        InitializePool();
+        //InitializePool();
     }
 
     // Update is called once per frame
@@ -44,29 +45,36 @@ public class SpawnManager : MonoBehaviour
         
     }
 
-    private void InitializePool()
-    {
-        enemyPool = new Queue<GameObject>();
+    //private void InitializePool()
+    //{
+    //    enemyPool = new Queue<GameObject>();
 
-        for (int i = 0; i < poolSize; i++)
-        {
-            GameObject enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)]);
-            enemy.SetActive(false); // Deactivate the object until it is needed
-            enemyPool.Enqueue(enemy);
-        }
-    }
+    //    for (int i = 0; i < poolSize; i++)
+    //    {
+    //        //GameObject enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)]);
+    //        GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+    //        GameObject enemy = Instantiate(enemyPrefab);
+    //        enemy.SetActive(false); // Deactivate the object until it is needed
+    //        enemyPool.Enqueue(enemy);
+    //    }
+    //}
 
     private void SpawnEnemy()
     {
-        
-        if (enemyPool.Count > 0 && currentEnemyCount < maxEnemiesInScene && spawnedEnemiesCount < totalEnemiesToSpawn)
+
+        if (currentEnemyCount < maxEnemiesInScene && spawnedEnemiesCount < totalEnemiesToSpawn)
         {
-           
-            GameObject enemy = enemyPool.Dequeue();
+
+            GameObject enemy = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
             Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-            enemy.transform.position = spawnPoint.position;
-            enemy.transform.rotation = Quaternion.identity;
-            enemy.SetActive(true);
+
+            GameObject newEnemy = Instantiate(enemy, spawnPoint.position, Quaternion.identity);
+
+            IDestroyable destroyable = newEnemy.GetComponent<IDestroyable>();
+            if(destroyable != null) 
+            {
+                destroyable.OnDestroyed += OnEnemyDestroyed;
+            }
 
             currentEnemyCount++;
             spawnedEnemiesCount++;
@@ -77,10 +85,10 @@ public class SpawnManager : MonoBehaviour
 
     public void OnEnemyDestroyed(GameObject enemy)
     {
-        // Don't put the enemy back into the pool, just deactivate it
-        enemy.SetActive(false);
-
         currentEnemyCount--;
+        Destroy(enemy);
+
+        Debug.Log($"Enemy destroyed: {enemy.name}");
     }
 }
 
