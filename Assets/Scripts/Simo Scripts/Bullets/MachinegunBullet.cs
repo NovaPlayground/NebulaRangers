@@ -37,6 +37,7 @@ public class MachinegunBullet : MonoBehaviour
         {
             damageable.TakeDamage(damage);
             Destroy(gameObject);  // Destroy the bullet after hitting the target
+            
         }
     }
 

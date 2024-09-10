@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1491466995038378504}
   - component: {fileID: 4101251034821397913}
   m_Layer: 0
-  m_Name: ShieldEnemy
+  m_Name: ShieldEnemy 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,7 +98,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shield: {fileID: 3016381508169278527}
-  shieldHealth: 50
 --- !u!135 &4101251034821397913
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -114,7 +113,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

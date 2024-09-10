@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class EnemyAIController : MonoBehaviour
@@ -36,7 +35,7 @@ public class EnemyAIController : MonoBehaviour
 
     // PLAYER 
     [SerializeField] private Transform player;
-    [SerializeField] private Collider shieldCollider; // Player shield collider
+    [SerializeField] private Collider playerShieldCollider; // Player shield collider
     private bool hasPlayerEnteredColliderOnce = false; // check if the player has entered the collider at least once
 
     // SHOOT 
@@ -55,9 +54,8 @@ public class EnemyAIController : MonoBehaviour
     [SerializeField] private SphereCollider enemyCollider; // Enemy's SphereCollider 
     [SerializeField] private float healthRegenTime = 5f; // to restore enemy health after a fight if he can evade
     [SerializeField] private Transform planet;
+
     private float healthRegenTimer = 0f;
-    //private EnemyShoot enemy;
-    //private EnemyShield enemyShield;
     private Rigidbody enemyRigidbody;
 
     // INTERFACE
@@ -86,26 +84,6 @@ public class EnemyAIController : MonoBehaviour
 
     }
 
-    //public EnemyAIController(MonoBehaviour enemy)
-    //{
-    //    if (enemy is EnemyShoot)
-    //    {
-    //        this.enemy = enemy as EnemyShoot;
-    //        enemyRigidbody = this.enemy.GetRigidbody();
-    //    }
-    //    else if (enemy is EnemyShield)
-    //    {
-    //        var enemyShield = enemy as EnemyShield;
-    //        enemyRigidbody = enemyShield.GetRigidbody();
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("Enemy type not supported.");
-    //    }
-
-    //}
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -115,7 +93,8 @@ public class EnemyAIController : MonoBehaviour
         {
             planet = GameObject.FindWithTag("Planet").transform;        
         }
-        //enemy = GetComponent<EnemyShoot>();
+
+        
         enemy = GetComponent<IEnemy>();
 
         enemyRigidbody = GetComponent<Rigidbody>();
@@ -193,8 +172,6 @@ public class EnemyAIController : MonoBehaviour
         }
 
     }
-
-
 
     private void ShootUpdate()
     {
@@ -410,14 +387,12 @@ public class EnemyAIController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") || other == shieldCollider)
+        if (other.CompareTag("Player") || other == playerShieldCollider)
         {
             // Ensure that we are referencing the player's transform even if the shield enters first
             player = other.gameObject.transform.root; // Get the player's root object, which is the player itself
             currentState = State.RunToPlayer;
-
-            //float randomChoice = Random.value;
-
+            
             if (enemy.GetHealth() <= enemy.GetMaxHealth() * 0.5f)
             {
                 currentState = State.EvadePlayer;
@@ -430,7 +405,7 @@ public class EnemyAIController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") || other == shieldCollider)
+        if (other.CompareTag("Player") || other == playerShieldCollider)
         {          
             currentState = State.Patrol;
             isHit = false;

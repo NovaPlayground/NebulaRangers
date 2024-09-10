@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyShoot : MonoBehaviour, IDamageable, IDestroyable, IEnemy
@@ -61,7 +59,7 @@ public class EnemyShoot : MonoBehaviour, IDamageable, IDestroyable, IEnemy
         // Gestione della morte del nemico
         OnDestroyed?.Invoke(gameObject); // Notifica lo SpawnManager della distruzione
 
-        spawnManager.OnEnemyDestroyed(gameObject);
+        //spawnManager.OnEnemyDestroyed(gameObject);
 
         //Destroy(gameObject);
         gameObject.SetActive(false);

@@ -134,7 +134,6 @@ GameObject:
   - component: {fileID: 118328851}
   - component: {fileID: 118328850}
   - component: {fileID: 118328849}
-  - component: {fileID: 118328852}
   m_Layer: 5
   m_Name: RestartButton
   m_TagString: Untagged
@@ -206,9 +205,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 688138026}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: PlayGame
+      - m_Target: {fileID: 381643655}
+        m_TargetAssemblyTypeName: GameOverScene, Assembly-CSharp
+        m_MethodName: Restart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -256,18 +255,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 118328847}
   m_CullTransparentMesh: 1
---- !u!114 &118328852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 118328847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23f4dae4aef2f414591a641d94b44760, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &150712454
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,9 +338,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 688138026}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: QuitGame
+      - m_Target: {fileID: 381643655}
+        m_TargetAssemblyTypeName: GameOverScene, Assembly-CSharp
+        m_MethodName: LoadMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -550,6 +537,7 @@ GameObject:
   - component: {fileID: 381643653}
   - component: {fileID: 381643652}
   - component: {fileID: 381643651}
+  - component: {fileID: 381643655}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -641,6 +629,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &381643655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381643650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23f4dae4aef2f414591a641d94b44760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenuSceneName: MainMenu
+  endGameMenuSceneName: EndGameMenu
 --- !u!1 &688138024
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,6 +653,7 @@ GameObject:
   m_Component:
   - component: {fileID: 688138025}
   - component: {fileID: 688138026}
+  - component: {fileID: 688138027}
   m_Layer: 5
   m_Name: GameOverMenu
   m_TagString: Untagged
@@ -691,6 +694,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 047087501a1fdbf4691c9cb7d30cd83d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &688138027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688138024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23f4dae4aef2f414591a641d94b44760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenuSceneName: MainMenu
+  endGameMenuSceneName: EndGameMenu
 --- !u!1001 &805982937
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ public class Key : MonoBehaviour,IPickable
 {
     [SerializeField] private float rotationSpeed = 12f;
     [SerializeField] private int keyIndex; // Used to identify the key level
+    
    
 
     private void Start()

@@ -9,8 +9,7 @@ public class Missile : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float damage;
-    [SerializeField] private float lifeSpan;
-    //[SerializeField] private float lockOnRange = 50f; // Target search radius
+    [SerializeField] private float lifeSpan;   
 
     //HomingAccuracy value:
     // Higher values (closer to 1) : the missile will quicly orient itself toward the target, following the path very precisely;
@@ -34,12 +33,7 @@ public class Missile : MonoBehaviour
        
         if (target != null) 
         {
-            // IF U KEEP THE CODE LIKE THIS U CAN HAVE A "REMOTE-GUIDED" MISSILE
-            //Vector3 directionToTarget = (target.position - transform.position).normalized;
-            //transform.position += directionToTarget * speed * Time.fixedDeltaTime;
-            //transform.LookAt(target); 
-
-
+        
             // direction  to target
             Vector3 direction = (target.position - transform.position).normalized;
 
@@ -76,6 +70,7 @@ public class Missile : MonoBehaviour
         if (damageable != null)
         {
             damageable.TakeDamage(damage);
+            Destroy(gameObject);
         }
     }
 

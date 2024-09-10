@@ -1,17 +1,14 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.Events;
-using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-using UnityEngine.XR;
 
 
 public class PlayerThird : MonoBehaviour, IDamageable
 {
     // CAMERA
-    [SerializeField] private Camera mainCamera;
+    //[SerializeField] private Camera mainCamera;
 
     // RIGIDBODY 
     private Rigidbody rbThird;
@@ -75,13 +72,11 @@ public class PlayerThird : MonoBehaviour, IDamageable
 
     // SHIELD
     [SerializeField] private Shield shield;
-    [SerializeField] private float barrierMaxHealth = 100f;
-    [SerializeField] private float reenableColliderTime = 1.5f; // Time to wait before re-enabling the collider
-    [SerializeField] private float immuneTimeAfterShield = 0.5f; // Time during which the player is immune to damage after shield is destroyed
-    private float reenableColliderTimer = 0f; // Tracks the remaining time to re-enable the collider
-    private float immuneTimer = 0f; // Timer to handle immune state
+    [SerializeField] private float shieldHealth = 50f;
+    [SerializeField] private float shieldDelay = 1.5f;
+    private float shieldDelayTimer;
     private bool isColliderDisabled = false;
-    private bool isImmune = false;
+    
 
     // KEY
     private int keyCount = 0;
@@ -104,20 +99,22 @@ public class PlayerThird : MonoBehaviour, IDamageable
 
     // UI
     [SerializeField] private TextMeshProUGUI warningMessage;  // Reference to the warning message in the UI
-
+    
     // AUDIO
 
 
+    
 
 
 
     private void Start()
     {
+
         rbThird = GetComponent<Rigidbody>();
         playerController = GetComponent<PlayerControllerThird>();
         playerCollider = GetComponent<BoxCollider>();
         shootCooldown = 0.0f;
-
+        
         // MUZZEL
         if (defaultMuzzlePrefab != null)
         {
@@ -125,7 +122,8 @@ public class PlayerThird : MonoBehaviour, IDamageable
         }
 
         // SHIELD
-        shield.Initialize(100f);
+        shield.Initialize(shieldHealth);
+        //EnableShield();
 
         // APPLY BUFF
         SetupBuffs();
@@ -137,7 +135,6 @@ public class PlayerThird : MonoBehaviour, IDamageable
         {
             warningMessage.gameObject.SetActive(false); // set the Text not active
         }
-
 
     }
 
@@ -155,6 +152,17 @@ public class PlayerThird : MonoBehaviour, IDamageable
     private void Update()
     {
         CheckDistanceFromPlanet();
+        
+        if (!shield.IsShieldActive()) 
+        {
+
+            shieldDelayTimer -= Time.deltaTime;
+
+            if (shieldDelayTimer <= 0f) 
+            {
+               EnablePlayerCollider();
+            }
+        }
     }
 
 
@@ -287,6 +295,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
     // RIMANE DA DEBUGGARE I RAYCAST, PERCHè LA CONDIZIONE IF NON VIENE MAI SODDISFATTA MA ENTRA SOLO NELL'ELSE
 
     private void UpdateMuzzles()
+
     {
         if (defaultMuzzlePrefab != null && muzzles.Length > 0)
         {
@@ -321,6 +330,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
         }
         
     }
+
     private void TargetWithinCone()
     {
         // check if target is outside the player's cone vision
@@ -381,6 +391,8 @@ public class PlayerThird : MonoBehaviour, IDamageable
         }
 
     }
+
+
 
     private void FindNewTarget()
     {
@@ -465,72 +477,44 @@ public class PlayerThird : MonoBehaviour, IDamageable
         }
     }
 
-
+    
+    
 
     // DAMAGE LOGIC
     public void TakeDamage(float damage)
     {
-        // SHIELD LOGIC
-
-        if (isImmune) // Check if player is currently immune
+        // SHIELD
+        if (shield.IsShieldActive())
         {
-            return;
+            shield.AbsorbDamage(damage); // Reindirizza i danni allo scudo
+            Debug.Log("Danno assorbito dallo scudo.");          
+            return; // Esci dal metodo se lo scudo prende il danno
         }
 
-        if (shield != null && shield.IsShieldActive())
+        health -= damage;
+        Debug.Log("player health : " + health);
+        if (health <= 0f)
         {
-            if (shield.AbsorbDamage(damage))
-            {
-                return;
-            }
-            if (!shield.IsShieldActive())
-            {
-                if (!isColliderDisabled) // Check if collider is already disabled
-                {
-                    DisablePlayerCollider();
-                    reenableColliderTimer = reenableColliderTime;
-                    isImmune = true;
-                    immuneTimer = immuneTimeAfterShield;
-                }
-            }
-        }
-        if (!isColliderDisabled)
-        {
-            // If the barrier is not active or not enough to absorb damage, reduce player health
-            health -= damage;
+            Destroy(gameObject);
+            Debug.Log("Player has died.");
 
-            if (health <= 0f)
-            {
-                Destroy(gameObject);
-                Debug.Log("Player has died.");
-            }
-        }
+            // Trigger the Game Over scene
+            //FindObjectOfType<GameOverScene>().TriggerGameOver();
+        }   
 
-        // Update the timer to re-enable the collider if needed
-        UpdateTimers();
-
+  
     }
 
-    // SHIELD
-    public void ActivateShield()
+  
+    private void EnableShield() 
     {
-        if (shield != null)
-        {
-            shield.Activate();
-            DisablePlayerCollider(); // Disables the player's collider when the shield is active
-            Debug.Log("Shield activated. Player's collider disabled.");
-        }
+        
+        shield.Activate();
+        DisablePlayerCollider(); // Disables the player's collider when the shield is active
+        shieldDelayTimer = shieldDelay;
+        Debug.Log("Shield activated. Player's collider disabled.");
     }
 
-    public void DeactivateShield()
-    {
-        if (shield != null)
-        {
-            shield.Deactivate();
-            EnablePlayerCollider(); // Riattiva il collider del giocatore quando lo scudo è disattivato
-            Debug.Log("Shield deactivated. Player's collider enabled.");
-        }
-    }
 
     private void EnablePlayerCollider()
     {
@@ -538,6 +522,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
         {
             playerCollider.enabled = true;
             isColliderDisabled = false;
+
         }
     }
 
@@ -550,30 +535,6 @@ public class PlayerThird : MonoBehaviour, IDamageable
         }
     }
 
-    private void UpdateTimers()
-    {
-        if (isColliderDisabled)
-        {
-            reenableColliderTimer -= Time.deltaTime; // Decrement the timer
-            if (reenableColliderTimer <= 0f)
-            {
-                EnablePlayerCollider(); // Re-enable the collider
-            }
-        }
-
-        if (isImmune)
-        {
-            immuneTimer -= Time.deltaTime; // Decrement the immune timer
-            if (immuneTimer <= 0f)
-            {
-                isImmune = false; // Reset the immune state
-            }
-        }
-    }
-    private void OnDestroy()
-    {
-        EnablePlayerCollider();
-    }
 
 
     // PICKALE OBJ
@@ -627,9 +588,8 @@ public class PlayerThird : MonoBehaviour, IDamageable
         });
 
         OnKeyLevel2.AddListener(() => {
-
-            //shield.Activate();
-            ActivateShield();
+            
+            EnableShield();
             PlayerPrefs.SetInt("ShieldActive", 1); // Save the shield state
             Debug.Log("Level 2 Buff Applied: Shield activated");
         });
@@ -744,6 +704,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
         // Reload the current scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
     }
+
     public float GetNormalaizedHealth()
     {
         return health / maxHealth;
