@@ -13,13 +13,16 @@ public class EnemyShoot : MonoBehaviour, IDamageable, IDestroyable, IEnemy
     // Start is called before the first frame update
     void Start()
     {
+        spawnManager = FindObjectOfType<SpawnManager>();
+
+        health = maxHealth;
    
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+        
     }
 
 
@@ -41,29 +44,32 @@ public class EnemyShoot : MonoBehaviour, IDamageable, IDestroyable, IEnemy
 
     public void TakeDamage(float damage)
     {
-        //isHit = true;
+        
         health -= damage;
+        
 
         if (health <= 0f)
         {
+
             Die();
         }
     }
 
 
-    public void Die() 
+    public void Die()
     {
 
-        
+        // Management of enemy death
+        OnDestroyed?.Invoke(gameObject); // Notifies SpawnManager of destruction
 
-        // Gestione della morte del nemico
-        OnDestroyed?.Invoke(gameObject); // Notifica lo SpawnManager della distruzione
 
-        //spawnManager.OnEnemyDestroyed(gameObject);
+        spawnManager.OnEnemyDestroyed(gameObject);
 
-        //Destroy(gameObject);
+
         gameObject.SetActive(false);
 
     }
 
 }
+
+

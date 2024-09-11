@@ -457,7 +457,7 @@ PrefabInstance:
     - target: {fileID: 4265455768031308118, guid: 5b82fd751e45e884488bd72a0b90ddbb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -239.6
+      value: -396
       objectReference: {fileID: 0}
     - target: {fileID: 4265455768031308118, guid: 5b82fd751e45e884488bd72a0b90ddbb,
         type: 3}
@@ -499,6 +499,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerThird 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7854611190762292396, guid: 5b82fd751e45e884488bd72a0b90ddbb,
+        type: 3}
+      propertyPath: warningMessage
+      value: 
+      objectReference: {fileID: 2049898921}
     - target: {fileID: 9191067127638769148, guid: 5b82fd751e45e884488bd72a0b90ddbb,
         type: 3}
       propertyPath: m_Mesh
@@ -1654,8 +1659,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
-  - {fileID: 5361355236724229875, guid: 503d94527e4afbd4ba4f5c4dd6152e8b, type: 3}
-  - {fileID: 5663849756863508773, guid: 895618bec20d42a44a5d27a9143c3280, type: 3}
+  - {fileID: 2707676725623522778, guid: 61e7ba74ae99d524ea0ed4841cbe4083, type: 3}
+  - {fileID: 1877121713364082444, guid: da9f877f0e22a29458931dc0f88b6cea, type: 3}
   spawnPoints:
   - {fileID: 140977970}
   - {fileID: 1477621243}
@@ -2252,7 +2257,7 @@ Transform:
   m_GameObject: {fileID: 5757788497128783363}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 127, z: -465}
+  m_LocalPosition: {x: 0, y: 127, z: -894}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

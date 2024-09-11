@@ -16,7 +16,7 @@ public class SpawnManager : MonoBehaviour
     // KEY
 
     [SerializeField] private GameObject keyPrefab; 
-    [SerializeField] private Transform keySpawnPoint; // Punto dove la chiave apparirà
+    [SerializeField] private Transform keySpawnPoint; 
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +25,6 @@ public class SpawnManager : MonoBehaviour
         currentEnemyCount = 0;
         spawnedEnemiesCount = 0;
 
-        
     }
 
     // Update is called once per frame
@@ -55,7 +54,7 @@ public class SpawnManager : MonoBehaviour
             GameObject enemy = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
             Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
-            GameObject newEnemy = Instantiate(enemy, spawnPoint.position, Quaternion.identity);
+            GameObject newEnemy = Instantiate(enemy, spawnPoint.position, Quaternion.identity);          
 
             IDestroyable destroyable = newEnemy.GetComponent<IDestroyable>();
             if(destroyable != null) 
@@ -73,7 +72,7 @@ public class SpawnManager : MonoBehaviour
         if(keyPrefab != null && keySpawnPoint != null) 
         {
             Instantiate(keyPrefab,keySpawnPoint.position, Quaternion.identity);
-            Debug.Log("Key spawned at position: " + keySpawnPoint.position);
+            
         }
     }
 
@@ -81,9 +80,11 @@ public class SpawnManager : MonoBehaviour
     {
         currentEnemyCount--;
         Destroy(enemy);
-      
-        if(currentEnemyCount == 0 && spawnedEnemiesCount == totalEnemiesToSpawn) 
+        
+
+        if (currentEnemyCount == 0 && spawnedEnemiesCount == totalEnemiesToSpawn) 
         {
+            
             Spawnkey();
         }
     }

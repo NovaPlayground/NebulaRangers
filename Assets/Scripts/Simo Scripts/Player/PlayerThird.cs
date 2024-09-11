@@ -1,15 +1,11 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
 
 public class PlayerThird : MonoBehaviour, IDamageable
 {
-    // CAMERA
-    //[SerializeField] private Camera mainCamera;
-
     // RIGIDBODY 
     private Rigidbody rbThird;
 
@@ -74,6 +70,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
     [SerializeField] private Shield shield;
     [SerializeField] private float shieldHealth = 50f;
     [SerializeField] private float shieldDelay = 1.5f;
+
     private float shieldDelayTimer;
     private bool isColliderDisabled = false;
     
@@ -122,8 +119,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
         }
 
         // SHIELD
-        shield.Initialize(shieldHealth);
-        //EnableShield();
+        shield.Initialize(shieldHealth);        
 
         // APPLY BUFF
         SetupBuffs();
@@ -134,6 +130,12 @@ public class PlayerThird : MonoBehaviour, IDamageable
         if (warningMessage != null)
         {
             warningMessage.gameObject.SetActive(false); // set the Text not active
+        }
+
+        // PLANET 
+        if (planet == null)
+        {
+            planet = GameObject.FindWithTag("Planet").transform;
         }
 
     }

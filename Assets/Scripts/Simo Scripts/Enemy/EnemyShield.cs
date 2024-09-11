@@ -84,11 +84,8 @@ public class EnemyShield : MonoBehaviour, IDamageable, IDestroyable, IEnemy
         
         if (health <= 0f)
         {
-            //Destroy(gameObject);
-            Debug.Log("enemy has died.");
+            
             Die();
-
-
         }
     }
 
@@ -98,7 +95,7 @@ public class EnemyShield : MonoBehaviour, IDamageable, IDestroyable, IEnemy
         shield.Activate();
         DisablePlayerCollider(); // Disables the player's collider when the shield is active
         shieldDelayTimer = shieldDelay;
-        Debug.Log("Shield activated. Player's collider disabled.");
+        
     }
 
 

@@ -159,6 +159,7 @@ public class EnemyAIController : MonoBehaviour
         {
             
             DestroyAndRespawn();
+            
         }
 
 
@@ -378,6 +379,8 @@ public class EnemyAIController : MonoBehaviour
 
     private void DestroyAndRespawn() 
     {
+        
+
         // Notifica lo SpawnManager della distruzione del nemico
         spawnManager.OnEnemyDestroyed(gameObject);
 
