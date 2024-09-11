@@ -711,6 +711,13 @@ public class PlayerThird : MonoBehaviour, IDamageable
     {
         return health / maxHealth;
     }
+
+
+    public void SetCurrentHealth(float currentHealth) 
+    {
+        health = currentHealth;
+   
+    }
 }
 
 

@@ -63,6 +63,6 @@ public class GameManager : MonoBehaviour
 
     public void ResetScene()
     {
-        player.transform.position= startingPosition;
+        //player.transform.position= startingPosition;
     }
 }
