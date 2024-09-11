@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class EnemyAIController : MonoBehaviour
@@ -36,7 +35,7 @@ public class EnemyAIController : MonoBehaviour
 
     // PLAYER 
     [SerializeField] private Transform player;
-    [SerializeField] private Collider shieldCollider; // Player shield collider
+    [SerializeField] private Collider playerShieldCollider; // Player shield collider
     private bool hasPlayerEnteredColliderOnce = false; // check if the player has entered the collider at least once
 
     // SHOOT 
@@ -55,29 +54,35 @@ public class EnemyAIController : MonoBehaviour
     [SerializeField] private SphereCollider enemyCollider; // Enemy's SphereCollider 
     [SerializeField] private float healthRegenTime = 5f; // to restore enemy health after a fight if he can evade
     [SerializeField] private Transform planet;
+
     private float healthRegenTimer = 0f;
-    private EnemyShoot enemy;
     private Rigidbody enemyRigidbody;
 
-
-    // TIMER TO RESET PLAYER (DISTANCES)
-    [SerializeField] private float maxDistanceFromPlanet = 900f;
-    [SerializeField] private float maxDistanceTimer = 8f;
-    [SerializeField] private float minDistanceFromPlanet = 170f; // Distanza minima dal pianeta
-    [SerializeField] private float minDistanceTimer = 8f;
-    private float maDistanceTimer = 0f; // Timer max distance
-    private float miDistanceTimer = 0f; // Timer min distance
-    private bool isDistanceTimerActive = false;
+    // INTERFACE
+    private IEnemy enemy;
 
 
+    // CHECK OUT OF BOUND
+    [SerializeField] private float maxDistanceFromPlanet;
 
-    public EnemyAIController(EnemyShoot enemy)
+
+    // SPAWN MANAGER
+    private SpawnManager spawnManager;
+
+
+    //public EnemyAIController(EnemyShoot enemy)
+    //{
+    //    this.enemy = enemy;
+    //    enemyRigidbody = enemy.GetRigidbody();
+
+    //}
+
+    public EnemyAIController(IEnemy enemy)
     {
         this.enemy = enemy;
         enemyRigidbody = enemy.GetRigidbody();
-          
-    }
 
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -88,9 +93,12 @@ public class EnemyAIController : MonoBehaviour
         {
             planet = GameObject.FindWithTag("Planet").transform;        
         }
-        enemy = GetComponent<EnemyShoot>();
+
+        
+        enemy = GetComponent<IEnemy>();
 
         enemyRigidbody = GetComponent<Rigidbody>();
+        
 
         if (enemyCollider != null)
         {
@@ -102,21 +110,15 @@ public class EnemyAIController : MonoBehaviour
         evadeCheckCooldown = evadeCheckInterval;
 
         ChangeDirection();
+
+        // SPAWN
+        spawnManager = FindObjectOfType<SpawnManager>();
     }
 
     // UPDATES 
     void Update()
     {
-        // VERIFICA IL COMPORTAMENTO
-        //// Check health and update isHit
-        //if (enemy.GetHealth() <= enemy.GetMaxHealth() * 0.5f && !isHit)
-        //{
-        //    isHit = true;
-        //    currentState = State.EvadePlayer;
-        //}
-
-       
-
+  
         switch (currentState)
         {
             case State.Patrol:
@@ -149,51 +151,28 @@ public class EnemyAIController : MonoBehaviour
 
         Patrol();
 
-        // RESTORE HEALTH
 
+        // CHECK DISTANCE FROM PLANET
+        float distanceToPlanet = Vector3.Distance(transform.position, planet.position);
+
+        if (distanceToPlanet > maxDistanceFromPlanet) 
+        {
+            
+            DestroyAndRespawn();
+            
+        }
+
+
+        // RESTORE HEALTH
         healthRegenTimer += Time.deltaTime;
 
         if (healthRegenTimer >= 5f)
-        {
-            Debug.Log("restore health");
+        {           
             enemy.SetHealth(enemy.GetMaxHealth());
             healthRegenTimer = 0f;
         }
 
-        //    // check if enemy go outside of the  map 
-        //float distanceToPlanet = Vector3.Distance(transform.position, planet.position);
-
-        //if (distanceToPlanet > maxDistanceFromPlanet) // || distanceToPlanet < minDistanceFromPlanet
-        //{
-        //    if (!isDistanceTimerActive)
-        //    {
-        //        isDistanceTimerActive = true;
-        //        maDistanceTimer = maxDistanceTimer;
-        //        //miDistanceTimer = minDistanceTimer;
-        //    }
-
-        //    maDistanceTimer -= Time.deltaTime;
-        //    //miDistanceTimer -= Time.deltaTime;
-
-        //    if (maDistanceTimer <= 0f)
-        //    {
-        //        Debug.Log("enemy destroy, out of map");
-        //        Destroy(gameObject);
-        //    }
-
-        //    //if (miDistanceTimer > 0f)
-        //    //{
-        //    //    Debug.Log("enemy destroy, too close to the planet");
-        //    //    Destroy(gameObject);
-        //    //}
-        //}
-        //else
-        //{
-        //    isDistanceTimerActive = false;
-        //}
     }
-
-
 
     private void ShootUpdate()
     {
@@ -244,18 +223,7 @@ public class EnemyAIController : MonoBehaviour
             }
         }
 
-        ////check health // logic to decide if run or fight
-        //if (enemy.GetHealth() <= enemy.GetMaxHealth() * 0.5f )//&&/* enemy.IsHit()*/)
-        //{
-        //    isHit = true;
-
-        //    if (isHit)
-        //    {
-        //        currentState = State.EvadePlayer;
-        //    }
-
-            
-        //}
+       
     }
 
 
@@ -345,11 +313,7 @@ public class EnemyAIController : MonoBehaviour
 
     private void ShootToPlayer()
     {
-        //if (player == null)
-        //{
-        //    currentState = State.RunToPlayer;
-        //    return;
-        //}
+       
 
         foreach (var muzzle in muzzles)
         {
@@ -413,30 +377,38 @@ public class EnemyAIController : MonoBehaviour
 
     }
 
- 
+    private void DestroyAndRespawn() 
+    {
+        
+
+        // Notifica lo SpawnManager della distruzione del nemico
+        spawnManager.OnEnemyDestroyed(gameObject);
+
+        //Disattiva l'oggetto (invece di distruggerlo completamente)
+        gameObject.SetActive(false);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") || other == shieldCollider)
-        {          
+        if (other.CompareTag("Player") || other == playerShieldCollider)
+        {
             // Ensure that we are referencing the player's transform even if the shield enters first
             player = other.gameObject.transform.root; // Get the player's root object, which is the player itself
             currentState = State.RunToPlayer;
-
-            //float randomChoice = Random.value;
-
-            if (enemy.GetHealth() <= enemy.GetMaxHealth() * 0.5f) 
+            
+            if (enemy.GetHealth() <= enemy.GetMaxHealth() * 0.5f)
             {
                 currentState = State.EvadePlayer;
-                healthRegenTimer = 0f;  
+                healthRegenTimer = 0f;
             }
 
         }
-
+       
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") || other == shieldCollider)
+        if (other.CompareTag("Player") || other == playerShieldCollider)
         {          
             currentState = State.Patrol;
             isHit = false;

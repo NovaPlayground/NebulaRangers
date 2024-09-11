@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MachinegunBullet : MonoBehaviour
@@ -37,6 +35,7 @@ public class MachinegunBullet : MonoBehaviour
         {
             damageable.TakeDamage(damage);
             Destroy(gameObject);  // Destroy the bullet after hitting the target
+            
         }
     }
 
