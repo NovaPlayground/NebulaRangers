@@ -501,6 +501,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7854611190762292396, guid: 5b82fd751e45e884488bd72a0b90ddbb,
         type: 3}
+      propertyPath: missilePrefab
+      value: 
+      objectReference: {fileID: 7683950334341716494, guid: f4c36f9132eb4914ca4f1071f5ecd7c8,
+        type: 3}
+    - target: {fileID: 7854611190762292396, guid: 5b82fd751e45e884488bd72a0b90ddbb,
+        type: 3}
       propertyPath: warningMessage
       value: 
       objectReference: {fileID: 2049898921}
