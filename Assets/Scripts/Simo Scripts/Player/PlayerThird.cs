@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 
 
-public class PlayerThird : MonoBehaviour, IDamageable
+public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
 {
     // RIGIDBODY 
     private Rigidbody rbThird;
@@ -712,12 +712,23 @@ public class PlayerThird : MonoBehaviour, IDamageable
         return health / maxHealth;
     }
 
+    public float GetHealth()
+    {
+        return health;
+    }
 
-    public void SetCurrentHealth(float currentHealth) 
+    public void SetHealth(float currentHealth) 
     {
         health = currentHealth;
-   
+    }
+
+    public int GetKeyCount()
+    {
+        return keyCount;
+    }
+
+    public void SetKeyCount(int currentKeyCount)
+    {
+        keyCount = currentKeyCount;
     }
 }
-
-

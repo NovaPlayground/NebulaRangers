@@ -20,7 +20,8 @@ public class PortalThird : MonoBehaviour
 
     public void Interact()
     {
-        GameManager.Instance.SavePlayerData(32.0f);
+        IPlayer player = playerControllerThird.GetComponent<IPlayer>();
+        GameManager.Instance.SavePlayerData(player.GetHealth(), player.GetKeyCount());
         SceneManager.LoadScene(sceneToLoad);
     }
 

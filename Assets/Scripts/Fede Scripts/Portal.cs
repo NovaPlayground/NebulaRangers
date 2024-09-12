@@ -19,8 +19,9 @@ public class Portal : MonoBehaviour, IInteractable
     }
 
     public void Interact()
-    {
-        GameManager.Instance.SavePlayerData(32.0f);
+    { 
+        IPlayer player = playerControllerTop.GetComponent<IPlayer>();
+        GameManager.Instance.SavePlayerData(player.GetHealth(), player.GetKeyCount());
         SceneManager.LoadScene(sceneToLoad);
     }
 
