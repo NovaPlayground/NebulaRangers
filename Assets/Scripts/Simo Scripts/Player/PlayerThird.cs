@@ -3,7 +3,6 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-
 public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
 {
     // RIGIDBODY 
@@ -73,7 +72,7 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
 
     private float shieldDelayTimer;
     private bool isColliderDisabled = false;
-    
+
 
     // KEY
     private int keyCount = 0;
@@ -96,13 +95,12 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
 
     // UI
     [SerializeField] private TextMeshProUGUI warningMessage;  // Reference to the warning message in the UI
-    
+
     // AUDIO
 
-
-    
-
-
+    [SerializeField] private AudioSource audioSourceShooting; 
+    [SerializeField] private AudioSource audioSourceMoving;
+    private float fadeDuration = 1.0f;
 
     private void Start()
     {
@@ -248,6 +246,24 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
         // Move the Rigidbody rbThird to its new position based on the calculated movement and forward speed
         rbThird.MovePosition(rbThird.position + movement * forwardSpeed * Time.fixedDeltaTime);
 
+        if (input.magnitude > 0 )
+        {
+            if (!audioSourceMoving.isPlaying)
+            {
+                audioSourceMoving.Play();
+            }
+            
+            audioSourceMoving.volume = Mathf.Lerp(audioSourceMoving.volume, 1.0f, Time.deltaTime * fadeDuration);
+        }
+        else if (input.magnitude == 0)
+        {
+            audioSourceMoving.volume = Mathf.Lerp(audioSourceMoving.volume, 0.0f, Time.deltaTime * fadeDuration);
+            
+            if (audioSourceMoving.volume <= 0.1f && audioSourceMoving.isPlaying)
+            {
+                audioSourceMoving.Stop();
+            }
+        }
     }
 
     private void MoveUpDown()
@@ -271,7 +287,8 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
             if (shootCooldown >= shootDelay)
             {
                 foreach (var muzzle in muzzles)
-                {                  
+                {
+                    audioSourceShooting.Play();
                     Instantiate(machinegunBullet, muzzle.transform.position, transform.rotation);                    
                 }
 
