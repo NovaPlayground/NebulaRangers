@@ -294,6 +294,8 @@ MonoBehaviour:
   speed: 0
   maxSpeed: 24
   baseSpeed: 10
+  health: 100
+  keyCount: 0
 --- !u!114 &8879237363628642064
 MonoBehaviour:
   m_ObjectHideFlags: 0

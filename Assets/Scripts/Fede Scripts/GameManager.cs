@@ -7,9 +7,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector3 startingPosition;
 
     public static GameManager Instance;
-    public PlayerData PlayerData;
 
-    private GameObject player;
+    private PlayerData playerData;
+    private IPlayer player;
     
     private GameManager() { }
 
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.FindWithTag("Player").GetComponent<IPlayer>();
 
         if (player != null)
         {
@@ -49,16 +49,17 @@ public class GameManager : MonoBehaviour
 
     private void LoadPlayerData()
     {
-        if (PlayerData != null)
+        if (playerData != null)
         {
-            //player.SetCurrentHealth(PlayerData.health);
+            player.SetHealth(playerData.Health);
+            player.SetKeyCount(playerData.KeyCount);
         }
     }
 
-    public void SavePlayerData(float currentHealth)
+    public void SavePlayerData(float currentHealth, int keyCount)
     {
-        PlayerData = new PlayerData(currentHealth);
-        Debug.Log("PlayerData created health: " + currentHealth);
+        playerData = new PlayerData(currentHealth, keyCount);
+        Debug.Log("PlayerData created health: " + currentHealth + " --- keycount : " + keyCount);
     }
 
     public void ResetScene()

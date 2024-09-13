@@ -5,10 +5,11 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData
 {
-    public float health;
-
-    public PlayerData(float hp)
+    public float Health;
+    public int KeyCount;
+    public PlayerData(float hp, int kc)
     {
-        health = hp;
+        Health = hp;
+        KeyCount = kc;
     }
 }

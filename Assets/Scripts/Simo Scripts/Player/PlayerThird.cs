@@ -3,8 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-
-public class PlayerThird : MonoBehaviour, IDamageable
+public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
 {
     // RIGIDBODY 
     private Rigidbody rbThird;
@@ -72,7 +71,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
 
     private float shieldDelayTimer;
     private bool isColliderDisabled = false;
-    
+
 
     // KEY
     private int keyCount = 0;
@@ -96,6 +95,11 @@ public class PlayerThird : MonoBehaviour, IDamageable
     // UI
     [SerializeField] private TextMeshProUGUI warningMessage;  // Reference to the warning message in the UI
 
+    // AUDIO
+
+    [SerializeField] private AudioSource audioSourceShooting; 
+    [SerializeField] private AudioSource audioSourceMoving;
+    private float fadeDuration = 1.0f;
     // VFX
     [SerializeField] private GameObject explosionPrefab;
 
@@ -247,6 +251,24 @@ public class PlayerThird : MonoBehaviour, IDamageable
         // Move the Rigidbody rbThird to its new position based on the calculated movement and forward speed
         rbThird.MovePosition(rbThird.position + movement * forwardSpeed * Time.fixedDeltaTime);
 
+        if (input.magnitude > 0 )
+        {
+            if (!audioSourceMoving.isPlaying)
+            {
+                audioSourceMoving.Play();
+            }
+            
+            audioSourceMoving.volume = Mathf.Lerp(audioSourceMoving.volume, 1.0f, Time.deltaTime * fadeDuration);
+        }
+        else if (input.magnitude == 0)
+        {
+            audioSourceMoving.volume = Mathf.Lerp(audioSourceMoving.volume, 0.0f, Time.deltaTime * fadeDuration);
+            
+            if (audioSourceMoving.volume <= 0.1f && audioSourceMoving.isPlaying)
+            {
+                audioSourceMoving.Stop();
+            }
+        }
     }
 
     private void MoveUpDown()
@@ -270,7 +292,8 @@ public class PlayerThird : MonoBehaviour, IDamageable
             if (shootCooldown >= shootDelay)
             {
                 foreach (var muzzle in muzzles)
-                {                  
+                {
+                    audioSourceShooting.Play();
                     Instantiate(machinegunBullet, muzzle.transform.position, transform.rotation);                    
                 }
 
@@ -687,26 +710,22 @@ public class PlayerThird : MonoBehaviour, IDamageable
     {
         OnKeyLevel1.AddListener(() => {
             health += 25f;
-            PlayerPrefs.SetFloat("PlayerHealth", health);
             Debug.Log("Level 1 Buff Applied: +25 Health"); //Save the increase health
         });
 
         OnKeyLevel2.AddListener(() => {
             
             EnableShield();
-            PlayerPrefs.SetInt("ShieldActive", 1); // Save the shield state
             Debug.Log("Level 2 Buff Applied: Shield activated");
         });
 
         OnKeyLevel3.AddListener(() => {
             UpdateMuzzles();
-            PlayerPrefs.SetInt("MuzzlesUpdated", 1); // Salva the update to double barrel
             Debug.Log("Level 3 Buff Applied: Double Barrel Activate");
         });
 
         OnKeyLevel4.AddListener(() => {
             machinegunBullet.SetDamage(30f);
-            PlayerPrefs.SetFloat("BulletDamage", 30f); // Save the damage value
             Debug.Log("Level 4 buff applied: damage increase");
         });
     }
@@ -814,12 +833,23 @@ public class PlayerThird : MonoBehaviour, IDamageable
         return health / maxHealth;
     }
 
+    public float GetHealth()
+    {
+        return health;
+    }
 
-    public void SetCurrentHealth(float currentHealth) 
+    public void SetHealth(float currentHealth) 
     {
         health = currentHealth;
-   
+    }
+
+    public int GetKeyCount()
+    {
+        return keyCount;
+    }
+
+    public void SetKeyCount(int currentKeyCount)
+    {
+        keyCount = currentKeyCount;
     }
 }
-
-
