@@ -602,26 +602,22 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
     {
         OnKeyLevel1.AddListener(() => {
             health += 25f;
-            PlayerPrefs.SetFloat("PlayerHealth", health);
             Debug.Log("Level 1 Buff Applied: +25 Health"); //Save the increase health
         });
 
         OnKeyLevel2.AddListener(() => {
             
             EnableShield();
-            PlayerPrefs.SetInt("ShieldActive", 1); // Save the shield state
             Debug.Log("Level 2 Buff Applied: Shield activated");
         });
 
         OnKeyLevel3.AddListener(() => {
             UpdateMuzzles();
-            PlayerPrefs.SetInt("MuzzlesUpdated", 1); // Salva the update to double barrel
             Debug.Log("Level 3 Buff Applied: Double Barrel Activate");
         });
 
         OnKeyLevel4.AddListener(() => {
             machinegunBullet.SetDamage(30f);
-            PlayerPrefs.SetFloat("BulletDamage", 30f); // Save the damage value
             Debug.Log("Level 4 buff applied: damage increase");
         });
     }
