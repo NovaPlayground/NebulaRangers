@@ -106389,13 +106389,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb162ce6029ddc428fef45dc455b90c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrolSpeed: 1
+  patrolSpeed: 1.2
   runToPlayerSpeed: 2
-  rotationSpeed: 5
+  rotationSpeed: 2
   acceleration: 2
-  evadeSpeed: 5
-  changeDirectionCooldown: 5
-  changeShootDirectionCooldown: 2
+  evadeSpeed: 2
+  changeDirectionCooldown: 4
+  changeShootDirectionCooldown: 3
   evadeCheckInterval: 2
   player: {fileID: 0}
   playerShieldCollider: {fileID: 8329164972348555627, guid: a4850cdc9475f954bb91d38cd40d3a11,
@@ -106423,6 +106423,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   maxHealth: 100
+  explosionPrefab: {fileID: 417761080263594737, guid: 7800b8f6b712bfe49bd663eeb3ebe1e4,
+    type: 3}
 --- !u!1 &3796392533701706463
 GameObject:
   m_ObjectHideFlags: 0

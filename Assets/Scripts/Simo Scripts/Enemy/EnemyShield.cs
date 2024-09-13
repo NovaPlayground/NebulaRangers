@@ -5,9 +5,8 @@ public class EnemyShield : MonoBehaviour, IDamageable, IDestroyable, IEnemy
     [SerializeField] private float health = 100f; // Enemy's current health
     [SerializeField] private float maxHealth = 100f; // Enemy's max health
     [SerializeField] private BoxCollider enemyBoxCollider;
-    
-
-
+    [SerializeField] private GameObject explosionPrefab;
+   
     // SHIELD
     [SerializeField] private Shield shield;
     [SerializeField] private float shieldHealth = 50f;
@@ -122,6 +121,12 @@ public class EnemyShield : MonoBehaviour, IDamageable, IDestroyable, IEnemy
 
     public void Die()
     {
+
+        // Instantiate the explosion effect at the enemy's position and rotation
+        if (explosionPrefab != null)
+        {
+            Instantiate(explosionPrefab, transform.position, transform.rotation);
+        }
 
         // Management of enemy death
         OnDestroyed?.Invoke(gameObject); // Notifies SpawnManager of destruction
