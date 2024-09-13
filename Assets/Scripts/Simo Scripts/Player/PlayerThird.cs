@@ -548,10 +548,7 @@ public class PlayerThird : MonoBehaviour, IDamageable
             missileInstance.SetTarget(lockedTarget);
             
         }
-        else
-        {
-            
-        }
+        
     }
 
     private void ShootMissile()
