@@ -85,6 +85,7 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
     // OUT OF BOUND 
     [SerializeField] private float maxDistanceFromPlanet = 650f;
     [SerializeField] private float timeOutsideBound = 7f;
+
     private float timeOutsideBoundTimer = 0f;
     private bool isWarningActive = false; // Status of the warning message
 
@@ -96,14 +97,27 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
     [SerializeField] private TextMeshProUGUI warningMessage;  // Reference to the warning message in the UI
 
     // AUDIO
-
     [SerializeField] private AudioSource audioSourceShooting; 
     [SerializeField] private AudioSource audioSourceMoving;
     private float fadeDuration = 1.0f;
+
     // VFX
     [SerializeField] private GameObject explosionPrefab;
 
-    // AUDIO
+    // CONE VISION ASTEROID
+    // ASTEROIDS ARE VISIBLE
+    [SerializeField] private float enableConeAngleHorizontal = 45f;
+    [SerializeField] private float enableConeAngleVertical = 30f;
+    [SerializeField] private float enableConeDistance = 50f;
+
+    // ASTEROIDS WILL BE DESTROYED
+    [SerializeField] private float disableConeAngleHorizontal = 45f;
+    [SerializeField] private float disableConeAngleVertical = 30f;
+    [SerializeField] private float disableConeDistance = 50f;
+
+    private Transform asteroid;
+
+
 
 
     private void Start()
@@ -316,7 +330,6 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
 
 
     // MISSILE 
-
     private void UpdateMuzzles()
 
     {
@@ -632,7 +645,6 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
   
     }
 
-  
     private void EnableShield() 
     {
         
@@ -641,7 +653,6 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
         shieldDelayTimer = shieldDelay;
         Debug.Log("Shield activated. Player's collider disabled.");
     }
-
 
     private void EnablePlayerCollider()
     {
@@ -792,7 +803,6 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
             timeOutsideBoundTimer = 0f;
         }
     }
-
     
     private void WarningMessage() 
     {
@@ -807,7 +817,6 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
         
     }
 
-
     private void DeactivateWarning()
     {
         if (warningMessage != null)
@@ -817,7 +826,6 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
 
         isWarningActive = false;
     }
-
     
     private void ResetLevel()
     {
@@ -863,4 +871,74 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
     {
         keyCount = currentKeyCount;
     }
+
+
+    // CONE VISION ASTEORID 
+
+    //private bool IsWithinCone(Transform target, float coneAngleHorizontal, float coneAngleVertical, float coneDistance)
+    //{
+    //    Vector3 directionToTarget = target.position - transform.position;
+
+    //    if(directionToTarget.magnitude > coneDistance) return false;
+
+    //    // calculate angles
+
+    //    float horizontalAngle = Vector3.Angle(new Vector3(transform.forward.x, 0, transform.forward.z), new Vector3(directionToTarget.x, 0, directionToTarget.z));
+    //    float verticalAngle = Vector3.Angle(transform.forward, directionToTarget);
+
+    //    if(horizontalAngle <= coneAngleHorizontal * 0.5f && verticalAngle <= coneAngleVertical * 05f) 
+    //    {
+    //        return true;
+    //    }
+
+    //    return false;
+
+    //}
+
+    //public bool IsInEnableCone(Transform asteroid)
+    //{
+    //    return IsWithinCone(asteroid, enableConeAngleHorizontal, enableConeAngleVertical, enableConeDistance);
+    //}
+
+    //public bool IsInDisableCone(Transform asteroid)
+    //{
+    //    return IsWithinCone(asteroid, disableConeAngleHorizontal, disableConeAngleVertical, disableConeDistance);
+    //}
+
+    //private void OnDrawGizmos()
+    //{
+    //    // Draw enable cone
+    //    DrawCone(transform.position, transform.forward, enableConeAngleHorizontal, enableConeAngleVertical, enableConeDistance, Color.green);
+
+    //    // Draw disable cone
+    //    DrawCone(transform.position, transform.forward, disableConeAngleHorizontal, disableConeAngleVertical, disableConeDistance, Color.red);
+    //}
+
+    //private void DrawCone(Vector3 origin, Vector3 direction, float angleHorizontal, float angleVertical, float distance, Color color)
+    //{
+    //    Gizmos.color = color;
+
+    //    // Draw the cone's base circle
+    //    Vector3 baseCenter = origin + direction * distance;
+    //    Gizmos.DrawWireSphere(baseCenter, 0.1f);
+
+    //    // Draw the cone's sides
+    //    DrawConeSide(origin, direction, angleHorizontal, angleVertical, distance);
+
+    //    // Draw the front edge of the cone
+    //    Gizmos.DrawLine(origin, baseCenter + Quaternion.Euler(angleVertical, 0, 0) * direction * distance);
+    //    Gizmos.DrawLine(origin, baseCenter + Quaternion.Euler(-angleVertical, 0, 0) * direction * distance);
+    //    Gizmos.DrawLine(origin, baseCenter + Quaternion.Euler(0, angleHorizontal, 0) * direction * distance);
+    //    Gizmos.DrawLine(origin, baseCenter + Quaternion.Euler(0, -angleHorizontal, 0) * direction * distance);
+    //}
+
+    //private void DrawConeSide(Vector3 origin, Vector3 direction, float angleHorizontal, float angleVertical, float distance)
+    //{
+    //    // Draw the cone's vertical and horizontal lines
+    //    Gizmos.DrawLine(origin, origin + Quaternion.Euler(angleVertical, 0, 0) * direction * distance);
+    //    Gizmos.DrawLine(origin, origin + Quaternion.Euler(-angleVertical, 0, 0) * direction * distance);
+    //    Gizmos.DrawLine(origin, origin + Quaternion.Euler(0, angleHorizontal, 0) * direction * distance);
+    //    Gizmos.DrawLine(origin, origin + Quaternion.Euler(0, -angleHorizontal, 0) * direction * distance);
+    //}
+
 }

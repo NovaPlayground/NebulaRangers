@@ -66,10 +66,58 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 68badd859abe46b4981502b74c109131,
         type: 3}
       propertyPath: m_Name
-      value: asteroid 1
+      value: asteroidNormal
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 68badd859abe46b4981502b74c109131,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1378483191097267047}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 68badd859abe46b4981502b74c109131,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8272025621250949198}
   m_SourcePrefab: {fileID: 100100000, guid: 68badd859abe46b4981502b74c109131, type: 3}
+--- !u!1 &4487754706448071954 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 68badd859abe46b4981502b74c109131,
+    type: 3}
+  m_PrefabInstance: {fileID: 3640840277375156291}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &-1378483191097267047
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4487754706448071954}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.2247196
+  m_Center: {x: 0.04261956, y: 0.012846263, z: -0.18191333}
+--- !u!114 &-8272025621250949198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4487754706448071954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4711d5b9fa83ff049845b5346cbef370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 35
