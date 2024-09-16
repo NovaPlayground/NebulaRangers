@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerTop : MonoBehaviour, IDamagable, IPlayer
+public class PlayerTop : MonoBehaviour, IDamageable, IPlayer
 {
     // Start is called before the first frame update
     [SerializeField] private Camera mainCamera;
@@ -17,11 +17,11 @@ public class PlayerTop : MonoBehaviour, IDamagable, IPlayer
     [SerializeField] private float baseSpeed;
 
     [SerializeField] private float health = 100.0f;
+    [SerializeField] private float maxHealth = 100.0f;
     [SerializeField] private int keyCount = 0;
 
     private PlayerControllerTop playerController;
     private Rigidbody rb;
-    private float currentRotation = 0.0f;
 
     void Start()
     {
@@ -101,9 +101,9 @@ public class PlayerTop : MonoBehaviour, IDamagable, IPlayer
         }
     }
 
-    public void TakeDamage()
+    public void TakeDamage(float damage)
     {
-        GameManager.Instance.ResetScene();
+        health -= damage;
     }
     public float GetHealth()
     {
@@ -113,6 +113,11 @@ public class PlayerTop : MonoBehaviour, IDamagable, IPlayer
     public void SetHealth(float currentHealth)
     {
         health = currentHealth;
+    }
+    
+    public float GetNormalaizedHealth()
+    {
+        return health / maxHealth;
     }
 
     public int GetKeyCount()

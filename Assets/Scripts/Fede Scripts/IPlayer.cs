@@ -9,4 +9,6 @@ public interface IPlayer
 
     public int GetKeyCount();
     public void SetKeyCount(int currentKeyCount);
+
+    public float GetNormalaizedHealth();
 }

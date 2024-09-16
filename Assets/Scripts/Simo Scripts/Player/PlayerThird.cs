@@ -68,7 +68,7 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
     [SerializeField] private Shield shield;
     [SerializeField] private float shieldHealth = 50f;
     [SerializeField] private float shieldDelay = 1.5f;
-
+   
     private float shieldDelayTimer;
     private bool isColliderDisabled = false;
 
@@ -569,9 +569,8 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
         if (lockedTarget != null)
         {
             missileInstance.SetTarget(lockedTarget);
-            
         }
-        
+
     }
 
     private void ShootMissile()

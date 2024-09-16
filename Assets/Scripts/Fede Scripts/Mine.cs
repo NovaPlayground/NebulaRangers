@@ -6,20 +6,20 @@ public class Mine : MonoBehaviour
 {
     [SerializeField] private GameObject explosionVFX;
     [SerializeField] private GameObject mine;
-    private float currentRotation;
+    [SerializeField] private float damage = 10.0f;
+    [SerializeField] private float rotationSpeed;
+
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        currentRotation = 0.0f;
+        rotationSpeed = Random.Range(100.0f, 250.0f);
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
-        currentRotation += Time.fixedDeltaTime;
-
-        transform.Rotate(Vector3.up, currentRotation);
+        transform.Rotate(Vector3.up, rotationSpeed * Time.fixedDeltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -27,11 +27,11 @@ public class Mine : MonoBehaviour
         if (collision.collider.tag == "Player")
         {
             PlayerTop player = collision.collider.GetComponent<PlayerTop>();
+            
+            Instantiate(explosionVFX, gameObject.transform.position, transform.rotation);
+            player.TakeDamage(damage);
 
-            explosionVFX.gameObject.SetActive(true);
-            mine.gameObject.SetActive(false);
-
-            player.TakeDamage();
+            Destroy(gameObject);
         }
     }
 }

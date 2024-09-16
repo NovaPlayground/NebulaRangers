@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 5978635679677897977}
   - component: {fileID: 8879237363628642064}
   - component: {fileID: 3411386983542469316}
+  - component: {fileID: 2139575288135459754}
   m_Layer: 0
   m_Name: PlayerTop
   m_TagString: Player
@@ -295,6 +296,7 @@ MonoBehaviour:
   maxSpeed: 24
   baseSpeed: 10
   health: 100
+  maxHealth: 100
   keyCount: 0
 --- !u!114 &8879237363628642064
 MonoBehaviour:
@@ -324,6 +326,27 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4, y: 2, z: 6}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &2139575288135459754
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3374560738770095349}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

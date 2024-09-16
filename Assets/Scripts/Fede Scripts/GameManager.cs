@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        Cursor.visible = false;
         if (Instance == null)
         {
             Instance = this;
