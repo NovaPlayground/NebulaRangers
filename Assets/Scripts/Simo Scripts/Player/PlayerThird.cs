@@ -49,7 +49,7 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
     [SerializeField] private Missile2 missilePrefab;
     [SerializeField] private Transform missileSpawnPoint;
     //[SerializeField] private float lockOnRange = 50f; //Snap radius
-    [SerializeField] private float missileCooldown = 5f;
+    [SerializeField] private float missileCooldown = 6f;
 
     private float missileCooldownTimer = 0f; // Missile cooldown timer
     private Transform lockedTarget;
@@ -828,11 +828,20 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
     }
 
+
+    // UI
+    public float GetMissileCooldown() 
+    {
+        return missileCooldownTimer;
+    }
+
     public float GetNormalaizedHealth()
     {
         return health / maxHealth;
     }
 
+
+    // HEALTH
     public float GetHealth()
     {
         return health;
@@ -843,6 +852,8 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
         health = currentHealth;
     }
 
+
+    // KEY
     public int GetKeyCount()
     {
         return keyCount;
