@@ -254,6 +254,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 41592759}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &41592761 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 80d3b62d71d86f04da4e8dad394032c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 41592759}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &219737475
 GameObject:
   m_ObjectHideFlags: 0
@@ -2220,6 +2226,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 4265455766344813339}
+    - target: {fileID: 2817683801733381720, guid: ebf95b0518e17694fa6d1d41ce484ea0,
+        type: 3}
+      propertyPath: spawnRadius
+      value: 700
+      objectReference: {fileID: 0}
     - target: {fileID: 4477752338402230454, guid: ebf95b0518e17694fa6d1d41ce484ea0,
         type: 3}
       propertyPath: m_Name
@@ -2680,6 +2691,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1078081305116515217, guid: 091e442d9a384a4448d5aaec6623eefd,
         type: 3}
+      propertyPath: planet
+      value: 
+      objectReference: {fileID: 41592761}
+    - target: {fileID: 1078081305116515217, guid: 091e442d9a384a4448d5aaec6623eefd,
+        type: 3}
+      propertyPath: warningMessage
+      value: 
+      objectReference: {fileID: 2049898921}
+    - target: {fileID: 1078081305116515217, guid: 091e442d9a384a4448d5aaec6623eefd,
+        type: 3}
       propertyPath: missileCooldown
       value: 6
       objectReference: {fileID: 0}
@@ -2687,6 +2708,11 @@ PrefabInstance:
         type: 3}
       propertyPath: disableConeDistance
       value: 54.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1078081305116515217, guid: 091e442d9a384a4448d5aaec6623eefd,
+        type: 3}
+      propertyPath: maxDistanceFromPlanet
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 1078081305116515217, guid: 091e442d9a384a4448d5aaec6623eefd,
         type: 3}
@@ -2711,7 +2737,7 @@ PrefabInstance:
     - target: {fileID: 2450491866509315271, guid: 091e442d9a384a4448d5aaec6623eefd,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -603
+      value: -650
       objectReference: {fileID: 0}
     - target: {fileID: 2450491866509315271, guid: 091e442d9a384a4448d5aaec6623eefd,
         type: 3}

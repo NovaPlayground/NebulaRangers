@@ -592,7 +592,7 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
         }
         else
         {
-            missileCooldownTimer -= Time.deltaTime;
+            missileCooldownTimer -= Time.fixedDeltaTime;
             missileCooldownTimer = Mathf.Max(missileCooldownTimer, 0f); // the timer does not go below zero
         }
     }
