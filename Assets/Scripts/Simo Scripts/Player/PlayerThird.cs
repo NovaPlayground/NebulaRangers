@@ -49,7 +49,7 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
     [SerializeField] private Missile2 missilePrefab;
     [SerializeField] private Transform missileSpawnPoint;
     //[SerializeField] private float lockOnRange = 50f; //Snap radius
-    [SerializeField] private float missileCooldown = 5f;
+    [SerializeField] private float missileCooldown = 6f;
 
     private float missileCooldownTimer = 0f; // Missile cooldown timer
     private Transform lockedTarget;
@@ -85,6 +85,7 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
     // OUT OF BOUND 
     [SerializeField] private float maxDistanceFromPlanet = 650f;
     [SerializeField] private float timeOutsideBound = 7f;
+
     private float timeOutsideBoundTimer = 0f;
     private bool isWarningActive = false; // Status of the warning message
 
@@ -96,15 +97,14 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
     [SerializeField] private TextMeshProUGUI warningMessage;  // Reference to the warning message in the UI
 
     // AUDIO
-
     [SerializeField] private AudioSource audioSourceShooting; 
     [SerializeField] private AudioSource audioSourceMoving;
     private float fadeDuration = 1.0f;
+
     // VFX
     [SerializeField] private GameObject explosionPrefab;
 
-    // AUDIO
-
+    
 
     private void Start()
     {
@@ -316,7 +316,6 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
 
 
     // MISSILE 
-
     private void UpdateMuzzles()
 
     {
@@ -634,7 +633,6 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
   
     }
 
-  
     private void EnableShield() 
     {
         
@@ -643,7 +641,6 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
         shieldDelayTimer = shieldDelay;
         Debug.Log("Shield activated. Player's collider disabled.");
     }
-
 
     private void EnablePlayerCollider()
     {
@@ -794,7 +791,6 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
             timeOutsideBoundTimer = 0f;
         }
     }
-
     
     private void WarningMessage() 
     {
@@ -809,7 +805,6 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
         
     }
 
-
     private void DeactivateWarning()
     {
         if (warningMessage != null)
@@ -819,7 +814,6 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
 
         isWarningActive = false;
     }
-
     
     private void ResetLevel()
     {
@@ -830,11 +824,20 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
     }
 
+
+    // UI
+    public float GetMissileCooldown() 
+    {
+        return missileCooldownTimer;
+    }
+
     public float GetNormalaizedHealth()
     {
         return health / maxHealth;
     }
 
+
+    // HEALTH
     public float GetHealth()
     {
         return health;
@@ -845,6 +848,8 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
         health = currentHealth;
     }
 
+
+    // KEY
     public int GetKeyCount()
     {
         return keyCount;
@@ -854,4 +859,8 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
     {
         keyCount = currentKeyCount;
     }
+
+
+    
+
 }
