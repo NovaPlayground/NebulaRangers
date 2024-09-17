@@ -1,3 +1,4 @@
+using UnityEditor.XR;
 using UnityEngine;
 
 public class EnemyShoot : MonoBehaviour, IDamageable, IDestroyable, IEnemy
@@ -5,6 +6,7 @@ public class EnemyShoot : MonoBehaviour, IDamageable, IDestroyable, IEnemy
     [SerializeField] private float health = 100f; // Enemy's current health
     [SerializeField] private float maxHealth = 100f; // Enemy's max health
     [SerializeField] private GameObject explosionPrefab;
+    [SerializeField] private GameObject canvas;
 
     private Rigidbody rb;
     private SpawnManager spawnManager;
@@ -15,9 +17,8 @@ public class EnemyShoot : MonoBehaviour, IDamageable, IDestroyable, IEnemy
     void Start()
     {
         spawnManager = FindObjectOfType<SpawnManager>();
-
+        canvas.SetActive(false);
         health = maxHealth;
-   
     }
 
     // Update is called once per frame
@@ -56,6 +57,10 @@ public class EnemyShoot : MonoBehaviour, IDamageable, IDestroyable, IEnemy
         }
     }
 
+    public void SetCanvasActive(bool isActive)
+    {
+        canvas.SetActive(isActive);
+    }
 
     public void Die()
     {
@@ -77,7 +82,6 @@ public class EnemyShoot : MonoBehaviour, IDamageable, IDestroyable, IEnemy
         gameObject.SetActive(false);
 
     }
-
 }
 
 

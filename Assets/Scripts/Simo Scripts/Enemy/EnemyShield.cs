@@ -11,12 +11,13 @@ public class EnemyShield : MonoBehaviour, IDamageable, IDestroyable, IEnemy
     [SerializeField] private Shield shield;
     [SerializeField] private float shieldHealth = 50f;
     [SerializeField] private float shieldDelay = 1.5f;
+    [SerializeField] private GameObject canvas;
+
     private float shieldDelayTimer;
     private bool isColliderDisabled = false;
 
     private Rigidbody rb;
     private SpawnManager spawnManager;
-
 
     public event System.Action<GameObject> OnDestroyed;
 
@@ -25,6 +26,8 @@ public class EnemyShield : MonoBehaviour, IDamageable, IDestroyable, IEnemy
     {
         spawnManager = FindObjectOfType<SpawnManager>();
 
+        canvas.SetActive(false);
+        
         health = maxHealth;
 
         if (enemyBoxCollider == null)
@@ -34,7 +37,6 @@ public class EnemyShield : MonoBehaviour, IDamageable, IDestroyable, IEnemy
 
         shield.InitializeEnemy(shieldHealth);
         EnableShield();
-
     }
 
     // Update is called once per frame
@@ -117,7 +119,10 @@ public class EnemyShield : MonoBehaviour, IDamageable, IDestroyable, IEnemy
         }
     }
 
-
+    public void SetCanvasActive(bool isActive)
+    {
+        canvas.SetActive(isActive);
+    }
 
     public void Die()
     {

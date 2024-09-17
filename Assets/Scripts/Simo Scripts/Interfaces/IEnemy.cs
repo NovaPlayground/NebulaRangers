@@ -4,12 +4,13 @@ using UnityEngine;
 
 public interface IEnemy 
 {
-    float GetHealth();
-    float GetMaxHealth();
+    public float GetHealth();
 
-    void SetHealth(float health);
+    public float GetMaxHealth();
 
-    Rigidbody GetRigidbody();
+    public void SetHealth(float health);
 
+    public Rigidbody GetRigidbody();
 
+    public void SetCanvasActive(bool isActive);
 }

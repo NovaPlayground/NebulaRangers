@@ -485,6 +485,7 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
             else
             {
                 Debug.Log("Target lost or out of range.");
+                lockedTarget.GetComponent<IEnemy>().SetCanvasActive(false);
                 lockedTarget = null;  // Reset the lock if out of vision or distance
                 FindNewTarget();  // Find a new target
             }
@@ -533,6 +534,8 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
         if (closestTarget != null)
         {
             lockedTarget = closestTarget;
+            lockedTarget.GetComponent<IEnemy>().SetCanvasActive(true);
+
             Debug.Log("New target acquired: " + lockedTarget.name);
         }
         else

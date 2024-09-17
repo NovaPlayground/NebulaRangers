@@ -8,15 +8,12 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private Vector3 offSet;
     [SerializeField] public float followSpeed = 10f;
 
-    
-
     // Start is called before the first frame update
     void Start()
     {
 
     }
 
-   
     void FixedUpdate()
     {
         

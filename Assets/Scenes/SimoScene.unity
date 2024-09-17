@@ -1638,7 +1638,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
-  - {fileID: 2707676725623522778, guid: 61e7ba74ae99d524ea0ed4841cbe4083, type: 3}
+  - {fileID: 2282370904480534992, guid: 7d86f57f8b459254faba1a9797fea925, type: 3}
   - {fileID: 1877121713364082444, guid: da9f877f0e22a29458931dc0f88b6cea, type: 3}
   spawnPoints:
   - {fileID: 140977970}
@@ -2516,7 +2516,7 @@ GameObject:
   - component: {fileID: 6159475920484164106}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2588,12 +2588,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1078081305116515217, guid: 091e442d9a384a4448d5aaec6623eefd,
-        type: 3}
-      propertyPath: square
-      value: 
-      objectReference: {fileID: 4461615778944311291, guid: 997c1c5223da6044ca5de91334dc5f90,
-        type: 3}
     - target: {fileID: 2450491866509315271, guid: 091e442d9a384a4448d5aaec6623eefd,
         type: 3}
       propertyPath: m_LocalPosition.x
