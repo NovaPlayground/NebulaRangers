@@ -1359,12 +1359,18 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 837041669}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 837041672}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cdf5587f79e1b2409a300a69a26c873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &837041672 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2785884411991758677, guid: 091e442d9a384a4448d5aaec6623eefd,
+    type: 3}
+  m_PrefabInstance: {fileID: 837041669}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &881134351
 GameObject:
   m_ObjectHideFlags: 0
@@ -1594,7 +1600,7 @@ PrefabInstance:
         type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 837041671}
+      objectReference: {fileID: 837041672}
     - target: {fileID: 8421593547362156055, guid: 67d7508d44f2bcc4d9a7ed553344676c,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1823,6 +1829,12 @@ PrefabInstance:
       propertyPath: spawnPoints.Array.data[4]
       value: 
       objectReference: {fileID: 1381151471}
+    - target: {fileID: 4356858871851391318, guid: 5c93917ba62cd104e9a58a8cca560210,
+        type: 3}
+      propertyPath: enemyPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 2282370904480534992, guid: 7d86f57f8b459254faba1a9797fea925,
+        type: 3}
     - target: {fileID: 4661789786226253045, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
       propertyPath: m_LocalPosition.x
