@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Vector3 startingPosition;
-
+    [SerializeField] private int nextSceneIndex;
     public static GameManager Instance;
 
     private PlayerData playerData;
@@ -16,7 +17,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        Cursor.visible = false;
         if (Instance == null)
         {
             Instance = this;
@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        nextSceneIndex = 1;
     }
 
     private void OnEnable()
@@ -46,6 +48,9 @@ public class GameManager : MonoBehaviour
         {
             LoadPlayerData();
         }
+
+        nextSceneIndex++;
+        Cursor.visible = nextSceneIndex == 1 || nextSceneIndex % 2 == 0;
     }
 
     private void LoadPlayerData()
@@ -66,5 +71,15 @@ public class GameManager : MonoBehaviour
     public void ResetScene()
     {
         //player.transform.position= startingPosition;
+    }
+
+    public int GetNextSceneIndex()
+    {
+        return nextSceneIndex;
+    }
+
+    public void SetNextSceneIndex(int index)
+    {
+        nextSceneIndex = index;
     }
 }

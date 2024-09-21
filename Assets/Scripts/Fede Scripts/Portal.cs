@@ -6,9 +6,14 @@ using UnityEngine.SceneManagement;
 public class Portal : MonoBehaviour, IInteractable
 {
     [SerializeField] private string sceneToLoad;
-    
+    [SerializeField] private int nextSceneIndex;
+
     private bool isPlayerInRange;
     private PlayerControllerTop playerControllerTop;
+    private void Start()
+    {
+        nextSceneIndex = GameManager.Instance.GetNextSceneIndex();
+    }
 
     void Update()
     {
@@ -22,7 +27,7 @@ public class Portal : MonoBehaviour, IInteractable
     { 
         IPlayer player = playerControllerTop.GetComponent<IPlayer>();
         GameManager.Instance.SavePlayerData(player.GetHealth(), player.GetKeyCount());
-        SceneManager.LoadScene(sceneToLoad);
+        SceneManager.LoadScene(nextSceneIndex);
     }
 
     private void OnTriggerEnter(Collider other)

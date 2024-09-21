@@ -7,9 +7,14 @@ using UnityEngine.SceneManagement;
 public class PortalThird : MonoBehaviour
 {
     [SerializeField] private string sceneToLoad;
-
-    [SerializeField]private bool isPlayerInRange;
+    [SerializeField] private int nextSceneIndex;
+    [SerializeField] private bool isPlayerInRange;
     private PlayerControllerThird playerControllerThird;
+
+    private void Start()
+    {
+        nextSceneIndex = GameManager.Instance.GetNextSceneIndex();
+    }
 
     void Update()
     {
@@ -23,7 +28,7 @@ public class PortalThird : MonoBehaviour
     {
         IPlayer player = playerControllerThird.GetComponent<IPlayer>();
         GameManager.Instance.SavePlayerData(player.GetHealth(), player.GetKeyCount());
-        SceneManager.LoadScene(sceneToLoad);
+        SceneManager.LoadScene(nextSceneIndex);
     }
 
     private void OnTriggerEnter(Collider other)

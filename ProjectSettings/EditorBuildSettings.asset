@@ -9,12 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 64108926368ca994ca8c04ecf4ed6a83
+  - enabled: 1
     path: Assets/Scenes/FedeScene.unity
     guid: b22255b6eab9c1549a64552d20efc93d
   - enabled: 1
     path: Assets/Scenes/SimoScene.unity
     guid: a859b9247b61ff6469e895bd2fd83099
-  - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 64108926368ca994ca8c04ecf4ed6a83
   m_configObjects: {}
