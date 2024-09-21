@@ -4,11 +4,9 @@ public class Key : MonoBehaviour ,IPickable
 {
     [SerializeField] private float rotationSpeed = 12f;
     [SerializeField] private int keyIndex; // Used to identify the key level
-    
-   
 
     private void Start()
-    {      
+    {
         if (keyIndex < 1 || keyIndex > 4)
         {
             keyIndex = 1; 
@@ -19,7 +17,6 @@ public class Key : MonoBehaviour ,IPickable
     void Update()
     {
         transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
- 
     }
 
     private void OnTriggerEnter(Collider other)
@@ -32,7 +29,6 @@ public class Key : MonoBehaviour ,IPickable
 
     public void PickUp(GameObject picker)
     {
-        
         Destroy(gameObject);
     }
 

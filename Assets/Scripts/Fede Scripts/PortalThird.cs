@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -41,5 +42,10 @@ public class PortalThird : MonoBehaviour
             isPlayerInRange = false;
             playerControllerThird = null;
         }
+    }
+
+    public void SetScene(string nextScene)
+    {
+        sceneToLoad = nextScene;
     }
 }
