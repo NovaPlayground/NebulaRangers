@@ -120,3 +120,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 12
   keyIndex: 1
+  portalToSpawn: {fileID: 6664234127908702220, guid: 2efca20c2cb4832409659e3766f94203,
+    type: 3}
+  portalPosition: {fileID: 0}

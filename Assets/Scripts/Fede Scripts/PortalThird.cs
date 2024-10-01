@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class PortalThird : MonoBehaviour
 {
-    [SerializeField] private string sceneToLoad;
     [SerializeField] private int nextSceneIndex;
     [SerializeField] private bool isPlayerInRange;
     private PlayerControllerThird playerControllerThird;
@@ -47,10 +46,5 @@ public class PortalThird : MonoBehaviour
             isPlayerInRange = false;
             playerControllerThird = null;
         }
-    }
-
-    public void SetScene(string nextScene)
-    {
-        sceneToLoad = nextScene;
     }
 }

@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour, IInteractable
 {
-    [SerializeField] private string sceneToLoad;
     [SerializeField] private int nextSceneIndex;
 
     private bool isPlayerInRange;

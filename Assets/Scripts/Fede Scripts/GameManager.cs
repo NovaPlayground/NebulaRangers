@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private Vector3 startingPosition;
     [SerializeField] private int nextSceneIndex;
+    [SerializeField] private Texture2D cursorImage;
+
     public static GameManager Instance;
 
     private PlayerData playerData;
@@ -17,6 +19,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+
         if (Instance == null)
         {
             Instance = this;
@@ -27,7 +30,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        nextSceneIndex = 1;
+        nextSceneIndex = 0;
     }
 
     private void OnEnable()
@@ -42,6 +45,7 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Cursor.SetCursor(cursorImage, Vector2.zero, CursorMode.Auto);
         player = GameObject.FindWithTag("Player").GetComponent<IPlayer>();
 
         if (player != null)

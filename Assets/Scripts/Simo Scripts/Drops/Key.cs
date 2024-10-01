@@ -4,6 +4,7 @@ public class Key : MonoBehaviour ,IPickable
 {
     [SerializeField] private float rotationSpeed = 12f;
     [SerializeField] private int keyIndex; // Used to identify the key level
+    [SerializeField] private GameObject portalToSpawn;
 
     private void Start()
     {
@@ -23,6 +24,8 @@ public class Key : MonoBehaviour ,IPickable
     {
         if (other.CompareTag("Player"))
         {
+            Vector3 pos = new Vector3(Random.Range(0.0f, 100.0f), Random.Range(0.0f, 100.0f), Random.Range(0.0f, 100.0f));
+            Instantiate(portalToSpawn, pos, Quaternion.identity);
             PickUp(other.gameObject);
         }
     }
