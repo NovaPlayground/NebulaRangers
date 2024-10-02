@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7206257344428699103}
   - component: {fileID: 5011841345101999787}
   - component: {fileID: 4856175965465700078}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Portal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a821798277ef064f8ee3517ae089d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoad: 
+  nextSceneIndex: 0
 --- !u!135 &4856175965465700078
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 4623798317312027444}
   - component: {fileID: 6695401650418532428}
   - component: {fileID: 5886533462599077111}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4911,7 +4911,7 @@ GameObject:
   - component: {fileID: 4590433457623937040}
   - component: {fileID: 4407621224674213432}
   - component: {fileID: 2734481893229289173}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Quad
   m_TagString: Untagged
   m_Icon: {fileID: 0}

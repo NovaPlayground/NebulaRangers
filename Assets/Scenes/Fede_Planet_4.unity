@@ -320,6 +320,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingPosition: {x: 0, y: 0, z: 0}
+  nextSceneIndex: 0
+  cursorImage: {fileID: 0}
 --- !u!4 &404971948
 Transform:
   m_ObjectHideFlags: 0
@@ -667,6 +669,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionVFX: {fileID: 5397154574031618005}
   mine: {fileID: 1433653702}
+  damage: 10
+  rotationSpeed: 0
 --- !u!135 &1008520046
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -845,6 +849,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionVFX: {fileID: 5397154574031618005}
   mine: {fileID: 0}
+  damage: 10
+  rotationSpeed: 0
 --- !u!135 &1750328092
 SphereCollider:
   m_ObjectHideFlags: 0

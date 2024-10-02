@@ -6,11 +6,22 @@ public class BackgroundMusic : MonoBehaviour
 {
     private AudioSource audioSource;
 
+    private static BackgroundMusic instance;
+
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(this);
-        audioSource= GetComponent<AudioSource>();
+        if (!instance)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        audioSource = GetComponent<AudioSource>();
         audioSource.Play();
     }
 }
