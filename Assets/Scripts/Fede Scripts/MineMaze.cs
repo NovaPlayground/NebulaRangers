@@ -2,6 +2,7 @@ using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class MineMaze : MonoBehaviour
 {
@@ -46,6 +47,11 @@ public class MineMaze : MonoBehaviour
 
     private void GenerateMaze()
     {
+        if (maze == null)
+        {
+            return;
+        }
+
         int rows = maze.GetLength(0);
         int cols = maze.GetLength(1);
 
@@ -95,5 +101,12 @@ public class MineMaze : MonoBehaviour
         {
             Debug.Log("ERROR : Text not found!");
         }
+    }
+
+    [ContextMenu("Generate Maze")]
+    public void GenerateMazeInEditor()
+    {
+        LoadMazeFromText();
+        GenerateMaze();
     }
 }
