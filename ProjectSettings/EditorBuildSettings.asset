@@ -23,4 +23,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Planet_2.unity
     guid: e204431057a695746bbe7d17b7c652ef
+  - enabled: 1
+    path: Assets/Scenes/Space_3.unity
+    guid: f2c28e522a4753845ab96f878cd029d0
+  - enabled: 1
+    path: Assets/Scenes/Planet_3.unity
+    guid: fed39bed8807fa6429ab34db2b0a004f
+  - enabled: 1
+    path: Assets/Scenes/Space_4.unity
+    guid: 5bd8ed8b41c86584ea1d7afea361984d
+  - enabled: 1
+    path: Assets/Scenes/Planet_4.unity
+    guid: de0205db10617d243b7a967ccbfb3627
+  - enabled: 1
+    path: Assets/Scenes/EndGameMenu.unity
+    guid: 15a90220c7f117b4a965803b7a00de40
   m_configObjects: {}

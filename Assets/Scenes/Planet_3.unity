@@ -977,7 +977,7 @@ Transform:
   m_GameObject: {fileID: 650556511}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 300, z: 0}
+  m_LocalPosition: {x: 0, y: 369, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1772,7 +1772,7 @@ PrefabInstance:
     - target: {fileID: 1677000606426254501, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 325
+      value: 233
       objectReference: {fileID: 0}
     - target: {fileID: 1677000606426254501, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
@@ -1787,12 +1787,12 @@ PrefabInstance:
     - target: {fileID: 2910909387885068119, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -116
+      value: -44.4
       objectReference: {fileID: 0}
     - target: {fileID: 2910909387885068119, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -359.9
+      value: -398.8
       objectReference: {fileID: 0}
     - target: {fileID: 4356858871851391318, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
@@ -1802,12 +1802,12 @@ PrefabInstance:
     - target: {fileID: 4356858871851391318, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
       propertyPath: maxEnemiesInScene
-      value: 15
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4356858871851391318, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
       propertyPath: totalEnemiesToSpawn
-      value: 15
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4356858871851391318, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
@@ -1838,12 +1838,12 @@ PrefabInstance:
     - target: {fileID: 4661789786226253045, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -450.3
+      value: -297.8
       objectReference: {fileID: 0}
     - target: {fileID: 5207359884744972080, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 430
+      value: 225.5
       objectReference: {fileID: 0}
     - target: {fileID: 5207359884744972080, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}

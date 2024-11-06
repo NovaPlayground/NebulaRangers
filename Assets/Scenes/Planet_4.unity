@@ -1082,7 +1082,7 @@ PrefabInstance:
     - target: {fileID: 1677000606426254501, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 162
+      value: 99.8
       objectReference: {fileID: 0}
     - target: {fileID: 2910909387885068119, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
@@ -1092,7 +1092,7 @@ PrefabInstance:
     - target: {fileID: 2910909387885068119, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 14.7
       objectReference: {fileID: 0}
     - target: {fileID: 2910909387885068119, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
@@ -1107,12 +1107,12 @@ PrefabInstance:
     - target: {fileID: 4356858871851391318, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
       propertyPath: maxEnemiesInScene
-      value: 15
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4356858871851391318, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
       propertyPath: totalEnemiesToSpawn
-      value: 15
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4356858871851391318, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
@@ -1143,12 +1143,12 @@ PrefabInstance:
     - target: {fileID: 4661789786226253045, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -189
+      value: -164
       objectReference: {fileID: 0}
     - target: {fileID: 5207359884744972080, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 245.7
+      value: 181.8
       objectReference: {fileID: 0}
     - target: {fileID: 5207359884744972080, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}

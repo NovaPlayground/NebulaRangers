@@ -13,6 +13,7 @@ public class PortalThird : MonoBehaviour
     private void Start()
     {
         nextSceneIndex = GameManager.Instance.GetNextSceneIndex();
+        Debug.Log("portalSpawn");
     }
 
     void Update()

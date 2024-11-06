@@ -24,7 +24,7 @@ public class Key : MonoBehaviour ,IPickable
     {
         if (other.CompareTag("Player"))
         {
-            Vector3 pos = new Vector3(Random.Range(0.0f, 100.0f), Random.Range(0.0f, 100.0f), Random.Range(0.0f, 100.0f));
+            Vector3 pos = transform.position + new Vector3(Random.Range(25.0f, 50.0f), Random.Range(25.0f, 50.0f), Random.Range(25.0f, 50.0f));
             Instantiate(portalToSpawn, pos, Quaternion.identity);
             PickUp(other.gameObject);
         }
