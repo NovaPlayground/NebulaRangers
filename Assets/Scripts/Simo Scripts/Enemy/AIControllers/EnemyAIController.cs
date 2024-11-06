@@ -390,7 +390,7 @@ public class EnemyAIController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") || other == playerShieldCollider)
+        if (other.CompareTag("Player") || other.CompareTag("Shield")) //other == playerShieldCollider
         {
             // Ensure that we are referencing the player's transform even if the shield enters first
             player = other.gameObject.transform.root; // Get the player's root object, which is the player itself
@@ -408,7 +408,7 @@ public class EnemyAIController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") || other == playerShieldCollider)
+        if (other.CompareTag("Player") || other.CompareTag("Shield")) 
         {          
             currentState = State.Patrol;
             isHit = false;

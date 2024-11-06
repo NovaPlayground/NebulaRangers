@@ -363,17 +363,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 8d2a93de75d041046a88695ce1fffe61,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 13
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d2a93de75d041046a88695ce1fffe61,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 13
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d2a93de75d041046a88695ce1fffe61,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 13
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d2a93de75d041046a88695ce1fffe61,
         type: 3}
@@ -1019,6 +1019,12 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -454.6
       objectReference: {fileID: 0}
+    - target: {fileID: 4356858871851391318, guid: 5c93917ba62cd104e9a58a8cca560210,
+        type: 3}
+      propertyPath: keyPrefab
+      value: 
+      objectReference: {fileID: 8060644857064809822, guid: e966891eac36ffb4e986816aad0b22d2,
+        type: 3}
     - target: {fileID: 4356858871851391318, guid: 5c93917ba62cd104e9a58a8cca560210,
         type: 3}
       propertyPath: keySpawnPoint
@@ -2316,6 +2322,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerThird 1 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309726057791724601, guid: 091e442d9a384a4448d5aaec6623eefd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309726057791724601, guid: 091e442d9a384a4448d5aaec6623eefd,
+        type: 3}
+      propertyPath: m_TagString
+      value: Shield
       objectReference: {fileID: 0}
     - target: {fileID: 6482505615802293573, guid: 091e442d9a384a4448d5aaec6623eefd,
         type: 3}
