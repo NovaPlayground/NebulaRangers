@@ -421,6 +421,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 349837598}
   m_CullTransparentMesh: 1
+--- !u!1 &426191888 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2785884411991758677, guid: 091e442d9a384a4448d5aaec6623eefd,
+    type: 3}
+  m_PrefabInstance: {fileID: 2086490690}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &464914048
 GameObject:
   m_ObjectHideFlags: 0
@@ -2189,7 +2195,7 @@ PrefabInstance:
         type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 426191888}
     - target: {fileID: 8421593547362156055, guid: 67d7508d44f2bcc4d9a7ed553344676c,
         type: 3}
       propertyPath: m_Pivot.x

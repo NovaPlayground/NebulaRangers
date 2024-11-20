@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -86,4 +86,5 @@ public class GameManager : MonoBehaviour
     {
         nextSceneIndex = index;
     }
+
 }
