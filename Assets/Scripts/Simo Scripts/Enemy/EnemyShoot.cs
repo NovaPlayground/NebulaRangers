@@ -1,4 +1,3 @@
-using UnityEditor.XR;
 using UnityEngine;
 
 public class EnemyShoot : MonoBehaviour, IDamageable, IDestroyable, IEnemy
@@ -76,10 +75,10 @@ public class EnemyShoot : MonoBehaviour, IDamageable, IDestroyable, IEnemy
         OnDestroyed?.Invoke(gameObject); // Notifies SpawnManager of destruction
 
 
-        spawnManager.OnEnemyDestroyed(gameObject);
+       // spawnManager.OnEnemyDestroyed(gameObject);
 
 
-        gameObject.SetActive(false);
+       // gameObject.SetActive(false);
 
     }
 }

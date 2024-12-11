@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AsteroidsMgr : MonoBehaviour
@@ -297,7 +298,7 @@ public class AsteroidsMgr : MonoBehaviour
                 Quaternion randomRotation = Random.rotation;
                 GameObject asteroid = Instantiate(asteroidPrefab, spawnPosition, randomRotation);
 
-                // Disattiva inizialmente gli asteroidi
+                // Disable asteroids initially
                 asteroid.SetActive(false);
                 inactiveAsteroids.Add(asteroid);
             }
@@ -309,7 +310,7 @@ public class AsteroidsMgr : MonoBehaviour
         }
     }
 
-    // Genera una posizione di spawn valida
+   
     private Vector3 GenerateValidSpawnPosition()
     {
         for (int i = 0; i < 500; i++) 
@@ -337,7 +338,7 @@ public class AsteroidsMgr : MonoBehaviour
 
     private Vector3 GenerateValidSpawnPositionAroundPlanet()
     {
-        for (int i = 0; i < 500; i++) // Evita loop infiniti con tentativi limitati
+        for (int i = 0; i < 500; i++) //// Avoid infinite loops with limited attempts
         {
             Vector3 randomPosition = Random.insideUnitSphere * spawnRadius;
             Vector3 spawnPosition = planet.transform.position + randomPosition;
@@ -345,7 +346,7 @@ public class AsteroidsMgr : MonoBehaviour
             float distanceToPlayer = Vector3.Distance(spawnPosition, player.transform.position);
             float distanceToPlanet = Vector3.Distance(spawnPosition, planet.transform.position);
 
-            // Verifica che lo spawn sia alla distanza minima dal pianeta (ignora la distanza dal player)
+            //Check that the spawn is at the minimum distance from the planet (ignores the distance from the player)
             if (distanceToPlanet >= minDistanceFromPlanet)
             {
                 return spawnPosition;
@@ -355,13 +356,12 @@ public class AsteroidsMgr : MonoBehaviour
         return Vector3.zero;
     }
 
-    // Gestione della visibilità degli asteroidi
     private void UpdateAsteroidsVisibility()
     {
         List<GameObject> asteroidsToActivate = new List<GameObject>();
         List<GameObject> asteroidsToDeactivate = new List<GameObject>();
 
-        // Controlla asteroidi inattivi per attivarli quando sono nel forward
+        // Controls inactive asteroids to activate them when in the forward
         foreach (GameObject asteroid in inactiveAsteroids)
         {
             if (asteroid == null) continue;
@@ -371,13 +371,13 @@ public class AsteroidsMgr : MonoBehaviour
 
             if (angleToAsteroid <= forwardAngle)
             {
-                // L'asteroide è nel campo visivo del player, quindi attivalo
+                // The asteroid is in the player's field of view, so activate it
                 asteroid.SetActive(true);
                 asteroidsToActivate.Add(asteroid);
             }
         }
 
-        // Controlla asteroidi attivi per disattivarli quando escono dal forward
+        // Check active asteroids to deactivate them when they exit the forward
         foreach (GameObject asteroid in activeAsteroids)
         {
             if (asteroid == null) continue;
@@ -387,13 +387,13 @@ public class AsteroidsMgr : MonoBehaviour
 
             if (angleToAsteroid > forwardAngle)
             {
-                // L'asteroide non è più nel forward, disattivalo
+                // The asteroid is no longer in the forward, deactivate it
                 asteroid.SetActive(false);
                 asteroidsToDeactivate.Add(asteroid);
             }
         }
 
-        // Aggiorna le liste degli asteroidi
+        // Update asteroid lists
         foreach (GameObject asteroid in asteroidsToActivate)
         {
             inactiveAsteroids.Remove(asteroid);

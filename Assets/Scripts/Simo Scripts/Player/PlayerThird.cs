@@ -373,11 +373,11 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
 
             if (isWithinVisionCone && isWithinDistance)
             {
-                Debug.Log("Target is still within vision cone and distance: " + lockedTarget.name);
+                //Debug.Log("Target is still within vision cone and distance: " + lockedTarget.name);
             }
             else
             {
-                Debug.Log("Target lost or out of range.");
+                //Debug.Log("Target lost or out of range.");
                 lockedTarget.GetComponent<IEnemy>().SetCanvasActive(false);
                 lockedTarget = null;  // Reset the lock if out of vision or distance
                 FindNewTarget();  // Find a new target
@@ -429,11 +429,11 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
             lockedTarget = closestTarget;
             lockedTarget.GetComponent<IEnemy>().SetCanvasActive(true);
 
-            Debug.Log("New target acquired: " + lockedTarget.name);
+            //Debug.Log("New target acquired: " + lockedTarget.name);
         }
         else
         {
-            Debug.Log("No target within vision cone.");
+            //Debug.Log("No target within vision cone.");
         }
     }
 
@@ -470,7 +470,7 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
             }
             else
             {
-                Debug.Log("no target find.");
+                //Debug.Log("no target find.");
             }
 
 
@@ -492,7 +492,7 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
         if (shield.IsShieldActive())
         {
             shield.AbsorbDamage(damage); // Redirects damage to the shield
-            Debug.Log("Danno assorbito dallo scudo.");          
+            Debug.Log("Damage absorbed.");          
             return; // // Exit  if shield takes damage
         }
 

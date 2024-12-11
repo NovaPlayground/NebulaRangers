@@ -137,10 +137,10 @@ public class EnemyShield : MonoBehaviour, IDamageable, IDestroyable, IEnemy
         OnDestroyed?.Invoke(gameObject); // Notifies SpawnManager of destruction
 
 
-        spawnManager.OnEnemyDestroyed(gameObject);
+       // spawnManager.OnEnemyDestroyed(gameObject);
         
         
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
 
     }
 }
