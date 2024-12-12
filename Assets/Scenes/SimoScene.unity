@@ -1729,16 +1729,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 2282370904480534992, guid: 7d86f57f8b459254faba1a9797fea925, type: 3}
+  - {fileID: 2282370904480534992, guid: 7d86f57f8b459254faba1a9797fea925, type: 3}
+  - {fileID: 2282370904480534992, guid: 7d86f57f8b459254faba1a9797fea925, type: 3}
+  - {fileID: 1877121713364082444, guid: da9f877f0e22a29458931dc0f88b6cea, type: 3}
   - {fileID: 1877121713364082444, guid: da9f877f0e22a29458931dc0f88b6cea, type: 3}
   spawnPoints:
   - {fileID: 140977970}
   - {fileID: 1477621243}
-  spawnInterval: 4
-  maxEnemiesInScene: 2
-  totalEnemiesToSpawn: 2
+  spawnInterval: 3
+  maxEnemiesInScene: 5
+  totalEnemiesToSpawn: 5
   keyPrefab: {fileID: 5185709952898321388, guid: 26e22279e9c3f334f960535fb4b13bfb,
     type: 3}
   keySpawnPoint: {fileID: 745037057}
+  isKeySpawned: 0
+  enemyCounterText: {fileID: 0}
 --- !u!4 &1549453185
 Transform:
   m_ObjectHideFlags: 0

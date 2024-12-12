@@ -172,98 +172,165 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
 
 
     // MOVEMENT LOGIC
+    //private void Rotate()
+    //{
+
+    //    Vector2 mousePos = playerController.GetMouseLook();
+
+    //    // Calculate the normalized distance of the mouse from the center of the screen
+    //    Vector2 mouseDistance = new Vector2(mousePos.x - Screen.width * 0.5f, mousePos.y - Screen.height * 0.5f) / Screen.height;
+
+    //    // Calculate rotation angles for pitch (X-axis) and yaw (Y-axis)
+    //    float pitch = -mouseDistance.y * lookRateSpeed * Time.fixedDeltaTime;
+    //    float yaw = mouseDistance.x * lookRateSpeed * Time.fixedDeltaTime;
+
+    //    // Calculate pitch and yaw rotations as Quaternions
+    //    Quaternion pitchRotation = Quaternion.AngleAxis(pitch, Vector3.right);
+    //    Quaternion yawRotation = Quaternion.AngleAxis(yaw, Vector3.up);
+
+    //    // Combine current rotations with the new pitch and yaw rotations
+    //    Quaternion targetRotation = transform.rotation * yawRotation * pitchRotation;
+
+    //    // Apply the new rotation to the object using a smooth interpolation
+    //    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rollSpeed * Time.fixedDeltaTime);
+
+    //    // If you want to add roll rotation, apply a Quaternion for roll here
+    //    float newRollInput = playerController.GetRoll();
+    //    Quaternion rollRotation = Quaternion.Euler(0f, 0f, newRollInput * rollSpeed * Time.fixedDeltaTime);
+
+
+    //    transform.rotation *= rollRotation;
+
+    //}
+
+    //private Quaternion Roll()
+    //{
+
+    //    float rollInput = playerController.GetRoll();
+
+    //    // Calculate the amount of roll rotation based on input and speed
+    //    rotationAngle += rollInput * rollSpeed * Time.fixedDeltaTime;
+
+    //    // Create a Quaternion representing the new rotation with roll applied
+    //    Quaternion newRotation = Quaternion.Euler(0f, 0f, rotationAngle);
+
+    //    // Interpolate between the current rotation and the new rotation over time
+    //    newRotation = Quaternion.Lerp(transform.rotation, newRotation, Time.fixedDeltaTime);
+
+    //    return newRotation;
+
+    //}
+
+    //private void Move()
+    //{
+    //    Vector2 input = playerController.GetMovement();
+
+    //    Vector3 moveDirection = new Vector3(input.x, 0f, input.y);
+
+    //    moveDirection.Normalize();
+
+    //    // Calculate the movement vector based on the normalized direction and current orientation of the object
+    //    Vector3 movement = moveDirection.x * transform.right + moveDirection.z * transform.forward;
+
+    //    // Calculate the target velocity based on the movement direction and forward speed
+    //    Vector3 targetVelocity = moveDirection * forwardSpeed * Time.fixedDeltaTime;
+
+    //    // Extract forward (Y-axis) and strafe (X-axis) inputs from the movement input
+    //    float inputForward = input.y;
+    //    float inputStrafe = input.x;
+
+    //    // Smoothly interpolate forward speed based on input and acceleration
+    //    activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, inputForward * forwardSpeed, forwardAcceleration * Time.fixedDeltaTime);
+
+    //    // Smoothly interpolate strafe speed based on input and acceleration
+    //    activeStrafeSpeed = Mathf.Lerp(activeStrafeSpeed, inputStrafe * strafeSpeed, strafeAcceleration * Time.fixedDeltaTime);
+
+    //    // Smoothly decrease hover speed assuming it doesn't affect movement
+    //    activeHoverSpeed = Mathf.Lerp(activeHoverSpeed, 0f, hoverAcceleration * Time.deltaTime);
+
+    //    // Move the Rigidbody rbThird to its new position based on the calculated movement and forward speed
+    //    rbThird.MovePosition(rbThird.position + movement * forwardSpeed * Time.fixedDeltaTime);
+
+    //    if (input.magnitude > 0 )
+    //    {
+    //        if (!audioSourceMoving.isPlaying)
+    //        {
+    //            audioSourceMoving.Play();
+    //        }
+
+    //        audioSourceMoving.volume = Mathf.Lerp(audioSourceMoving.volume, 1.0f, Time.deltaTime * fadeDuration);
+    //    }
+    //    else if (input.magnitude == 0)
+    //    {
+    //        audioSourceMoving.volume = Mathf.Lerp(audioSourceMoving.volume, 0.0f, Time.deltaTime * fadeDuration);
+
+    //        if (audioSourceMoving.volume <= 0.1f && audioSourceMoving.isPlaying)
+    //        {
+    //            audioSourceMoving.Stop();
+    //        }
+    //    }
+    //}
+
     private void Rotate()
     {
-
         Vector2 mousePos = playerController.GetMouseLook();
 
-        // Calculate the normalized distance of the mouse from the center of the screen
+        // Get the distance of the mouse position from the center of the screen
         Vector2 mouseDistance = new Vector2(mousePos.x - Screen.width * 0.5f, mousePos.y - Screen.height * 0.5f) / Screen.height;
 
-        // Calculate rotation angles for pitch (X-axis) and yaw (Y-axis)
+        // Calculate pitch (rotation around the X axis) and yaw (rotation around the Y axis) based on mouse movement
         float pitch = -mouseDistance.y * lookRateSpeed * Time.fixedDeltaTime;
         float yaw = mouseDistance.x * lookRateSpeed * Time.fixedDeltaTime;
 
-        // Calculate pitch and yaw rotations as Quaternions
+        // Create rotation quaternions for pitch and yaw
         Quaternion pitchRotation = Quaternion.AngleAxis(pitch, Vector3.right);
         Quaternion yawRotation = Quaternion.AngleAxis(yaw, Vector3.up);
 
-        // Combine current rotations with the new pitch and yaw rotations
+        // Combine the current rotation with pitch and yaw adjustments
         Quaternion targetRotation = transform.rotation * yawRotation * pitchRotation;
 
-        // Apply the new rotation to the object using a smooth interpolation
+        // Smoothly interpolate to the target rotation
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rollSpeed * Time.fixedDeltaTime);
 
-        // If you want to add roll rotation, apply a Quaternion for roll here
-        float newRollInput = playerController.GetRoll();
-        Quaternion rollRotation = Quaternion.Euler(0f, 0f, newRollInput * rollSpeed * Time.fixedDeltaTime);
+        // Handle roll input to rotate around the Z axis
+        float rollInput = playerController.GetRoll(); 
+        Quaternion rollRotation = Quaternion.Euler(0f, 0f, -rollInput * rollSpeed * Time.fixedDeltaTime);
 
-
+        // Apply roll rotation
         transform.rotation *= rollRotation;
-
-    }
-
-    private Quaternion Roll()
-    {
-
-        float rollInput = playerController.GetRoll();
-
-        // Calculate the amount of roll rotation based on input and speed
-        rotationAngle += rollInput * rollSpeed * Time.fixedDeltaTime;
-
-        // Create a Quaternion representing the new rotation with roll applied
-        Quaternion newRotation = Quaternion.Euler(0f, 0f, rotationAngle);
-
-        // Interpolate between the current rotation and the new rotation over time
-        newRotation = Quaternion.Lerp(transform.rotation, newRotation, Time.fixedDeltaTime);
-
-        return newRotation;
-
     }
 
     private void Move()
     {
-        Vector2 input = playerController.GetMovement();
+        Vector2 input = playerController.GetMovement(); 
 
-        Vector3 moveDirection = new Vector3(input.x, 0f, input.y);
-
-        moveDirection.Normalize();
-
-        // Calculate the movement vector based on the normalized direction and current orientation of the object
-        Vector3 movement = moveDirection.x * transform.right + moveDirection.z * transform.forward;
-
-        // Calculate the target velocity based on the movement direction and forward speed
-        Vector3 targetVelocity = moveDirection * forwardSpeed * Time.fixedDeltaTime;
-
-        // Extract forward (Y-axis) and strafe (X-axis) inputs from the movement input
+        // Use only the forward/backward axis of the input
         float inputForward = input.y;
-        float inputStrafe = input.x;
 
-        // Smoothly interpolate forward speed based on input and acceleration
+        // Smoothly interpolate forward speed based on input
         activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, inputForward * forwardSpeed, forwardAcceleration * Time.fixedDeltaTime);
 
-        // Smoothly interpolate strafe speed based on input and acceleration
-        activeStrafeSpeed = Mathf.Lerp(activeStrafeSpeed, inputStrafe * strafeSpeed, strafeAcceleration * Time.fixedDeltaTime);
+        // Move the Rigidbody 
+        Vector3 movement = transform.forward * activeForwardSpeed * Time.fixedDeltaTime;
+        rbThird.MovePosition(rbThird.position + movement);
 
-        // Smoothly decrease hover speed assuming it doesn't affect movement
-        activeHoverSpeed = Mathf.Lerp(activeHoverSpeed, 0f, hoverAcceleration * Time.deltaTime);
-
-        // Move the Rigidbody rbThird to its new position based on the calculated movement and forward speed
-        rbThird.MovePosition(rbThird.position + movement * forwardSpeed * Time.fixedDeltaTime);
-
-        if (input.magnitude > 0 )
+        // Manage movement sound effects
+        if (Mathf.Abs(inputForward) > 0.1f) // Check if the player is moving forward/backward
         {
             if (!audioSourceMoving.isPlaying)
             {
                 audioSourceMoving.Play();
             }
-            
+
+            // increase the volume while moving
             audioSourceMoving.volume = Mathf.Lerp(audioSourceMoving.volume, 1.0f, Time.deltaTime * fadeDuration);
         }
-        else if (input.magnitude == 0)
+        else
         {
+            //decrease the volume when not moving
             audioSourceMoving.volume = Mathf.Lerp(audioSourceMoving.volume, 0.0f, Time.deltaTime * fadeDuration);
-            
+
+            // Stop the audio when the volume is very low
             if (audioSourceMoving.volume <= 0.1f && audioSourceMoving.isPlaying)
             {
                 audioSourceMoving.Stop();
@@ -321,7 +388,7 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
     {
         if (defaultMuzzlePrefab != null && muzzles.Length > 0)
         {
-            // Rimuove i muzzles predefiniti
+            // Removes muzzles
             foreach (var muzzle in muzzles)
             {
                 if (muzzle != null)
@@ -329,6 +396,8 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
                     Destroy(muzzle);
                 }
             }
+
+            muzzles = new GameObject[0];  // clear the list
         }
 
         if (doubleBarrelMuzzlePrefab != null)
@@ -354,7 +423,6 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
     }
 
     
-
     private void TargetWithinCone()
     {
         if (lockedTarget != null)
@@ -373,11 +441,11 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
 
             if (isWithinVisionCone && isWithinDistance)
             {
-                //Debug.Log("Target is still within vision cone and distance: " + lockedTarget.name);
+                Debug.Log("Target is still within vision cone and distance: " + lockedTarget.name);
             }
             else
             {
-                //Debug.Log("Target lost or out of range.");
+                Debug.Log("Target lost or out of range.");
                 lockedTarget.GetComponent<IEnemy>().SetCanvasActive(false);
                 lockedTarget = null;  // Reset the lock if out of vision or distance
                 FindNewTarget();  // Find a new target
@@ -436,8 +504,7 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
             //Debug.Log("No target within vision cone.");
         }
     }
-
-    
+ 
 
     private void SpawnMissile()
     {
@@ -510,7 +577,7 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
             }
 
             // Trigger the Game Over scene
-            //FindObjectOfType<GameOverScene>().TriggerGameOver();
+            SceneManager.LoadScene("EndGameMenu");
         }   
 
   
