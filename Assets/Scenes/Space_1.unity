@@ -2078,6 +2078,12 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 282076090}
+    - target: {fileID: 5978635679677897977, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
+        type: 3}
+      propertyPath: explosionPrefab
+      value: 
+      objectReference: {fileID: 417761080263594737, guid: 7800b8f6b712bfe49bd663eeb3ebe1e4,
+        type: 3}
     - target: {fileID: 6981025468875699019, guid: 8f3c1e9a673f7ba4b855066c0dce9f6e,
         type: 3}
       propertyPath: m_Mesh

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerTop : MonoBehaviour, IDamageable, IPlayer
 {
@@ -22,6 +23,10 @@ public class PlayerTop : MonoBehaviour, IDamageable, IPlayer
 
     private PlayerControllerTop playerController;
     private Rigidbody rb;
+
+
+    // VFX
+    [SerializeField] private GameObject explosionPrefab;
 
     void Start()
     {
@@ -104,7 +109,24 @@ public class PlayerTop : MonoBehaviour, IDamageable, IPlayer
     public void TakeDamage(float damage)
     {
         health -= damage;
+
+        Debug.Log("player health : " + health);
+        if (health <= 0f)
+        {
+            Destroy(gameObject);
+            Debug.Log("Player has died.");
+
+            
+            if (explosionPrefab != null)
+            {
+                Instantiate(explosionPrefab, transform.position, transform.rotation);
+            }
+
+            // Trigger the Game Over scene
+            SceneManager.LoadScene("EndGameMenu");
+        }
     }
+
     public float GetHealth()
     {
         return health;

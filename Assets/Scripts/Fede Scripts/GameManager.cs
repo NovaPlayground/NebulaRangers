@@ -13,7 +13,9 @@ public class GameManager : MonoBehaviour
 
     private PlayerData playerData;
     private IPlayer player;
-    
+
+    [SerializeField] private Canvas pauseMenuCanvas;
+
     private GameManager() { }
 
     // Start is called before the first frame update
@@ -56,7 +58,7 @@ public class GameManager : MonoBehaviour
         nextSceneIndex++;
         Cursor.visible = nextSceneIndex == 1 || nextSceneIndex % 2 == 0;
     }
-
+ 
     private void LoadPlayerData()
     {
         if (playerData != null)
@@ -80,6 +82,12 @@ public class GameManager : MonoBehaviour
     public int GetNextSceneIndex()
     {
         return nextSceneIndex;
+    }
+
+    public void ResetNextSceneIndex()
+    {
+        // set the first scene index
+        nextSceneIndex = 1;
     }
 
     public void SetNextSceneIndex(int index)

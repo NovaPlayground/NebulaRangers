@@ -37,12 +37,13 @@ public class PauseMenu : MonoBehaviour
         PauseMenuUI.SetActive(true);
         Time.timeScale = 0f; // 0 freeze the game. 
         GameIsPaused = true;
+        Cursor.visible = true; //ADDED CURSOR VISIBLE
     }
 
     public void LoadMenu()
     {
         Time.timeScale = 1f;
-        //GameManager.Instance.SetNextSceneIndex(0);
+        GameManager.Instance.ResetNextSceneIndex(); // reset scene
         //SceneManager.LoadScene(0);
         SceneManager.LoadScene("MainMenu");
     }

@@ -2232,6 +2232,7 @@ MonoBehaviour:
   startingPosition: {x: 0, y: 0, z: 0}
   nextSceneIndex: 0
   cursorImage: {fileID: 2800000, guid: 95f267cca8bb8b441b20d57560d227df, type: 3}
+  pauseMenuCanvas: {fileID: 0}
 --- !u!4 &866667991
 Transform:
   m_ObjectHideFlags: 0
@@ -3003,7 +3004,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 830b835983a32c84d9c0b818287836ce, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.13
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0

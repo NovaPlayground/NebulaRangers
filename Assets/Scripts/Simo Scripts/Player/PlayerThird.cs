@@ -171,7 +171,7 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
     }
 
 
-    // MOVEMENT LOGIC
+    //  OLD MOVEMENT LOGIC
     //private void Rotate()
     //{
 
@@ -323,12 +323,14 @@ public class PlayerThird : MonoBehaviour, IDamageable, IPlayer
             }
 
             // increase the volume while moving
-            audioSourceMoving.volume = Mathf.Lerp(audioSourceMoving.volume, 1.0f, Time.deltaTime * fadeDuration);
+            float targetVolume =  audioSourceMoving.volume = Mathf.Lerp(audioSourceMoving.volume, 0.2f, Time.deltaTime * fadeDuration);
+            audioSourceMoving.volume = Mathf.Clamp(targetVolume, 0.0f, 0.2f); // Clamp to max 0.3
         }
         else
         {
             //decrease the volume when not moving
-            audioSourceMoving.volume = Mathf.Lerp(audioSourceMoving.volume, 0.0f, Time.deltaTime * fadeDuration);
+            float targetVolume = Mathf.Lerp(audioSourceMoving.volume, 0.0f, Time.deltaTime * fadeDuration);
+            audioSourceMoving.volume = Mathf.Clamp(targetVolume, 0.0f, 0.2f); // Ensure volume stays valid
 
             // Stop the audio when the volume is very low
             if (audioSourceMoving.volume <= 0.1f && audioSourceMoving.isPlaying)

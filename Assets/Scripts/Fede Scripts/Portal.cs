@@ -12,6 +12,12 @@ public class Portal : MonoBehaviour, IInteractable
     private void Start()
     {
         nextSceneIndex = GameManager.Instance.GetNextSceneIndex();
+
+        if (nextSceneIndex <= 0 || nextSceneIndex >= SceneManager.sceneCountInBuildSettings)
+        {
+            
+            nextSceneIndex = 2; // default value / scene
+        }
     }
 
     void Update()
